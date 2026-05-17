@@ -5,6 +5,56 @@ description: A repeatable seven-step framework for working through any system de
 
 The single most important habit you can build is a **repeatable structure** for the interview itself. The framework below works for almost any prompt — URL shortener, news feed, ride-sharing, video streaming, real-time chat. Internalize it until it feels automatic, and you free up your cognitive budget for the *actual* design.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 200" role="img" aria-label="The seven steps of a system design interview" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="340" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The seven-step framework</text>
+  <line x1="40" y1="100" x2="640" y2="100" stroke="currentColor" stroke-width="2"/>
+  <g font-size="11">
+    <g transform="translate(40,100)">
+      <circle r="14" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <text y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">1</text>
+      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Clarify</text>
+      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">5 min</text>
+    </g>
+    <g transform="translate(140,100)">
+      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">2</text>
+      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Estimate</text>
+      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">3 min</text>
+    </g>
+    <g transform="translate(240,100)">
+      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">3</text>
+      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">API</text>
+      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">3 min</text>
+    </g>
+    <g transform="translate(340,100)">
+      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">4</text>
+      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Architecture</text>
+      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">8 min</text>
+    </g>
+    <g transform="translate(440,100)">
+      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">5</text>
+      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Data model</text>
+      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">5 min</text>
+    </g>
+    <g transform="translate(540,100)">
+      <circle r="14" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <text y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">6</text>
+      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Deep dives</text>
+      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">15 min</text>
+    </g>
+    <g transform="translate(640,100)">
+      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">7</text>
+      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Wrap up</text>
+      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">5 min</text>
+    </g>
+  </g>
+  <text x="340" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Highlighted steps are where points are most often won.</text>
+</svg>
+
 ## The seven steps
 
 For a 45-minute interview, target these timings:
@@ -57,6 +107,43 @@ This is also where you decide between **REST, gRPC, or GraphQL** — usually RES
 ## Step 4 — High-level architecture
 
 Now you draw boxes. A reasonable starting template:
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Reference high-level architecture used at step 4" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="270" y="10" width="100" height="40" rx="8"/>
+    <rect x="270" y="80" width="100" height="40" rx="8"/>
+    <rect x="240" y="150" width="160" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="40" y="240" width="120" height="50" rx="8"/>
+    <rect x="180" y="240" width="120" height="50" rx="8"/>
+    <rect x="320" y="240" width="120" height="50" rx="8"/>
+    <rect x="460" y="240" width="140" height="50" rx="8"/>
+    <rect x="380" y="320" width="120" height="30" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="35">Client</text>
+    <text x="320" y="105">Load Balancer</text>
+    <text x="320" y="175" font-weight="600">App Servers</text>
+    <text x="100" y="270">Cache</text>
+    <text x="240" y="270">Database</text>
+    <text x="380" y="270">Queue</text>
+    <text x="530" y="270">Object Store</text>
+    <text x="440" y="340">Workers</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M320 50 V80"/>
+    <path d="M320 120 V150"/>
+    <path d="M320 190 V210 H100 V240"/>
+    <path d="M320 190 V210 H240 V240"/>
+    <path d="M320 210 H380 V240"/>
+    <path d="M320 190 V210 H530 V240"/>
+    <path d="M380 290 V305 H440 V320"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="316,82 320,76 324,82"/>
+    <polygon points="316,152 320,146 324,152"/>
+  </g>
+</svg>
+
 
 ```
 [Client] -> [Load Balancer] -> [App Servers]

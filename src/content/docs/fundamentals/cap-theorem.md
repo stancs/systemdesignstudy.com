@@ -5,6 +5,34 @@ description: A practical reading of CAP, PACELC, and the consistency vs latency 
 
 The CAP theorem is the most misquoted idea in distributed systems. Used carelessly, it sounds like a horoscope ("pick two of three"). Used carefully, it gives you a precise vocabulary for the trade-offs you'll defend in nearly every system design interview.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="The CAP triangle and what each pair means under partition" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">CAP: pick CP or AP when the network is partitioned</text>
+  <polygon points="320,60 540,260 100,260" fill="none" stroke="currentColor" stroke-width="2"/>
+  <g font-weight="700" font-size="16" text-anchor="middle" fill="currentColor">
+    <text x="320" y="55">C</text>
+    <text x="555" y="275">A</text>
+    <text x="85" y="275">P</text>
+  </g>
+  <g font-size="12" text-anchor="middle" fill="currentColor" opacity="0.85">
+    <text x="320" y="78">Consistency</text>
+    <text x="565" y="293">Availability</text>
+    <text x="65" y="293">Partition tolerance</text>
+  </g>
+  <g font-size="12" fill="currentColor">
+    <g transform="translate(190,150)">
+      <rect width="100" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+      <text x="50" y="22" text-anchor="middle" font-weight="600">CP</text>
+      <text x="50" y="40" text-anchor="middle" font-size="11">Spanner, etcd</text>
+    </g>
+    <g transform="translate(350,150)">
+      <rect width="100" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+      <text x="50" y="22" text-anchor="middle" font-weight="600">AP</text>
+      <text x="50" y="40" text-anchor="middle" font-size="11">Cassandra, DDB</text>
+    </g>
+  </g>
+  <text x="320" y="305" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">P is not optional in a real distributed system — the meaningful choice is C vs A.</text>
+</svg>
+
 ## The theorem, stated precisely
 
 Eric Brewer's CAP theorem says that a distributed data store can, in the presence of a **network partition**, provide **at most one** of:
@@ -40,6 +68,42 @@ That second half is the one that matters most days. Even in healthy operation, s
 - **PC/EC** — Spanner, CockroachDB, HBase: prefer consistency under partition, prefer consistency in normal operation.
 
 Most production systems are not pure picks. You compose them: a strongly-consistent metadata store (PC/EC) in front of an eventually-consistent bulk store (PA/EL).
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="PACELC decision tree for partition vs no-partition trade-offs" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">PACELC: trade-offs in both regimes</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="240" y="40" width="160" height="40" rx="8"/>
+    <rect x="60" y="120" width="160" height="40" rx="8"/>
+    <rect x="420" y="120" width="160" height="40" rx="8"/>
+    <rect x="20" y="195" width="100" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="160" y="195" width="100" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="380" y="195" width="100" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="520" y="195" width="100" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="65" font-weight="700">A network partition?</text>
+    <text x="140" y="145" font-weight="600">Yes (P)</text>
+    <text x="500" y="145" font-weight="600">No (Else)</text>
+    <text x="70" y="220" font-size="12">A</text>
+    <text x="210" y="220" font-size="12">C</text>
+    <text x="430" y="220" font-size="12">L</text>
+    <text x="570" y="220" font-size="12">C</text>
+  </g>
+  <g font-size="11" fill="currentColor" text-anchor="middle" opacity="0.85">
+    <text x="70" y="252">AP picks</text>
+    <text x="210" y="252">CP picks</text>
+    <text x="430" y="252">Latency</text>
+    <text x="570" y="252">Consistency</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M320 80 V100 H140 V120"/>
+    <path d="M320 80 V100 H500 V120"/>
+    <path d="M140 160 V180 H70 V195"/>
+    <path d="M140 180 H210 V195"/>
+    <path d="M500 160 V180 H430 V195"/>
+    <path d="M500 180 H570 V195"/>
+  </g>
+</svg>
 
 ## Consistency models worth naming
 

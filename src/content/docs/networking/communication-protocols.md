@@ -7,6 +7,49 @@ description: REST, gRPC, GraphQL, WebSockets, and Server-Sent Events — when to
 
 This page covers the five protocols you should know cold.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Protocol comparison: payload size, streaming, direction" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The five protocols at a glance</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="120" height="160" rx="10"/>
+    <rect x="150" y="50" width="120" height="160" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="280" y="50" width="120" height="160" rx="10"/>
+    <rect x="410" y="50" width="120" height="160" rx="10"/>
+    <rect x="540" y="50" width="80" height="160" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="80" y="75" font-weight="700">REST</text>
+    <text x="80" y="95" font-size="11">HTTP + JSON</text>
+    <text x="80" y="115" font-size="11">cacheable</text>
+    <text x="80" y="135" font-size="11">verbose</text>
+    <text x="80" y="155" font-size="11" opacity="0.8">public API</text>
+    <text x="80" y="190" font-size="11" font-weight="600" opacity="0.85">→ default</text>
+    <text x="210" y="75" font-weight="700">gRPC</text>
+    <text x="210" y="95" font-size="11">HTTP/2 + protobuf</text>
+    <text x="210" y="115" font-size="11">streaming</text>
+    <text x="210" y="135" font-size="11">5–10× smaller</text>
+    <text x="210" y="155" font-size="11" opacity="0.8">internal</text>
+    <text x="210" y="190" font-size="11" font-weight="600" opacity="0.85">→ service-to-service</text>
+    <text x="340" y="75" font-weight="700">GraphQL</text>
+    <text x="340" y="95" font-size="11">flexible queries</text>
+    <text x="340" y="115" font-size="11">strong schema</text>
+    <text x="340" y="135" font-size="11">cache-tricky</text>
+    <text x="340" y="155" font-size="11" opacity="0.8">multi-client UI</text>
+    <text x="340" y="190" font-size="11" font-weight="600" opacity="0.85">→ varied clients</text>
+    <text x="470" y="75" font-weight="700">WebSocket</text>
+    <text x="470" y="95" font-size="11">bidirectional</text>
+    <text x="470" y="115" font-size="11">long-lived TCP</text>
+    <text x="470" y="135" font-size="11">stateful</text>
+    <text x="470" y="155" font-size="11" opacity="0.8">chat / games</text>
+    <text x="470" y="190" font-size="11" font-weight="600" opacity="0.85">→ real-time both-ways</text>
+    <text x="580" y="75" font-weight="700">SSE</text>
+    <text x="580" y="95" font-size="11">HTTP stream</text>
+    <text x="580" y="115" font-size="11">server→client</text>
+    <text x="580" y="135" font-size="11">simple</text>
+    <text x="580" y="155" font-size="11" opacity="0.8">notifications</text>
+    <text x="580" y="190" font-size="11" font-weight="600" opacity="0.85">→ push only</text>
+  </g>
+</svg>
+
 ## HTTP/REST
 
 Plain HTTP, JSON bodies, resource-shaped URLs, standard methods (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`). The lingua franca of web APIs.
@@ -105,6 +148,59 @@ A simple HTTP-based protocol where the server streams events to the client over 
 - Less widely known than WebSockets, occasionally surprising to operators.
 
 **Pick SSE when** the data flow is mostly server-to-client (notifications, live feeds, progress events, log streams) and you don't want the operational weight of WebSockets.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="WebSocket vs SSE: one TCP connection, full duplex vs server-only" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">WebSocket vs Server-Sent Events</text>
+  <g transform="translate(0,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">WebSocket — bidirectional</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="80" height="40" rx="8"/>
+      <rect x="200" y="20" width="80" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="80" y="44">Client</text>
+      <text x="240" y="44" font-weight="600">Server</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M120 32 H200"/>
+      <path d="M200 50 H120"/>
+      <path d="M120 65 H200"/>
+      <path d="M200 78 H120"/>
+    </g>
+    <g fill="currentColor">
+      <polygon points="196,30 202,32 196,34"/>
+      <polygon points="124,48 118,50 124,52"/>
+      <polygon points="196,63 202,65 196,67"/>
+      <polygon points="124,76 118,78 124,80"/>
+    </g>
+    <text x="160" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">One long-lived TCP, either side can push.</text>
+    <text x="160" y="138" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Use: chat, games, live collab.</text>
+  </g>
+  <g transform="translate(320,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">SSE — server only</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="80" height="40" rx="8"/>
+      <rect x="200" y="20" width="80" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="80" y="44">Client</text>
+      <text x="240" y="44" font-weight="600">Server</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M120 32 H200" stroke-dasharray="3 3" opacity="0.5"/>
+      <path d="M200 50 H120"/>
+      <path d="M200 65 H120"/>
+      <path d="M200 80 H120"/>
+    </g>
+    <g fill="currentColor">
+      <polygon points="124,48 118,50 124,52"/>
+      <polygon points="124,63 118,65 124,67"/>
+      <polygon points="124,78 118,80 124,82"/>
+    </g>
+    <text x="160" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Plain HTTP, server streams events.</text>
+    <text x="160" y="138" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Use: notifications, progress, feeds.</text>
+  </g>
+</svg>
 
 ## A decision cheatsheet
 

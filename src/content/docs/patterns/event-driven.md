@@ -53,6 +53,43 @@ The simplest pattern. Service A emits an event when something happens. Other ser
 - **Pros:** Minimal coupling, small messages, A's data stays inside A.
 - **Cons:** Subscribers must hit A's API to enrich, which couples them again. Replay is harder because you need the historical state at the time of the event.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="One event fans out to many independent subscribers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Pub/sub fan-out: one fact, many reactions</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="100" width="120" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="200" y="100" width="140" height="50" rx="8"/>
+    <rect x="400" y="30" width="200" height="35" rx="8"/>
+    <rect x="400" y="80" width="200" height="35" rx="8"/>
+    <rect x="400" y="130" width="200" height="35" rx="8"/>
+    <rect x="400" y="180" width="200" height="35" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="80" y="122" font-weight="600">UserSignedUp</text>
+    <text x="80" y="138" font-size="11">event publisher</text>
+    <text x="270" y="122" font-weight="600">Event bus</text>
+    <text x="270" y="138" font-size="11">Kafka</text>
+    <text x="500" y="52">Send welcome email</text>
+    <text x="500" y="102">Provision account</text>
+    <text x="500" y="152">Warm recommendations</text>
+    <text x="500" y="202">Analytics ingest</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M140 125 H200"/>
+    <path d="M340 125 L400 47"/>
+    <path d="M340 125 L400 97"/>
+    <path d="M340 125 L400 147"/>
+    <path d="M340 125 L400 197"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="196,123 202,125 196,127"/>
+    <polygon points="396,49 402,47 402,53"/>
+    <polygon points="396,99 402,97 402,103"/>
+    <polygon points="396,149 402,147 402,153"/>
+    <polygon points="396,199 402,197 402,203"/>
+  </g>
+  <text x="320" y="245" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Publisher doesn't know subscribers. Add a new one without touching the publisher.</text>
+</svg>
+
 ### Event-carried state transfer
 
 The event carries enough state for subscribers to do their work without calling back. "Order placed" carries the full order payload.
@@ -92,6 +129,39 @@ Two flavors:
 - **Orchestration.** A central coordinator (saga manager) sends commands to each service and tracks the state. Easier to reason about; the coordinator is another service to operate.
 
 Both are right; the orchestration version is easier to debug and easier to evolve, at the cost of one more component. Most "real" sagas in production are orchestrated.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Orchestrated saga: coordinator drives each step with compensation on failure" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Orchestrated saga with compensation</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="240" y="50" width="160" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="40" y="160" width="140" height="50" rx="8"/>
+    <rect x="240" y="160" width="160" height="50" rx="8"/>
+    <rect x="460" y="160" width="140" height="50" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="72" font-weight="700">Orchestrator</text>
+    <text x="320" y="90" font-size="11">saga manager</text>
+    <text x="110" y="182" font-weight="600">Reserve inventory</text>
+    <text x="110" y="200" font-size="11">undo: release</text>
+    <text x="320" y="182" font-weight="600">Charge card</text>
+    <text x="320" y="200" font-size="11">undo: refund</text>
+    <text x="530" y="182" font-weight="600">Ship order</text>
+    <text x="530" y="200" font-size="11">undo: cancel ship</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M280 100 L110 160"/>
+    <path d="M320 100 V160"/>
+    <path d="M360 100 L530 160"/>
+    <path d="M110 210 V235 H530 V210"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="116,158 110,162 112,154"/>
+    <polygon points="316,158 320,164 324,158"/>
+    <polygon points="524,158 530,162 528,154"/>
+    <polygon points="526,214 530,208 534,214"/>
+  </g>
+  <text x="320" y="260" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">On failure, the orchestrator triggers compensations in reverse order.</text>
+</svg>
 
 ## What you have to handle (no exceptions)
 

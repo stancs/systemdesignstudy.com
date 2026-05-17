@@ -7,6 +7,70 @@ A message queue (or stream) is the way distributed systems do asynchronous, deco
 
 Almost every non-trivial system design has at least one queue or stream in it. Knowing the difference between them — and what guarantees you actually get — is one of the highest-yield areas to study.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Queue: one consumer per message vs Stream: many independent consumers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Queue vs stream</text>
+  <g transform="translate(0,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Queue — one consumer per message</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="60" height="40" rx="6"/>
+      <rect x="110" y="20" width="100" height="40" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="240" y="0" width="60" height="22" rx="6"/>
+      <rect x="240" y="30" width="60" height="22" rx="6"/>
+      <rect x="240" y="60" width="60" height="22" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="50" y="44">Pub</text>
+      <text x="160" y="44" font-weight="600">Queue</text>
+      <text x="270" y="15">Worker</text>
+      <text x="270" y="45">Worker</text>
+      <text x="270" y="75">Worker</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M80 40 H110"/>
+      <path d="M210 40 L240 11"/>
+    </g>
+    <g fill="currentColor">
+      <polygon points="106,38 112,40 106,42"/>
+      <polygon points="236,13 242,11 240,17"/>
+    </g>
+    <text x="160" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Each message is delivered once,</text>
+    <text x="160" y="138" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">to whichever worker grabs it.</text>
+    <text x="160" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">SQS, RabbitMQ</text>
+  </g>
+  <g transform="translate(320,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Stream — many independent consumers</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="60" height="40" rx="6"/>
+      <rect x="110" y="20" width="100" height="40" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="240" y="0" width="60" height="22" rx="6"/>
+      <rect x="240" y="30" width="60" height="22" rx="6"/>
+      <rect x="240" y="60" width="60" height="22" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="50" y="44">Pub</text>
+      <text x="160" y="44" font-weight="600">Stream</text>
+      <text x="270" y="15">Sub A</text>
+      <text x="270" y="45">Sub B</text>
+      <text x="270" y="75">Sub C</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M80 40 H110"/>
+      <path d="M210 40 L240 11"/>
+      <path d="M210 40 L240 41"/>
+      <path d="M210 40 L240 71"/>
+    </g>
+    <g fill="currentColor">
+      <polygon points="106,38 112,40 106,42"/>
+      <polygon points="236,13 242,11 240,17"/>
+      <polygon points="236,43 242,41 240,47"/>
+      <polygon points="236,73 242,71 240,77"/>
+    </g>
+    <text x="160" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Every consumer reads every message,</text>
+    <text x="160" y="138" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">each at its own offset, replayable.</text>
+    <text x="160" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Kafka, Kinesis</text>
+  </g>
+</svg>
+
 ## Queue vs stream
 
 The two words get used interchangeably; the underlying models are genuinely different.
@@ -57,6 +121,40 @@ Three patterns that almost every queue-based design needs.
 Even if your queue claims exactly-once, build idempotency. Network is unreliable; consumers crash; retries happen.
 
 **Retries.** When processing fails, the message goes back on the queue (or its visibility timeout expires and it reappears). Standard practice: **exponential backoff with jitter** between retries to avoid thundering herds. After N failures, give up and route the message to a dead-letter queue.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Retry pipeline with backoff and DLQ</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="60" width="110" height="50" rx="8"/>
+    <rect x="170" y="60" width="110" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="320" y="60" width="110" height="50" rx="8"/>
+    <rect x="470" y="60" width="140" height="50" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="75" y="82" font-weight="600">Queue</text>
+    <text x="75" y="100" font-size="11">message</text>
+    <text x="225" y="82" font-weight="600">Consumer</text>
+    <text x="225" y="100" font-size="11">idempotent</text>
+    <text x="375" y="82" font-weight="600">Fail?</text>
+    <text x="375" y="100" font-size="11">backoff retry</text>
+    <text x="540" y="82" font-weight="600">DLQ</text>
+    <text x="540" y="100" font-size="11">after N tries</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M130 85 H170"/>
+    <path d="M280 85 H320"/>
+    <path d="M430 85 H470"/>
+    <path d="M375 110 V145 H225 V110"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="166,83 172,85 166,87"/>
+    <polygon points="316,83 322,85 316,87"/>
+    <polygon points="466,83 472,85 466,87"/>
+    <polygon points="221,114 225,108 229,114"/>
+  </g>
+  <text x="375" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">1s → 2s → 4s (with jitter)</text>
+  <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">DLQ depth is a paging metric. Never let it grow silently.</text>
+</svg>
 
 **Dead-letter queue (DLQ).** A holding area for messages that couldn't be processed. Critical for debugging: instead of looping forever or silently dropping them, they go somewhere you can inspect. Always have a DLQ. Always alert on DLQ depth.
 

@@ -7,6 +7,38 @@ A system design interview asks you to design a large-scale software system — u
 
 This page is the starting point. By the end of it you should know what to expect, what good answers look like, and how to use the rest of the site.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="The four axes interviewers grade on" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600" font-size="14">What the interview actually measures</text>
+  <g transform="translate(20,50)">
+    <rect width="140" height="140" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+    <text x="70" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Framing</text>
+    <text x="70" y="70" text-anchor="middle" fill="currentColor" font-size="12">Functional vs</text>
+    <text x="70" y="86" text-anchor="middle" fill="currentColor" font-size="12">non-functional</text>
+    <text x="70" y="110" text-anchor="middle" fill="currentColor" font-size="12">Scope &amp; scale</text>
+  </g>
+  <g transform="translate(180,50)">
+    <rect width="140" height="140" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Components</text>
+    <text x="70" y="70" text-anchor="middle" fill="currentColor" font-size="12">LB, cache, queue,</text>
+    <text x="70" y="86" text-anchor="middle" fill="currentColor" font-size="12">DB, replication</text>
+    <text x="70" y="110" text-anchor="middle" fill="currentColor" font-size="12">Pick &amp; justify</text>
+  </g>
+  <g transform="translate(340,50)">
+    <rect width="140" height="140" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Trade-offs</text>
+    <text x="70" y="70" text-anchor="middle" fill="currentColor" font-size="12">Consistency,</text>
+    <text x="70" y="86" text-anchor="middle" fill="currentColor" font-size="12">latency, cost</text>
+    <text x="70" y="110" text-anchor="middle" fill="currentColor" font-size="12">Defend choices</text>
+  </g>
+  <g transform="translate(500,50)">
+    <rect width="120" height="140" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="60" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Communication</text>
+    <text x="60" y="70" text-anchor="middle" fill="currentColor" font-size="12">Drive the</text>
+    <text x="60" y="86" text-anchor="middle" fill="currentColor" font-size="12">conversation</text>
+    <text x="60" y="110" text-anchor="middle" fill="currentColor" font-size="12">Take feedback</text>
+  </g>
+</svg>
+
 ## What interviewers are actually grading
 
 In most loops, the rubric collapses to four things:
@@ -34,6 +66,41 @@ A good answer is a story, not a diagram. It moves in a deliberate order:
 Most candidates rush steps 1 and 2 because they feel like they are not "real" work. They are. An interviewer who hears you confidently say *"reads dominate writes about 100:1, peak QPS is around 50k, and we'll need roughly 2 TB of metadata storage in year one"* has already mentally upgraded your performance.
 
 ## How to use this site
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="The five study tracks of this site" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The five study tracks</text>
+  <g transform="translate(250,40)">
+    <rect width="140" height="50" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+    <text x="70" y="30" text-anchor="middle" fill="currentColor" font-weight="600">Fundamentals</text>
+  </g>
+  <g transform="translate(20,140)">
+    <rect width="140" height="50" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Networking</text>
+    <text x="70" y="38" text-anchor="middle" fill="currentColor" font-size="12">&amp; Delivery</text>
+  </g>
+  <g transform="translate(180,140)">
+    <rect width="140" height="50" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Data</text>
+    <text x="70" y="38" text-anchor="middle" fill="currentColor" font-size="12">&amp; Storage</text>
+  </g>
+  <g transform="translate(340,140)">
+    <rect width="140" height="50" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Scalability</text>
+    <text x="70" y="38" text-anchor="middle" fill="currentColor" font-size="12">&amp; Reliability</text>
+  </g>
+  <g transform="translate(500,140)">
+    <rect width="120" height="50" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="60" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Architecture</text>
+    <text x="60" y="38" text-anchor="middle" fill="currentColor" font-size="12">Patterns</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M320 90 V120 H90 V140"/>
+    <path d="M320 90 V120 H250 V140"/>
+    <path d="M320 90 V120 H410 V140"/>
+    <path d="M320 90 V120 H560 V140"/>
+  </g>
+  <text x="320" y="225" text-anchor="middle" fill="currentColor" font-size="12" opacity="0.8">Read top to bottom: foundations first, components next, scaling and patterns last.</text>
+</svg>
 
 The sidebar is organized in the order you should learn the material:
 

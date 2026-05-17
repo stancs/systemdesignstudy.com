@@ -7,6 +7,37 @@ Replication is the practice of keeping multiple copies of your data on different
 
 There are three replication architectures worth knowing, and every distributed database in the world is some variation of them.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Single-leader replication: one writer, many readers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Single-leader replication</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="240" y="50" width="160" height="50" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="60" y="170" width="140" height="50" rx="10"/>
+    <rect x="250" y="170" width="140" height="50" rx="10"/>
+    <rect x="440" y="170" width="140" height="50" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="72" font-weight="700">Leader</text>
+    <text x="320" y="90" font-size="11">accepts writes</text>
+    <text x="130" y="192" font-weight="600">Follower 1</text>
+    <text x="130" y="210" font-size="11">read replica</text>
+    <text x="320" y="192" font-weight="600">Follower 2</text>
+    <text x="320" y="210" font-size="11">read replica</text>
+    <text x="510" y="192" font-weight="600">Follower 3</text>
+    <text x="510" y="210" font-size="11">read replica</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M280 100 L150 170"/>
+    <path d="M320 100 V170"/>
+    <path d="M360 100 L500 170"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="151,166 154,172 146,170"/>
+    <polygon points="316,168 320,174 324,168"/>
+    <polygon points="498,168 502,174 506,170"/>
+  </g>
+  <text x="320" y="252" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Writes go to one node; reads scale by adding followers (with replication lag).</text>
+</svg>
+
 ## Single-leader (primary-replica)
 
 One node is the **leader** (also called primary, master, or writer). All writes go to it. The leader streams its changes to one or more **followers** (replicas, secondaries), which apply them in order.
@@ -24,6 +55,48 @@ This is what most teams reach for first because it is the simplest model that ge
 - **Single writer is your bottleneck.** Once the leader saturates, your only options are vertical scaling, [sharding](/data/sharding/), or moving to a different model.
 - **Replication lag.** Followers are always slightly behind. The lag is usually milliseconds but can spike under load.
 - **Failover is non-trivial.** If the leader dies, you have to promote a follower. Choosing *which* follower (the most up-to-date one) and not double-promoting is the entire reason tools like Patroni, Orchestrator, and managed RDS exist.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Synchronous vs asynchronous replication trade-off" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Sync vs async replication</text>
+  <g transform="translate(0,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Asynchronous</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="80" height="40" rx="8"/>
+      <rect x="200" y="20" width="80" height="40" rx="8"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="80" y="45">Leader</text>
+      <text x="240" y="45">Follower</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M120 40 H200" stroke-dasharray="3 3"/>
+    </g>
+    <text x="160" y="100" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Leader acks immediately, ships later.</text>
+    <text x="160" y="118" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Fast writes, possible data loss on failover.</text>
+  </g>
+  <g transform="translate(320,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Synchronous</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="80" height="40" rx="8"/>
+      <rect x="200" y="20" width="80" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="80" y="45">Leader</text>
+      <text x="240" y="45">Follower</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M120 30 H200"/>
+      <path d="M200 50 H120"/>
+    </g>
+    <g fill="currentColor">
+      <polygon points="196,28 202,30 196,32"/>
+      <polygon points="124,48 118,50 124,52"/>
+    </g>
+    <text x="160" y="100" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Leader waits for follower's ack.</text>
+    <text x="160" y="118" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">No loss, but slow-follower stalls writes.</text>
+  </g>
+  <text x="320" y="220" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Most "we can't lose writes" systems use semi-sync: one sync, rest async.</text>
+</svg>
 
 ### Synchronous vs asynchronous
 
@@ -74,6 +147,50 @@ The standard parameters:
 - **R** — reads consulted before returning.
 
 If **W + R > N**, you are guaranteed to read at least one node that saw the latest write — that's quorum consistency. Common settings: N=3, W=2, R=2 (strong-ish) or N=3, W=1, R=1 (fast, eventually consistent).
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Leaderless quorum: N=3, W=2, R=2 writes and reads" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Leaderless quorum (N=3, W=2, R=2)</text>
+  <g transform="translate(0,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Write (W=2 acks needed)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="70" height="35" rx="6"/>
+      <rect x="125" y="20" width="70" height="35" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="125" y="75" width="70" height="35" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="125" y="130" width="70" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="55" y="42">Client</text>
+      <text x="160" y="42">Node A ✓</text>
+      <text x="160" y="97">Node B ✓</text>
+      <text x="160" y="152">Node C ✗</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M90 38 H125"/>
+      <path d="M90 38 H110 V92 H125"/>
+      <path d="M90 38 H110 V147 H125"/>
+    </g>
+  </g>
+  <g transform="translate(320,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Read (R=2 consulted)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="70" height="35" rx="6"/>
+      <rect x="125" y="20" width="70" height="35" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="125" y="75" width="70" height="35" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="125" y="130" width="70" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="55" y="42">Client</text>
+      <text x="160" y="42">Node A</text>
+      <text x="160" y="97">Node B</text>
+      <text x="160" y="152">Node C</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M90 38 H125"/>
+      <path d="M90 38 H110 V92 H125"/>
+    </g>
+  </g>
+  <text x="320" y="240" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">W + R > N → at least one read node saw the latest write.</text>
+</svg>
 
 **What you get**
 

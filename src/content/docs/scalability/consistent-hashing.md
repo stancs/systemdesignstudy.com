@@ -21,6 +21,49 @@ Remove a server (one dies). Same disaster in reverse: ~80% of keys move, the sur
 
 This is the entire reason consistent hashing exists.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="The consistent hash ring with three servers and several keys" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The hash ring</text>
+  <circle cx="320" cy="170" r="110" fill="none" stroke="currentColor" stroke-width="2"/>
+  <g fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2">
+    <circle cx="320" cy="60" r="11"/>
+    <circle cx="415" cy="225" r="11"/>
+    <circle cx="225" cy="225" r="11"/>
+  </g>
+  <g fill="currentColor" font-size="12" text-anchor="middle">
+    <text x="320" y="48">Server A</text>
+    <text x="438" y="232">Server B</text>
+    <text x="202" y="232">Server C</text>
+  </g>
+  <g fill="currentColor">
+    <circle cx="377" cy="80" r="4"/>
+    <circle cx="400" cy="100" r="4"/>
+    <circle cx="420" cy="150" r="4"/>
+    <circle cx="382" cy="240" r="4"/>
+    <circle cx="305" cy="265" r="4"/>
+    <circle cx="240" cy="180" r="4"/>
+    <circle cx="248" cy="115" r="4"/>
+  </g>
+  <g fill="currentColor" font-size="11" opacity="0.9">
+    <text x="385" y="76">k1</text>
+    <text x="410" y="96">k2</text>
+    <text x="430" y="146">k3</text>
+    <text x="390" y="245">k4</text>
+    <text x="313" y="280">k5</text>
+    <text x="225" y="183">k6</text>
+    <text x="233" y="110">k7</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="3 3" opacity="0.6">
+    <path d="M377 80 L320 60"/>
+    <path d="M400 100 L320 60"/>
+    <path d="M420 150 L415 225"/>
+    <path d="M382 240 L415 225"/>
+    <path d="M305 265 L225 225"/>
+    <path d="M240 180 L225 225"/>
+    <path d="M248 115 L320 60"/>
+  </g>
+  <text x="320" y="305" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">A key belongs to the first server clockwise from its hash position.</text>
+</svg>
+
 ## The core idea
 
 Imagine a circle (the **hash ring**) representing all possible hash values, from 0 to 2³² − 1 wrapped around. To place items on the ring:
@@ -47,6 +90,42 @@ Two other useful properties of vnodes:
 - **Smooth rebalancing.** Rather than one disruptive move, vnodes spread the rebalance across many small key ranges in parallel.
 
 Almost every real-world consistent-hash implementation (Cassandra, DynamoDB, Memcached client libraries, Envoy's `ring_hash`) uses virtual nodes.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Hash ring without and with virtual nodes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Without vs with virtual nodes</text>
+  <g transform="translate(160,170)">
+    <text x="0" y="-115" text-anchor="middle" fill="currentColor" font-weight="600">Plain ring</text>
+    <circle r="80" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g fill="var(--sl-color-accent,#3b82f6)">
+      <circle cx="0" cy="-80" r="8"/>
+      <circle cx="65" cy="50" r="8"/>
+      <circle cx="-65" cy="50" r="8"/>
+    </g>
+    <text x="0" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Slices are uneven by luck.</text>
+    <text x="0" y="136" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Removing a server gives a big slice to its neighbor.</text>
+  </g>
+  <g transform="translate(480,170)">
+    <text x="0" y="-115" text-anchor="middle" fill="currentColor" font-weight="600">With ~12 vnodes each</text>
+    <circle r="80" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g>
+      <circle cx="0" cy="-80" r="5" fill="var(--sl-color-accent,#3b82f6)"/>
+      <circle cx="35" cy="-72" r="5" fill="currentColor"/>
+      <circle cx="62" cy="-50" r="5" fill="var(--sl-color-accent,#3b82f6)"/>
+      <circle cx="79" cy="-15" r="5" fill="currentColor"/>
+      <circle cx="78" cy="20" r="5" fill="var(--sl-color-accent,#3b82f6)"/>
+      <circle cx="62" cy="50" r="5" fill="currentColor"/>
+      <circle cx="30" cy="74" r="5" fill="var(--sl-color-accent,#3b82f6)"/>
+      <circle cx="-10" cy="79" r="5" fill="currentColor"/>
+      <circle cx="-45" cy="65" r="5" fill="var(--sl-color-accent,#3b82f6)"/>
+      <circle cx="-72" cy="35" r="5" fill="currentColor"/>
+      <circle cx="-80" cy="0" r="5" fill="var(--sl-color-accent,#3b82f6)"/>
+      <circle cx="-65" cy="-45" r="5" fill="currentColor"/>
+      <circle cx="-35" cy="-72" r="5" fill="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <text x="0" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Load smooths to ~1/N.</text>
+    <text x="0" y="136" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Removing a server distributes work across many neighbors.</text>
+  </g>
+</svg>
 
 ## Where you find it in real systems
 
@@ -76,6 +155,36 @@ In an interview, plain consistent hashing with virtual nodes is the right defaul
 **Coordinating servers.** Every client needs a consistent view of which servers are on the ring. Use a shared config (ZooKeeper, etcd, Consul) or rely on the cache client library's gossip mechanism. Inconsistent views = different clients sending the same key to different servers = cache misses everywhere.
 
 **Replication.** Consistent hashing places one copy. For N replicas, walk the next N servers clockwise. Make sure those servers are in different failure domains (zones, racks) so a correlated failure doesn't take all replicas of a key.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Plain hashing vs consistent hashing when adding a server" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Adding one server: who moves?</text>
+  <g transform="translate(0,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">hash(k) mod N</text>
+    <text x="160" y="18" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">N: 4 → 5</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="35" width="280" height="35" rx="6"/>
+      <rect x="20" y="80" width="280" height="35" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" font-size="11" text-anchor="middle">
+      <text x="160" y="57">~20% of keys stay</text>
+      <text x="160" y="102" font-weight="600">~80% of keys move</text>
+    </g>
+    <text x="160" y="160" text-anchor="middle" fill="var(--sl-color-accent,#3b82f6)" font-size="11">Cache melts. Origin gets flattened.</text>
+  </g>
+  <g transform="translate(320,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Consistent hashing</text>
+    <text x="160" y="18" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">N: 4 → 5</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="35" width="280" height="80" rx="6"/>
+      <rect x="240" y="80" width="60" height="35" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" font-size="11" text-anchor="middle">
+      <text x="130" y="60">~80% of keys stay</text>
+      <text x="270" y="102" font-weight="600">~1/N moves</text>
+    </g>
+    <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Cache mostly warm. Origin survives.</text>
+  </g>
+</svg>
 
 ## A short worked example
 

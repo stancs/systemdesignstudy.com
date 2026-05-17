@@ -18,6 +18,48 @@ In practice they overlap — modern L7 LBs (Envoy, Nginx, ALB) do gateway-ish th
 
 You almost always have both in a real architecture. The LB terminates the connection and picks an instance of the gateway; the gateway then does the policy work and forwards to the right downstream service.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="An API gateway sits in front of many services and owns cross-cutting concerns" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The gateway owns cross-cutting concerns at the front door</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="60" width="100" height="35" rx="8"/>
+    <rect x="20" y="115" width="100" height="35" rx="8"/>
+    <rect x="20" y="170" width="100" height="35" rx="8"/>
+    <rect x="240" y="100" width="160" height="80" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="500" y="50" width="120" height="35" rx="8"/>
+    <rect x="500" y="100" width="120" height="35" rx="8"/>
+    <rect x="500" y="150" width="120" height="35" rx="8"/>
+    <rect x="500" y="200" width="120" height="35" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="70" y="82">Web</text>
+    <text x="70" y="137">Mobile</text>
+    <text x="70" y="192">Partner</text>
+    <text x="320" y="130" font-weight="700">API Gateway</text>
+    <text x="320" y="148" font-size="11">auth · rate limit</text>
+    <text x="320" y="162" font-size="11">routing · obs · TLS</text>
+    <text x="560" y="72">Users svc</text>
+    <text x="560" y="122">Orders svc</text>
+    <text x="560" y="172">Catalog svc</text>
+    <text x="560" y="222">Payments svc</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M120 77 H240 V140"/>
+    <path d="M120 132 H240 V140"/>
+    <path d="M120 187 H240 V140"/>
+    <path d="M400 140 L500 67"/>
+    <path d="M400 140 L500 117"/>
+    <path d="M400 140 L500 167"/>
+    <path d="M400 140 L500 217"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="236,138 242,140 236,144"/>
+    <polygon points="496,69 502,67 502,73"/>
+    <polygon points="496,119 502,117 502,123"/>
+    <polygon points="496,169 502,167 502,173"/>
+    <polygon points="496,219 502,217 502,223"/>
+  </g>
+</svg>
+
 ## What an API gateway actually does
 
 Six things, in rough order of how often they come up in interviews:
@@ -72,6 +114,47 @@ A common gateway pattern in interviews:
 Each BFF is shaped for the needs of its client. The iOS BFF may return denormalized responses tailored for mobile screens; the partner BFF may speak a versioned, more conservative shape. Each BFF reuses the same underlying services.
 
 The trade-off is duplication: every client now has its own BFF to maintain. The win is that **no single gateway becomes a god service** trying to please everyone.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Backend-for-Frontend (BFF) pattern</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="100" height="35" rx="8"/>
+    <rect x="20" y="115" width="100" height="35" rx="8"/>
+    <rect x="20" y="180" width="100" height="35" rx="8"/>
+    <rect x="200" y="50" width="120" height="35" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="200" y="115" width="120" height="35" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="200" y="180" width="120" height="35" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="440" y="50" width="160" height="35" rx="8"/>
+    <rect x="440" y="115" width="160" height="35" rx="8"/>
+    <rect x="440" y="180" width="160" height="35" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="70" y="72">iOS app</text>
+    <text x="70" y="137">Web app</text>
+    <text x="70" y="202">Partner</text>
+    <text x="260" y="72" font-weight="600">iOS BFF</text>
+    <text x="260" y="137" font-weight="600">Web BFF</text>
+    <text x="260" y="202" font-weight="600">Public BFF</text>
+    <text x="520" y="72">User svc</text>
+    <text x="520" y="137">Order svc</text>
+    <text x="520" y="202">Catalog svc</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M120 67 H200"/>
+    <path d="M120 132 H200"/>
+    <path d="M120 197 H200"/>
+    <path d="M320 67 L440 67"/>
+    <path d="M320 67 L440 132"/>
+    <path d="M320 67 L440 197"/>
+    <path d="M320 132 L440 67"/>
+    <path d="M320 132 L440 132"/>
+    <path d="M320 132 L440 197"/>
+    <path d="M320 197 L440 67"/>
+    <path d="M320 197 L440 132"/>
+    <path d="M320 197 L440 197"/>
+  </g>
+  <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Each BFF shapes responses for one client class; all share the same downstream services.</text>
+</svg>
 
 ## Common pitfalls
 

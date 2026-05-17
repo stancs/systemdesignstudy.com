@@ -5,6 +5,72 @@ description: Layer 4 vs layer 7, algorithms, health checks, sticky sessions, and
 
 A load balancer (LB) sits between clients and a pool of servers, accepting incoming connections and distributing them across the pool. It is the single most universally useful box in system design: nearly every diagram has one, and interviewers expect you to know it well enough to defend the algorithm, the layer, and the failure modes.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Layer 4 vs Layer 7 load balancing side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Layer 4 vs Layer 7 load balancing</text>
+  <g transform="translate(20,45)">
+    <rect width="290" height="200" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Layer 4 (TCP/UDP)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="60" width="80" height="30" rx="6"/>
+      <rect x="120" y="60" width="50" height="30" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="190" y="40" width="80" height="22" rx="6"/>
+      <rect x="190" y="68" width="80" height="22" rx="6"/>
+      <rect x="190" y="96" width="80" height="22" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="60" y="79">Client</text>
+      <text x="145" y="79" font-weight="600">L4 LB</text>
+      <text x="230" y="55">backend</text>
+      <text x="230" y="83">backend</text>
+      <text x="230" y="111">backend</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M100 75 H120"/>
+      <path d="M170 75 L190 51"/>
+      <path d="M170 75 H190"/>
+      <path d="M170 75 L190 107"/>
+    </g>
+    <g fill="currentColor" font-size="11">
+      <text x="20" y="145" font-weight="600">Sees:</text>
+      <text x="60" y="145">IPs &amp; ports only</text>
+      <text x="20" y="165" font-weight="600">Good for:</text>
+      <text x="80" y="165">raw throughput, gRPC,</text>
+      <text x="20" y="181">databases, custom protocols</text>
+    </g>
+  </g>
+  <g transform="translate(330,45)">
+    <rect width="290" height="200" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Layer 7 (HTTP)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="60" width="80" height="30" rx="6"/>
+      <rect x="120" y="60" width="50" height="30" rx="6" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="190" y="40" width="80" height="22" rx="6"/>
+      <rect x="190" y="68" width="80" height="22" rx="6"/>
+      <rect x="190" y="96" width="80" height="22" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="60" y="79">Client</text>
+      <text x="145" y="79" font-weight="600" fill="var(--sl-color-white,#fff)">L7 LB</text>
+      <text x="230" y="55">/users</text>
+      <text x="230" y="83">/orders</text>
+      <text x="230" y="111">/static</text>
+    </g>
+    <g stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M100 75 H120"/>
+      <path d="M170 75 L190 51"/>
+      <path d="M170 75 H190"/>
+      <path d="M170 75 L190 107"/>
+    </g>
+    <g fill="currentColor" font-size="11">
+      <text x="20" y="145" font-weight="600">Sees:</text>
+      <text x="60" y="145">URL, headers, cookies</text>
+      <text x="20" y="165" font-weight="600">Good for:</text>
+      <text x="80" y="165">path routing, TLS, A/B,</text>
+      <text x="20" y="181">retries, compression</text>
+    </g>
+  </g>
+</svg>
+
 ## Layer 4 vs layer 7
 
 The first decision is which OSI layer to balance at.
@@ -32,6 +98,59 @@ You will probably be asked to pick one and defend it.
 - **Random with two choices (P2C).** Pick two backends at random and send to whichever has fewer connections. Surprisingly close to least-connections at a fraction of the coordination cost.
 
 In an interview, *least connections* is the safest default for application traffic; *consistent hash* is what you mention when you need cache locality or session affinity.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Round robin vs least connections, with one slow backend" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Why "least connections" beats round robin with uneven backends</text>
+  <g transform="translate(20,50)">
+    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Round robin</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="15" width="80" height="35" rx="6"/>
+      <rect x="120" y="15" width="80" height="35" rx="6"/>
+      <rect x="210" y="15" width="80" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="37">A: 5 reqs</text>
+      <text x="160" y="37">B: 5 reqs</text>
+      <text x="250" y="37">C: 5 reqs</text>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="65" width="80" height="60" rx="6"/>
+      <rect x="120" y="65" width="80" height="60" rx="6"/>
+      <rect x="210" y="65" width="80" height="100" rx="6" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="100">2 in-flight</text>
+      <text x="160" y="100">2 in-flight</text>
+      <text x="250" y="115" fill="var(--sl-color-white,#fff)">C slow:</text>
+      <text x="250" y="130" fill="var(--sl-color-white,#fff)">5 in-flight</text>
+    </g>
+    <text x="145" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">C backs up; tail latency spikes.</text>
+  </g>
+  <g transform="translate(340,50)">
+    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Least connections</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="15" width="80" height="35" rx="6"/>
+      <rect x="120" y="15" width="80" height="35" rx="6"/>
+      <rect x="210" y="15" width="80" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="37">A: 7 reqs</text>
+      <text x="160" y="37">B: 7 reqs</text>
+      <text x="250" y="37">C: 1 req</text>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="65" width="80" height="80" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="120" y="65" width="80" height="80" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="210" y="65" width="80" height="80" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="110">3 in-flight</text>
+      <text x="160" y="110">3 in-flight</text>
+      <text x="250" y="110">3 in-flight</text>
+    </g>
+    <text x="145" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">LB routes new reqs to the freer backend.</text>
+  </g>
+</svg>
 
 ## Health checks
 
@@ -61,6 +180,45 @@ Sticky sessions are a tax. They couple users to specific machines, hurt failover
 ## Where the load balancer sits
 
 A typical, defensible diagram looks like this:
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Typical layered load balancer architecture from client to app servers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="270" y="10" width="100" height="35" rx="8"/>
+    <rect x="270" y="65" width="100" height="35" rx="8"/>
+    <rect x="240" y="125" width="160" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="240" y="190" width="160" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="100" y="260" width="120" height="40" rx="8"/>
+    <rect x="260" y="260" width="120" height="40" rx="8"/>
+    <rect x="420" y="260" width="120" height="40" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="32">Client</text>
+    <text x="320" y="87">DNS / Anycast</text>
+    <text x="320" y="150" font-weight="600">Edge L4 LB</text>
+    <text x="320" y="215" font-weight="600">L7 LB / Gateway</text>
+    <text x="160" y="285">App svc A</text>
+    <text x="320" y="285">App svc B</text>
+    <text x="480" y="285">App svc C</text>
+  </g>
+  <g font-size="11" fill="currentColor" opacity="0.8">
+    <text x="410" y="148">TLS, DDoS</text>
+    <text x="410" y="213">routing, auth, RL</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M320 45 V65"/>
+    <path d="M320 100 V125"/>
+    <path d="M320 165 V190"/>
+    <path d="M320 230 V245 H160 V260"/>
+    <path d="M320 245 V260"/>
+    <path d="M320 245 H480 V260"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="316,67 320,61 324,67"/>
+    <polygon points="316,127 320,121 324,127"/>
+    <polygon points="316,192 320,186 324,192"/>
+  </g>
+</svg>
+
 
 ```
 [Client]

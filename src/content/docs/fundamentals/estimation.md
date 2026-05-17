@@ -14,6 +14,42 @@ Estimation does two things in an interview:
 
 Without numbers, every design choice looks arbitrary. With numbers, every choice is defensible.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Latency hierarchy from L1 cache to cross-continent network" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The latency hierarchy (each step ~100× slower)</text>
+  <g font-size="12">
+    <g transform="translate(40,50)">
+      <rect width="220" height="28" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">L1 cache</text>
+      <text x="210" y="19" text-anchor="end" fill="currentColor">~1 ns</text>
+    </g>
+    <g transform="translate(40,85)">
+      <rect width="260" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">Main memory</text>
+      <text x="250" y="19" text-anchor="end" fill="currentColor">~100 ns</text>
+    </g>
+    <g transform="translate(40,120)">
+      <rect width="320" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">SSD random read</text>
+      <text x="310" y="19" text-anchor="end" fill="currentColor">~100 µs</text>
+    </g>
+    <g transform="translate(40,155)">
+      <rect width="400" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">Round trip in datacenter</text>
+      <text x="390" y="19" text-anchor="end" fill="currentColor">~500 µs</text>
+    </g>
+    <g transform="translate(40,190)">
+      <rect width="500" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">Disk seek (HDD)</text>
+      <text x="490" y="19" text-anchor="end" fill="currentColor">~10 ms</text>
+    </g>
+    <g transform="translate(40,225)">
+      <rect width="580" height="28" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">CA → Netherlands round trip</text>
+      <text x="570" y="19" text-anchor="end" fill="currentColor">~150 ms</text>
+    </g>
+  </g>
+</svg>
+
 ## Powers of two and ten
 
 Memorize these two columns. They are the entire vocabulary of BotE math:
@@ -70,6 +106,37 @@ Two implications you can quote almost verbatim:
 
 - **Memory is ~100x faster than SSD**, which is ~100x faster than HDD, which is ~100x faster than a transcontinental round trip. Each step of the pyramid hides a 100x cost.
 - **Network is the bottleneck.** If a request needs 5 sequential cross-region round trips, you've already spent 750 ms before you've done any real work.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Orders of magnitude in seconds and counts" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Useful orders of magnitude</text>
+  <g transform="translate(20,50)">
+    <rect width="190" height="120" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="600">Time</text>
+    <g font-size="12" fill="currentColor">
+      <text x="15" y="56">1 day ≈ 100k seconds</text>
+      <text x="15" y="80">1 month ≈ 2.5M seconds</text>
+      <text x="15" y="104">1 year ≈ 30M seconds</text>
+    </g>
+  </g>
+  <g transform="translate(225,50)">
+    <rect width="190" height="120" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="600">Counts</text>
+    <g font-size="12" fill="currentColor">
+      <text x="15" y="56">2¹⁰ ≈ 10³ (thousand)</text>
+      <text x="15" y="80">2²⁰ ≈ 10⁶ (million)</text>
+      <text x="15" y="104">2³⁰ ≈ 10⁹ (billion)</text>
+    </g>
+  </g>
+  <g transform="translate(430,50)">
+    <rect width="190" height="120" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="600">Peak vs average</text>
+    <g font-size="12" fill="currentColor">
+      <text x="15" y="56">B2B: ~2× average</text>
+      <text x="15" y="80">Consumer: 3–5×</text>
+      <text x="15" y="104">Events / virality: 10×+</text>
+    </g>
+  </g>
+</svg>
 
 ## A worked example: a Twitter-scale feed
 

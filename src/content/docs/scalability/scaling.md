@@ -7,11 +7,70 @@ description: Vertical vs horizontal scaling, stateless services, autoscaling, an
 
 This page is the vocabulary you need to do that.
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Vertical scaling: one bigger box. Horizontal scaling: many boxes." style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Vertical vs horizontal scaling</text>
+  <g transform="translate(0,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Vertical — one bigger box</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="60" height="60" rx="8"/>
+      <rect x="180" y="20" width="80" height="100" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="55">app</text>
+      <text x="220" y="55" font-weight="600">app</text>
+      <text x="220" y="80" font-size="10">8x CPU, RAM</text>
+      <text x="220" y="95" font-size="10">faster disk</text>
+    </g>
+    <text x="160" y="150" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Zero code change. Hard ceiling.</text>
+    <text x="160" y="168" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Still one machine to fail.</text>
+  </g>
+  <g transform="translate(320,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Horizontal — many boxes</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="40" width="50" height="40" rx="6"/>
+      <rect x="80" y="40" width="50" height="40" rx="6"/>
+      <rect x="140" y="40" width="50" height="40" rx="6"/>
+      <rect x="200" y="40" width="50" height="40" rx="6"/>
+      <rect x="260" y="40" width="50" height="40" rx="6"/>
+      <rect x="50" y="90" width="50" height="40" rx="6"/>
+      <rect x="110" y="90" width="50" height="40" rx="6"/>
+      <rect x="170" y="90" width="50" height="40" rx="6"/>
+      <rect x="230" y="90" width="50" height="40" rx="6"/>
+    </g>
+    <text x="160" y="150" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Needs stateless or shardable design.</text>
+    <text x="160" y="168" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Fault-tolerant by construction.</text>
+  </g>
+</svg>
+
 ## The two axes
 
 **Vertical scaling (scaling up).** Bigger machine. More CPU, more RAM, faster disks, faster network. Pros: zero application changes, instantaneous performance lift, simple operations. Cons: hard ceiling (the biggest cloud instance is finite and very expensive), single point of failure unless paired with replication.
 
 **Horizontal scaling (scaling out).** More machines. Pros: theoretically unlimited capacity, fault-tolerant by construction. Cons: requires the application to be designed for it (stateless or shardable), introduces a coordination layer, multiplies operational cost.
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Scaling ladder: get more out of one box, replicate reads, cache, queue, shard" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The scaling ladder (climb in order)</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="60" y="180" width="100" height="40" rx="8"/>
+    <rect x="170" y="150" width="100" height="40" rx="8"/>
+    <rect x="280" y="120" width="100" height="40" rx="8"/>
+    <rect x="390" y="90" width="100" height="40" rx="8"/>
+    <rect x="500" y="60" width="100" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle" font-size="11">
+    <text x="110" y="202" font-weight="600">1. Scale up</text>
+    <text x="110" y="216">one bigger box</text>
+    <text x="220" y="172" font-weight="600">2. Read replicas</text>
+    <text x="220" y="186">followers</text>
+    <text x="330" y="142" font-weight="600">3. Cache</text>
+    <text x="330" y="156">Redis / CDN</text>
+    <text x="440" y="112" font-weight="600">4. Queue</text>
+    <text x="440" y="126">async work</text>
+    <text x="550" y="82" font-weight="600">5. Shard</text>
+    <text x="550" y="96">split writes</text>
+  </g>
+  <text x="320" y="245" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Reaching step 5 immediately on a 1k-QPS workload is a red flag.</text>
+</svg>
 
 The honest sequence for most systems is **vertical first, then horizontal**:
 
