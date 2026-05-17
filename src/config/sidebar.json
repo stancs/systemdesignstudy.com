@@ -1,69 +1,52 @@
 {
   "main": [
     {
-      "label": "Getting Started",
-      "translations": {
-        "fr": "Commencer"
-      },
+      "label": "Fundamentals",
       "items": [
-        {
-          "label": "[seti:vite] Introduction",
-          "translations": {
-            "fr": "[seti:vite] Introduction"
-          },
-          "autogenerate": { "directory": "getting-started/introduction" }
-        },
-        {
-          "label": "[setting] Global Settings",
-          "translations": {
-            "fr": "[setting] Paramètres globaux"
-          },
-          "autogenerate": { "directory": "getting-started/global-settings" }
-        },
-        {
-          "label": "[seti:plan] Navigation",
-          "translations": {
-            "fr": "[seti:plan] Navigation"
-          },
-          "slug": "getting-started/navigation"
-        }
+        { "label": "[rocket] Overview", "slug": "fundamentals/overview" },
+        { "label": "[seti:plan] Interview Framework", "slug": "fundamentals/interview-framework" },
+        { "label": "[approve-check] Requirements Gathering", "slug": "fundamentals/requirements" },
+        { "label": "[bars] Back-of-the-Envelope Estimation", "slug": "fundamentals/estimation" },
+        { "label": "[seti:config] CAP Theorem & Trade-offs", "slug": "fundamentals/cap-theorem" }
       ]
     },
     {
-      "label": "Content",
-      "translations": {
-        "fr": "Contenu"
-      },
+      "label": "Networking & Delivery",
       "items": [
-        {
-          "label": "[document] Components and Block",
-          "translations": {
-            "fr": "[document] Composants et blocs"
-          },
-          "autogenerate": { "directory": "contents/components" }
-        },
-        {
-          "label": "[pencil] Editing Content",
-          "translations": {
-            "fr": "[pencil] Édition du contenu"
-          },
-          "autogenerate": { "directory": "contents/editing" }
-        }
+        { "label": "[seti:html] DNS & Client-Server Model", "slug": "networking/dns" },
+        { "label": "[laptop] Load Balancers", "slug": "networking/load-balancers" },
+        { "label": "[seti:json] API Gateway", "slug": "networking/api-gateway" },
+        { "label": "[rocket] Content Delivery Networks", "slug": "networking/cdn" },
+        { "label": "[seti:vite] Communication Protocols", "slug": "networking/communication-protocols" }
       ]
     },
     {
-      "label": "Reference",
-      "translations": {
-        "fr": "Référence"
-      },
-      "autogenerate": { "directory": "reference" }
+      "label": "Data & Storage",
+      "items": [
+        { "label": "[seti:db] SQL vs NoSQL", "slug": "data/sql-vs-nosql" },
+        { "label": "[seti:plan] Database Indexing", "slug": "data/indexing" },
+        { "label": "[seti:config] Database Replication", "slug": "data/replication" },
+        { "label": "[bars] Sharding & Partitioning", "slug": "data/sharding" },
+        { "label": "[rocket] Caching Strategies", "slug": "data/caching" },
+        { "label": "[seti:json] Message Queues & Streams", "slug": "data/message-queues" }
+      ]
     },
     {
-      "label": "Configurations",
-      "translations": {
-        "fr": "Configurations"
-      },
-      "autogenerate": { "directory": "configurations" }
+      "label": "Scalability & Reliability",
+      "items": [
+        { "label": "[bars] Scaling Strategies", "slug": "scalability/scaling" },
+        { "label": "[seti:config] Consistent Hashing", "slug": "scalability/consistent-hashing" },
+        { "label": "[approve-check] Rate Limiting", "slug": "scalability/rate-limiting" },
+        { "label": "[setting] Fault Tolerance & Redundancy", "slug": "scalability/fault-tolerance" },
+        { "label": "[seti:plan] Monitoring & Observability", "slug": "scalability/monitoring" }
+      ]
+    },
+    {
+      "label": "Architecture Patterns",
+      "items": [
+        { "label": "[seti:plan] Monolith vs Microservices", "slug": "patterns/monolith-vs-microservices" },
+        { "label": "[rocket] Event-Driven Architecture", "slug": "patterns/event-driven" }
+      ]
     }
   ]
 }

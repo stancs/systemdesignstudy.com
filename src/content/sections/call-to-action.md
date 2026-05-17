@@ -1,14 +1,14 @@
 ---
 title: |
-  Ready to explore <span class='light-text'>Dockit experience? </span>
-description: Discover tips, resources, and guidance to maximize experience with our documentation.
+  Ready to ace your <span class='light-text'>next system design interview?</span>
+description: Work through structured notes on the fundamentals, data systems, and architecture patterns that show up in every senior interview loop.
 enable: true
 fill_button:
   enable: true
-  label: Get Started
-  link: /getting-started/introduction/overview/
+  label: Start Studying
+  link: /fundamentals/overview/
 outline_button:
   enable: true
-  label: View Docs
-  link: /getting-started/introduction/overview/
+  label: Interview Framework
+  link: /fundamentals/interview-framework/
 ---

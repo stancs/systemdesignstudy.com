@@ -1,11 +1,11 @@
 {
   "site": {
-    "title": "DocKit",
+    "title": "System Design Study",
     "logo": "/src/assets/logo-light.svg",
     "logo_darkmode": "/src/assets/logo-dark.svg",
     "logo_width": "127",
     "logo_height": "32",
-    "logo_text": "DocKit"
+    "logo_text": "System Design Study"
   },
 
   "settings": {
@@ -18,15 +18,12 @@
       "enable": true,
       "action": "#"
     },
-    "copyright": "Designed and Developed by <a class=\"text-primary hover:underline no-underline\" href=\"https://themefisher.com\" target=\"_blank\" rel=\"noopener\" aria-label=\"Themefisher\">Themefisher</a> Copyright &copy; 2025."
+    "copyright": "System Design Study &mdash; a free study companion for system design interviews. Copyright &copy; 2026."
   },
 
   "navigation_button": {
     "enable": true,
-    "label": "Get Started",
-    "translations": {
-      "fr": "Erste Schritte"
-    },
-    "link": "/getting-started/introduction/overview/"
+    "label": "Start Studying",
+    "link": "/fundamentals/overview/"
   }
 }

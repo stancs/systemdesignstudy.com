@@ -1,36 +1,33 @@
 ---
-title: Dockit Build Documentation with Modern UI
-description: Get started building your docs site with DocKit.
+title: System Design Study — Prepare for System Design Interviews
+description: Clear, structured notes on the concepts and trade-offs you need to confidently navigate a system design interview.
 template: splash
 hero:
   title: |
-    Great <span data-icon-path='hero-icon.svg'></span> docs
-    <span class="light-text">developers love</span>
-  tagline: Discover tips, resources, and guidance to maximize experience with DocKit.
+    System design <span data-icon-path='hero-icon.svg'></span> interviews,
+    <span class="light-text">demystified.</span>
+  tagline: A focused study guide on the building blocks, trade-offs, and patterns that come up in every system design interview.
 ---
 
 import Section from "~/components/Section.astro";
 import Card from "~/components/user-components/NewCard.astro";
 import Grid from "~/components/user-components/Grid.astro";
 
-<Section title="Powerful features
-<span class='light-text'>for documentations</span>" description="Explore the tools and design choices that make documentation efficient.">
+<Section title="Study the patterns that actually <span class='light-text'>show up in interviews</span>" description="Each topic is written as a self-contained study note so you can drill the concepts that matter most.">
 
 <Grid columns={4}>
-  <Card title="Well organized" icon="substack" iconColor="#FF8585">
-    The transparency of our data will help you make the informed decisions you need to.
+  <Card title="Foundations" icon="rocket" iconColor="#FF8585">
+    Learn the interview framework, requirements gathering, capacity estimation, and core trade-offs like CAP.
   </Card>
-  <Card title="Lightning fast" icon="seti:vite" iconColor="#7BE1A4">
-  Our performance optimization ensures quick load times and a smooth user experience.
+  <Card title="Networking" icon="seti:vite" iconColor="#7BE1A4">
+    Understand load balancers, API gateways, CDNs, DNS, and the protocols that glue distributed systems together.
   </Card>
-
-<Card title="Powerful search" icon="seti:code-search" iconColor="#FFD97B">
-  Our search functionality helps users find information quickly and easily.
-</Card>
-<Card title="Very customized" icon="seti:config" iconColor="#979BFF">
-  Tailor the documentation to fit your brand and project needs with ease.
-</Card>
-
+  <Card title="Data & Storage" icon="seti:db" iconColor="#FFD97B">
+    Compare SQL and NoSQL, master indexing, replication, sharding, caching, and message queues.
+  </Card>
+  <Card title="Scale & Reliability" icon="seti:config" iconColor="#979BFF">
+    Reason about horizontal scaling, consistent hashing, rate limiting, fault tolerance, and observability.
+  </Card>
 </Grid>
 </Section>
 
@@ -38,27 +35,27 @@ import HeroTabs from "~/components/HeroTabs.astro";
 import HeroTabsItem from "~/components/HeroTabsItem.astro";
 
 <Section
-  title="Get started quickly <span class='light-text'>in just 3 simple steps</span>"
-  description="A fast and frustration-free way to set up and start your documentation."
+  title="A repeatable approach <span class='light-text'>for any design question</span>"
+  description="Follow the same framework whether the prompt is a URL shortener, a chat app, or a global feed."
 >
   <HeroTabs>
     <HeroTabsItem
-      title="Install our template"
-      subtitle="Set up in seconds with our template ."
+      title="Clarify requirements"
+      subtitle="Separate functional from non-functional and pin down the scale."
       number={1}
       image="/src/assets/step-1.png"
       imageAlt="Step 1 image"
     />
     <HeroTabsItem
-      title="Import what you need"
-      subtitle="Bring components or functions into projecs."
+      title="Sketch the architecture"
+      subtitle="Map clients, services, storage, and the data flow between them."
       number={2}
       image="/src/assets/step-2.png"
       imageAlt="Step 2 image"
     />
     <HeroTabsItem
-      title="Start documentation"
-      subtitle="Start documenting your project immediately."
+      title="Deep dive & defend"
+      subtitle="Justify trade-offs around consistency, scale, and failure modes."
       number={3}
       image="/src/assets/step-3.png"
       imageAlt="Step 3 image"
@@ -69,100 +66,77 @@ import HeroTabsItem from "~/components/HeroTabsItem.astro";
 import ListCard from "~/components/user-components/ListCard.astro";
 import LinkButton from "~/components/LinkButton.astro";
 
-<Section title="Feature topics for <span class='light-text'>our documentation</span>" description="Explore our featured topics and get an idea of our capabilities.">
+<Section title="Browse the study tracks <span class='light-text'>by category</span>" description="Every page is short enough to read in a sitting and dense enough to power a whiteboard discussion.">
 
 <Grid columns={3}>
-<ListCard title="UI Components" imageIcon="/src/assets/element.svg" number="15">
-- [Buttons & Links](/contents/components/using-components/)
-- [Navigation Menus](/contents/components/using-components/)
-- [Cards & Panels](/contents/components/using-components/)
-- [Tabs & Accordions](/contents/components/using-components/)
-- [Forms & Inputs](/contents/components/using-components/)
-- [Tables & Lists](/contents/components/using-components/)
+<ListCard title="Fundamentals" imageIcon="/src/assets/element.svg" number="5">
+- [Overview](/fundamentals/overview/)
+- [Interview Framework](/fundamentals/interview-framework/)
+- [Requirements Gathering](/fundamentals/requirements/)
+- [Back-of-the-Envelope Estimation](/fundamentals/estimation/)
+- [CAP Theorem & Trade-offs](/fundamentals/cap-theorem/)
 
-<LinkButton href="/contents/components/using-components/" variant="text" className="mt-6 mb-8 ml-4">View all components</LinkButton>
+<LinkButton href="/fundamentals/overview/" variant="text" className="mt-6 mb-8 ml-4">Start with the framework</LinkButton>
 </ListCard>
 
-<ListCard title="Content Writing" imageIcon="/src/assets/content.svg" number="18">
-- Markdown Basics
-- MDX Components
-- Code Examples
-- API Documentation
-- Tutorial Writing
-- Best Practices
+<ListCard title="Networking & Delivery" imageIcon="/src/assets/content.svg" number="5">
+- [DNS & Client-Server Model](/networking/dns/)
+- [Load Balancers](/networking/load-balancers/)
+- [API Gateway](/networking/api-gateway/)
+- [Content Delivery Networks](/networking/cdn/)
+- [Communication Protocols](/networking/communication-protocols/)
 
-<LinkButton href="/contents/editing/add-new-doc/" variant="text" className="mt-6 mb-8 ml-4">View writing guide</LinkButton>
+<LinkButton href="/networking/load-balancers/" variant="text" className="mt-6 mb-8 ml-4">Explore networking</LinkButton>
 </ListCard>
 
-<ListCard title="Page Layouts" imageIcon="/src/assets/layouts.svg" number="8">
-- Homepage Templates
-- Documentation Pages
-- API Reference Layout
-- Tutorial Structure
-- Landing Pages
-- Error Pages
+<ListCard title="Data & Storage" imageIcon="/src/assets/layouts.svg" number="6">
+- [SQL vs NoSQL](/data/sql-vs-nosql/)
+- [Database Indexing](/data/indexing/)
+- [Database Replication](/data/replication/)
+- [Sharding & Partitioning](/data/sharding/)
+- [Caching Strategies](/data/caching/)
+- [Message Queues & Streams](/data/message-queues/)
 
-<LinkButton href="/getting-started/introduction/overview/" variant="text" className="mt-6 mb-8 ml-4">View layouts</LinkButton>
+<LinkButton href="/data/sql-vs-nosql/" variant="text" className="mt-6 mb-8 ml-4">Master data systems</LinkButton>
 </ListCard>
 </Grid>
 
 <Grid columns={3}>
 
-<ListCard title="Code Syntax" imageIcon="/src/assets/code-block.svg" number="10" image="/src/assets/code-image.png">
+<ListCard title="Scalability & Reliability" imageIcon="/src/assets/code-block.svg" number="5" image="/src/assets/code-image.png">
 
-- Syntax Highlighting
-- Line Numbers
-- Copy Button
-- Language Labels
-- Diff Highlighting
-- File Names
+- [Scaling Strategies](/scalability/scaling/)
+- [Consistent Hashing](/scalability/consistent-hashing/)
+- [Rate Limiting](/scalability/rate-limiting/)
+- [Fault Tolerance & Redundancy](/scalability/fault-tolerance/)
+- [Monitoring & Observability](/scalability/monitoring/)
 
 <LinkButton
-  href="/getting-started/introduction/overview/"
+  href="/scalability/scaling/"
   variant="text"
   className="mt-6 mb-8 ml-4"
 >
-  View code guide
+  Scale with confidence
 </LinkButton>
 
 </ListCard>
 
-<ListCard title="Version History" imageIcon="/src/assets/changelogs.svg" number="25">
+<ListCard title="Architecture Patterns" imageIcon="/src/assets/changelogs.svg" number="2">
 
-- Release Notes
-- Feature Updates
-- Bug Fixes
-- Breaking Changes
-- Migration Guides
-- Deprecated Features
+- [Monolith vs Microservices](/patterns/monolith-vs-microservices/)
+- [Event-Driven Architecture](/patterns/event-driven/)
 
 <LinkButton
-  href="/getting-started/introduction/overview/"
+  href="/patterns/monolith-vs-microservices/"
   variant="text"
   className="mt-6 mb-8 ml-4"
 >
-  View changelog
+  Learn the patterns
 </LinkButton>
 
 </ListCard>
 
 </Grid>
- 
-</Section>
-
-
-
-import ThemeDemo from "~/components/ThemeDemo.astro";
-
-<Section
-  title="Switch easily from <span class='light-text'>dark/light mode</span>"
-  description="Dedicated toggle button to switch between dark and light mode."
->
-
-<ThemeDemo
-  darkImage="/src/assets/darkmode-demo.png"
-  lightImage="/src/assets/lightmode-demo.png"
-/>
 
 </Section>
 
@@ -170,8 +144,8 @@ import AccordionContainer from "~/components/AccordionContainer.astro";
 import Accordion from "~/components/Accordion.astro";
 
 <Section
-  title="Have question? <span class='light-text'>We’re here to help</span>"
-  description="Get answers to the general questions people have asked."
+  title="Common questions <span class='light-text'>from candidates</span>"
+  description="A few of the things engineers ask before they walk into a design loop."
 >
 
 <AccordionContainer tabList={
@@ -179,83 +153,69 @@ import Accordion from "~/components/Accordion.astro";
     {
       type: 'basic',
       title: 'Getting Started',
-      subtitle:'Some questions about how to start.',
+      subtitle:'How to approach studying.',
       icon: "rocket"
-
     },
     {
       type: 'setting',
-      title: 'Settings & Configurations',
-      subtitle:'How to configure our documentation.',
+      title: 'During the Interview',
+      subtitle:'What interviewers actually look for.',
       icon: "settings"
-
     },
     {
       type: 'help',
-      title: 'Help & Support',
-      subtitle:'What type of support we provide.',
+      title: 'After You Practice',
+      subtitle:'How to keep improving.',
       icon: "support"
-
     }
-
-]
+  ]
 }>
 
 <Accordion
-  question="How do I get started with Dockit?"
-  answer="Simply install our template, import the components you need, and start documenting your project. The setup process takes just a few minutes."
+  question="Where should I start if I have never done a system design interview?"
+  answer="Read the Overview, then the Interview Framework. They cover the structure interviewers expect and what good and bad answers look like. From there work through Load Balancers, Caching, and SQL vs NoSQL — those concepts appear in almost every problem."
   type="basic"
 />
 <Accordion
-  question="What are the system requirements?"
-  answer="Dockit requires Node.js 18+ and works with any modern web browser. It's built on Astro and supports all major operating systems."
+  question="How long should I study before an interview?"
+  answer="Two to four weeks of focused study is enough for most candidates with backend experience. Spend the first week on Fundamentals, the next on Data & Storage and Networking, and the last on Scalability and practice problems."
   type="basic"
 />
 <Accordion
-  question="Is Dockit free to use?"
-  answer="Yes, Dockit is completely free and open source. You can use it for personal and commercial projects without any limitations."
-  type="basic"
-/>
-<Accordion
-  question="Can I customize the design?"
-  answer="Absolutely! Dockit is highly customizable with Tailwind CSS. You can modify colors, layouts, components, and add your own branding."
+  question="Do I need to memorize numbers like latency and throughput?"
+  answer="You don't need to memorize a table, but you should be able to reason about orders of magnitude. The Back-of-the-Envelope Estimation page lists the numbers worth internalizing."
   type="basic"
 />
 
 <Accordion
-  question="How do I change the theme colors?"
-  answer="You can customize theme colors by modifying the CSS custom properties in your theme configuration file or through the Tailwind config."
+  question="What do interviewers actually grade on?"
+  answer="Structured thinking, clear requirements, sensible trade-offs, and the ability to defend choices. They are not looking for a 'correct' diagram — they are looking for an engineer they would want on their team."
   type="setting"
 />
 <Accordion
-  question="Can I add custom components?"
-  answer="Yes, you can create and add custom Astro components. Simply place them in the components folder and import them where needed."
+  question="How much detail should I go into?"
+  answer="Start broad, then go deep where the interviewer asks. Move from requirements to API to data model to deep dives. The Interview Framework page walks through this in detail."
   type="setting"
 />
 <Accordion
-  question="How do I configure navigation?"
-  answer="Navigation is configured through the menu.json file in your config folder. You can add, remove, or reorder menu items as needed."
-  type="setting"
-/>
-<Accordion
-  question="Can I use my own domain?"
-  answer="Yes, you can deploy Dockit to any hosting service and use your custom domain. We provide deployment guides for popular platforms."
+  question="What if I do not know a specific technology?"
+  answer="Reason from first principles. Explain what properties you need (e.g., 'I need a durable append-only log with replay') and the interviewer will help you name the tool if they want to. Faking familiarity is always worse than reasoning honestly."
   type="setting"
 />
 
 <Accordion
-  question="Where can I get help?"
-  answer="You can get help through our GitHub discussions, documentation, or community Discord server. We also provide email support for complex issues."
+  question="How do I get better at the deep-dive portion?"
+  answer="Pick a real system you use and try to rebuild it on paper. Compare your design to public engineering blog posts. The Architecture Patterns track is a good place to find vocabulary for those discussions."
   type="help"
 />
 <Accordion
-  question="How do I report bugs?"
-  answer="Please report bugs through our GitHub issues page with detailed information about the problem and steps to reproduce it."
+  question="Should I do mock interviews?"
+  answer="Yes — system design is a skill that gets dramatically better with reps. Use these notes as a vocabulary check before and after each mock."
   type="help"
 />
 <Accordion
-  question="Do you offer premium support?"
-  answer="While Dockit is free, we offer premium consulting services for custom implementations and enterprise deployments."
+  question="Is this site free?"
+  answer="Yes. It's a study companion, not a course. All topics, diagrams, and notes are open."
   type="help"
 />
 

@@ -5,44 +5,56 @@
       "url": "/"
     },
     {
-      "name": "Documentation",
-      "url": "/getting-started/introduction/overview/"
+      "name": "Fundamentals",
+      "url": "/fundamentals/overview/"
     },
     {
-      "name": "Reference",
+      "name": "Topics",
       "url": "",
       "hasChildren": true,
       "children": [
         {
-          "name": "Configuration",
-          "url": "/reference/configuration/"
+          "name": "Networking & Delivery",
+          "url": "/networking/load-balancers/"
         },
         {
-          "name": "Plugins Reference",
-          "url": "/reference/plugin/"
+          "name": "Data & Storage",
+          "url": "/data/sql-vs-nosql/"
+        },
+        {
+          "name": "Scalability & Reliability",
+          "url": "/scalability/scaling/"
+        },
+        {
+          "name": "Architecture Patterns",
+          "url": "/patterns/monolith-vs-microservices/"
         }
       ]
+    },
+    {
+      "name": "About",
+      "url": "/about/"
     }
   ],
   "footer": {
     "community": {
-      "title": "Join Our Community",
+      "title": "Keep Studying",
       "links": [
         {
-          "name": "GitHub Discussions",
-          "url": "https://github.com/themefisher/dockit/discussions"
+          "name": "Interview Framework",
+          "url": "/fundamentals/interview-framework/"
         },
         {
-          "name": "Discord Community",
-          "url": "/"
+          "name": "Back-of-the-Envelope Estimation",
+          "url": "/fundamentals/estimation/"
         },
         {
-          "name": "Twitter Updates",
-          "url": "/"
+          "name": "CAP Theorem",
+          "url": "/fundamentals/cap-theorem/"
         },
         {
-          "name": "Contributing Guide",
-          "url": "/"
+          "name": "Consistent Hashing",
+          "url": "/scalability/consistent-hashing/"
         }
       ]
     },
@@ -50,49 +62,45 @@
       "title": "Helpful Links",
       "links": [
         {
-          "name": "Getting Started",
-          "url": "/"
+          "name": "Start Here",
+          "url": "/fundamentals/overview/"
+        },
+        {
+          "name": "About",
+          "url": "/about/"
         },
         {
           "name": "Privacy Policy",
-          "url": "/privacy-policy"
+          "url": "/privacy-policy/"
         },
         {
           "name": "Terms and Conditions",
-          "url": "/terms-conditions"
-        },
-        {
-          "name": "About Us",
-          "url": "/about"
-        },
-        {
-          "name": "Troubleshooting",
-          "url": "/"
+          "url": "/terms-conditions/"
         }
       ]
     },
     "company": {
-      "title": "Resources",
+      "title": "Core Topics",
       "links": [
         {
-          "name": "Documentation Hub",
-          "url": "/docs/"
+          "name": "Load Balancers",
+          "url": "/networking/load-balancers/"
         },
         {
-          "name": "Theme Gallery",
-          "url": "/"
+          "name": "Caching",
+          "url": "/data/caching/"
         },
         {
-          "name": "Best Practices",
-          "url": "/"
+          "name": "SQL vs NoSQL",
+          "url": "/data/sql-vs-nosql/"
         },
         {
-          "name": "Performance Tips",
-          "url": "/"
+          "name": "Microservices",
+          "url": "/patterns/monolith-vs-microservices/"
         },
         {
-          "name": "Migration Guide",
-          "url": "/"
+          "name": "Event-Driven Architecture",
+          "url": "/patterns/event-driven/"
         }
       ]
     }
