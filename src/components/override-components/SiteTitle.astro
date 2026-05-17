@@ -1,7 +1,7 @@
 ---
 import config from "@/config/config.json" assert { type: "json" };
 import ImageMod from "../ImageMod.astro";
-const { siteTitle, siteTitleHref } = Astro.locals.starlightRoute;
+const { siteTitleHref } = Astro.locals.starlightRoute;
 
 const { src, srcDarkmode }: { src?: string; srcDarkmode?: string } =
   Astro.props;
@@ -22,44 +22,62 @@ const {
   logo_text: string;
   title: string;
 } = config.site;
+
+const lightSrc = src || logo;
+const darkSrc = srcDarkmode || logo_darkmode;
+const hasMark = Boolean(lightSrc || darkSrc);
+const brandText = logo_text || title;
+const markWidth = Number(String(logo_width || "32").replace("px", ""));
+const markHeight = Number(String(logo_height || "32").replace("px", ""));
 ---
 
-<a href={siteTitleHref} class="navbar-brand inline-block">
+<a href={siteTitleHref} class="navbar-brand inline-flex items-center gap-2">
   {
-    src || srcDarkmode || logo || logo_darkmode ? (
+    hasMark && (
       <>
         <ImageMod
-          src={src ? src : logo}
-          class={`inline-block  ${theme_switcher && "dark:hidden"}`}
-          width={logo_width.replace("px", "") * 2}
-          height={logo_height.replace("px", "") * 2}
-          alt={title}
+          src={lightSrc}
+          class={`inline-block shrink-0 ${theme_switcher && darkSrc ? "dark:hidden" : ""}`}
+          width={markWidth * 2}
+          height={markHeight * 2}
+          alt={brandText}
           style={{
-            height: logo_height.replace("px", "") + "px",
-            width: logo_width.replace("px", "") + "px",
+            height: markHeight + "px",
+            width: markWidth + "px",
           }}
           format="webp"
         />
-
-        {theme_switcher && (
+        {theme_switcher && darkSrc && (
           <ImageMod
-            src={srcDarkmode ? srcDarkmode : logo_darkmode}
-            class={`hidden dark:inline-block`}
-            width={logo_width.replace("px", "") * 2}
-            height={logo_height.replace("px", "") * 2}
-            alt={title}
+            src={darkSrc}
+            class={`hidden dark:inline-block shrink-0`}
+            width={markWidth * 2}
+            height={markHeight * 2}
+            alt={brandText}
             style={{
-              height: logo_height.replace("px", "") + "px",
-              width: logo_width.replace("px", "") + "px",
+              height: markHeight + "px",
+              width: markWidth + "px",
             }}
             format="webp"
           />
         )}
       </>
-    ) : logo_text ? (
-      logo_text
-    ) : (
-      siteTitle || title
     )
-  }</a
->
+  }
+  {brandText && <span class="brand-text">{brandText}</span>}
+</a>
+
+<style>
+  .navbar-brand {
+    text-decoration: none;
+    color: inherit;
+    line-height: 1;
+  }
+  .brand-text {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--sl-color-white);
+    white-space: nowrap;
+  }
+</style>

@@ -16,6 +16,12 @@ const { title, logo, logo_darkmode } = site;
 
 export const locales = locals
 
+// Only pass a logo to Starlight when one is actually configured;
+// otherwise the overridden Header falls through to text (logo_text / title).
+const starlightLogo =
+  logo && logo_darkmode
+    ? { light: logo, dark: logo_darkmode, alt: `${title} Logo` }
+    : undefined;
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,11 +31,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title,
-      logo: {
-        light: logo,
-        dark: logo_darkmode,
-        alt: "DocKit Logo",
-      },
+      ...(starlightLogo ? { logo: starlightLogo } : {}),
       // @ts-ignore
       social: social.main || [],
       locales,

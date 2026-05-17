@@ -17,9 +17,9 @@ head:
 
 ## Introduction
 
-At DocKit, we are committed to protecting your privacy and ensuring the security of your personal information. This Terms & Conditions explains how we collect, use, disclose, and safeguard your information when you visit our documentation site and use our services.
+At System Design Study, we are committed to protecting your privacy and ensuring the security of your personal information. This Terms & Conditions explains how we collect, use, disclose, and safeguard your information when you visit our documentation site and use our services.
 
-By using DocKit, you consent to the data practices described in this policy.
+By using System Design Study, you consent to the data practices described in this policy.
 
 ## Information We Collect
 
@@ -206,11 +206,11 @@ Continued use of our services after changes take effect constitutes acceptance o
 
 If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:
 
-**Email:** privacy@dockit.dev  
+**Email:** stanley.s.lee@gmail.com  
 **Website:** [Contact Form](/contact)  
 **Address:** [Your Business Address]
 
-For data protection inquiries in the EU, you may also contact our Data Protection Officer at: dpo@dockit.dev
+For data protection inquiries in the EU, you may also contact our Data Protection Officer at: stanley.s.lee@gmail.com
 
 ## Compliance and Certifications
 

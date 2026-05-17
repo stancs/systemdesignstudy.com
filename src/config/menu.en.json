@@ -33,7 +33,18 @@
     },
     {
       "name": "About",
-      "url": "/about/"
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "About the Author",
+          "url": "/about/"
+        },
+        {
+          "name": "About This Site",
+          "url": "/about-this-site/"
+        }
+      ]
     }
   ],
   "footer": {
@@ -66,8 +77,12 @@
           "url": "/fundamentals/overview/"
         },
         {
-          "name": "About",
+          "name": "About the Author",
           "url": "/about/"
+        },
+        {
+          "name": "About This Site",
+          "url": "/about-this-site/"
         },
         {
           "name": "Privacy Policy",

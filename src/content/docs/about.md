@@ -1,43 +1,61 @@
 ---
-title: About System Design Study
+title: About the Author
+description: Stan Lee — Staff Software Engineer, technical lead, and author of System Design Study. A short introduction to who I am and why I built this site.
 template: splash
-lastUpdated: 2026-05-16
+lastUpdated: 2026-05-17
 head:
   - tag: style
     content: |
       .hero-bg { display: none !important; }
-      .content-panel { max-width: 70rem !important; margin: auto; padding:1.5rem 0px !important; }
+      .content-panel { max-width: 60rem !important; margin: auto; padding:1.5rem 0px !important; }
       #_top{
       text-align: center;
-      font-size: 4rem;
-      padding-bottom: 3rem;
+      font-size: 3rem;
+      padding-bottom: 2rem;
       }
 ---
 
+## Hi, I'm Stan Lee.
+
+I'm a Staff Software Engineer based in the Sacramento area of Northern California, with **over fifteen years of experience** building software across very different layers of the stack — from firmware that runs before the operating system to large-scale web platforms used by real customers every day. My career didn't follow a straight line, and that's exactly what shaped how I think about systems today.
+
+I started deep in **BIOS and UEFI firmware** at Dell, debugging engineering issues on servers, storage, and switches. From there I moved into **distributed system development**, then into **backend services**, and eventually into **full-stack web development** to work closer to products, users, and impact. That transition reshaped how I think about engineering: not just how things work, but why they matter.
+
+Today I work as a **Staff Software Engineer at [BILL](https://www.bill.com/)** in San Jose, leading frontend architecture and authentication/identity work for the company's Spend & Expense product line. Before BILL, I led GraphQL backend and federation work at **Rivian**, built secure conversational AI features at **Infinitus Systems**, designed authentication systems on AWS Cognito at **Kind Health**, and spent six years at **Dell** spanning firmware, hardware bring-up, and web development through their Enterprise Rotation Program.
+
+## How I think about software
+
+I've worked as a backend engineer, frontend engineer, and full-stack engineer, designing APIs, GraphQL platforms (including Federation), distributed systems, and user-facing applications. I've helped build enterprise-scale products, supported high-stakes launches, and worked across teams with very different constraints — from fast-moving startups to regulated industries.
+
+Along the way I've learned that good software engineering is less about chasing trends and more about **fundamentals**: clear thinking, solid abstractions, and an honest understanding of trade-offs. That bias toward fundamentals is what shaped this site.
+
 ## Why this site exists
 
-System design interviews are notoriously open-ended. There is no single "correct" answer, the prompts span everything from databases to networking to architecture, and the bar shifts depending on the company and level. Most candidates end up reading scattered blog posts, watching long videos, and still arriving at the whiteboard unsure of how to actually structure their thinking.
+System design interviews ask senior engineers to defend architectural decisions under time pressure — and most of the available material is either too shallow ("here are some buzzwords") or too sprawling (a 600-page book you'll never finish). I wanted a study companion that respected the reader's time: short enough to read in a sitting, dense enough to power a real whiteboard discussion, and *opinionated* enough to be useful. That's the bar I held every page on this site to.
 
-**System Design Study** is a focused, opinionated study companion. It is written for software engineers who already know how to build software and want a tight, repeatable mental model for the design loop.
+If you're preparing for a system design loop, I hope these notes save you time. If you find something wrong, unclear, or missing, please tell me — system design is a craft, and good craft only improves through feedback.
 
-## What you will find here
+## Where else I write
 
-Every page on this site is a self-contained study note. Each one is short enough to read in one sitting and dense enough to power a real whiteboard discussion. Pages are grouped into five tracks:
+I also publish at **[SWENG.dev](https://sweng.dev)**, where I write longer-form pieces on system design, backend and frontend engineering, architecture decisions, tooling, performance, and the less-discussed parts of the job — career transitions, technical debt, and how engineers grow over time. Lately I've also been exploring **AI and agent-based systems** there: not as a buzzword, but as another set of tools that senior engineers need to understand deeply to use responsibly.
 
-- **Fundamentals** — the interview framework itself, how to gather requirements, how to estimate scale, and the core trade-offs (CAP, consistency, latency vs throughput) you'll be expected to reason about.
-- **Networking & Delivery** — DNS, load balancers, API gateways, CDNs, and the application-layer protocols that connect distributed systems.
-- **Data & Storage** — SQL vs NoSQL, indexing, replication, sharding, caching, and message queues.
-- **Scalability & Reliability** — scaling strategies, consistent hashing, rate limiting, fault tolerance, and observability.
-- **Architecture Patterns** — monolith vs microservices, event-driven architecture, and how to pick the right shape for a problem.
+For Korean-speaking readers, I keep a separate blog at **[StanStory](https://stanstory.com)**.
 
-## How to use it
+## A few things about me
 
-If you are starting from scratch, read the **Overview** and **Interview Framework** in Fundamentals first, then work topic by topic through the sidebar. If you have an interview in a few days, skim every page once and re-read the deep-dive sections on whichever topics feel weakest.
+- **Location:** Rocklin, CA (USA)
+- **Education:** MS in Computer Science, Yale University · BBA, Seoul National University · BS in Electrical Engineering & Computer Science, KAIST
+- **Tools I reach for most:** TypeScript / JavaScript, Go, Node.js, React, Next.js, GraphQL (and Federation), PostgreSQL, MongoDB, DynamoDB, AWS, Kubernetes
+- **Outside of work:** family, piano, guitar, table tennis, and the occasional weekend side project
 
-Pair the reading with **mock interviews**. Notes alone won't teach you how to manage time, drive a conversation, or defend a design under pressure — only reps will. This site exists to make sure that when an interviewer asks "how would you scale this?", you already have the vocabulary and the trade-offs at your fingertips.
+## Get in touch
 
-## A note on opinions
+I'd love to hear from you — feedback on this site, questions about a topic, or just a hello.
 
-System design is full of decisions with no universally right answer. Where reasonable engineers disagree, this site picks an opinion and explains why, rather than listing every possible option without commentary. The goal is to give you a defensible mental model — not an exhaustive encyclopedia.
+- **Email:** [stanley.s.lee@gmail.com](mailto:stanley.s.lee@gmail.com)
+- **Personal site:** [stanlee.tech](https://www.stanlee.tech/)
+- **Blog:** [sweng.dev](https://sweng.dev)
+- **GitHub:** [@stancs](https://github.com/stancs)
+- **LinkedIn:** [stanlee-cs](https://www.linkedin.com/in/stanlee-cs)
 
-If you spot something wrong, outdated, or unclear, please open an issue or pull request. This site improves through the same feedback loop as good systems do.
+Thanks for stopping by. Hope you find something useful here. 🙏
