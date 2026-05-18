@@ -15,13 +15,15 @@ head:
       }
 ---
 
+![Stan Lee](public/about-stan.jpg)
+
 ## Hi, I'm Stan Lee.
 
-I'm a Staff Software Engineer based in the Sacramento area of Northern California, with **over fifteen years of experience** building software across very different layers of the stack — from firmware that runs before the operating system to large-scale web platforms used by real customers every day. My career didn't follow a straight line, and that's exactly what shaped how I think about systems today.
+I'm a Staff Software Engineer based in the Silicon Valley of Northern California, with **over fifteen years of experience** building software across very different layers of the stack — from firmware that runs before the operating system to large-scale web platforms used by real customers every day. My career didn't follow a straight line, and that's exactly what shaped how I think about systems today.
 
 I started deep in **BIOS and UEFI firmware** at Dell, debugging engineering issues on servers, storage, and switches. From there I moved into **distributed system development**, then into **backend services**, and eventually into **full-stack web development** to work closer to products, users, and impact. That transition reshaped how I think about engineering: not just how things work, but why they matter.
 
-Today I work as a **Staff Software Engineer at [BILL](https://www.bill.com/)** in San Jose, leading frontend architecture and authentication/identity work for the company's Spend & Expense product line. Before BILL, I led GraphQL backend and federation work at **Rivian**, built secure conversational AI features at **Infinitus Systems**, designed authentication systems on AWS Cognito at **Kind Health**, and spent six years at **Dell** spanning firmware, hardware bring-up, and web development through their Enterprise Rotation Program.
+Today I work as a **Staff Software Engineer at [BILL](https://www.bill.com/)** in San Jose, leading frontend architecture and authentication/identity work for the company's Spend & Expense product line. Before BILL, I led GraphQL backend and federation work at **Rivian**, built customer portal and conversational AI features at **Infinitus Systems**, designed authentication systems on AWS Cognito at **Kind Health**, and spent six years at **Dell** spanning firmware, hardware bring-up, and web development.
 
 ## How I think about software
 
@@ -53,9 +55,9 @@ For Korean-speaking readers, I keep a separate blog at **[StanStory](https://sta
 I'd love to hear from you — feedback on this site, questions about a topic, or just a hello.
 
 - **Email:** [stanley.s.lee@gmail.com](mailto:stanley.s.lee@gmail.com)
-- **Personal site:** [stanlee.tech](https://www.stanlee.tech/)
-- **Blog:** [sweng.dev](https://sweng.dev)
-- **GitHub:** [@stancs](https://github.com/stancs)
-- **LinkedIn:** [stanlee-cs](https://www.linkedin.com/in/stanlee-cs)
+- **Personal site:** [https://stanlee.tech](https://www.stanlee.tech/)
+- **Blog:** [https://sweng.dev](https://sweng.dev)
+- **GitHub:** [https://github.com/stancs](https://github.com/stancs)
+- **LinkedIn:** [https://www.linkedin.com/in/stanlee-cs](https://www.linkedin.com/in/stanlee-cs)
 
 Thanks for stopping by. Hope you find something useful here. 🙏
