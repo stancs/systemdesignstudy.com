@@ -9,9 +9,9 @@ hero:
   tagline: A focused study guide on the building blocks, trade-offs, and patterns that come up in every system design interview.
 ---
 
-import Section from "~/components/Section.astro";
-import Card from "~/components/user-components/NewCard.astro";
-import Grid from "~/components/user-components/Grid.astro";
+import Section from '~/components/Section.astro';
+import Card from '~/components/user-components/NewCard.astro';
+import Grid from '~/components/user-components/Grid.astro';
 
 <Section title="Study the patterns that actually <span class='light-text'>show up in interviews</span>" description="Each topic is written as a self-contained study note so you can drill the concepts that matter most.">
 
@@ -31,40 +31,8 @@ import Grid from "~/components/user-components/Grid.astro";
 </Grid>
 </Section>
 
-import HeroTabs from "~/components/HeroTabs.astro";
-import HeroTabsItem from "~/components/HeroTabsItem.astro";
-
-<Section
-  title="A repeatable approach <span class='light-text'>for any design question</span>"
-  description="Follow the same framework whether the prompt is a URL shortener, a chat app, or a global feed."
->
-  <HeroTabs>
-    <HeroTabsItem
-      title="Clarify requirements"
-      subtitle="Separate functional from non-functional and pin down the scale."
-      number={1}
-      image="/src/assets/step-1.png"
-      imageAlt="Step 1 image"
-    />
-    <HeroTabsItem
-      title="Sketch the architecture"
-      subtitle="Map clients, services, storage, and the data flow between them."
-      number={2}
-      image="/src/assets/step-2.png"
-      imageAlt="Step 2 image"
-    />
-    <HeroTabsItem
-      title="Deep dive & defend"
-      subtitle="Justify trade-offs around consistency, scale, and failure modes."
-      number={3}
-      image="/src/assets/step-3.png"
-      imageAlt="Step 3 image"
-    />
-  </HeroTabs>
-</Section>
-
-import ListCard from "~/components/user-components/ListCard.astro";
-import LinkButton from "~/components/LinkButton.astro";
+import ListCard from '~/components/user-components/ListCard.astro';
+import LinkButton from '~/components/LinkButton.astro';
 
 <Section title="Browse the study tracks <span class='light-text'>by category</span>" description="Every page is short enough to read in a sitting and dense enough to power a whiteboard discussion.">
 
@@ -111,11 +79,7 @@ import LinkButton from "~/components/LinkButton.astro";
 - [Fault Tolerance & Redundancy](/scalability/fault-tolerance/)
 - [Monitoring & Observability](/scalability/monitoring/)
 
-<LinkButton
-  href="/scalability/scaling/"
-  variant="text"
-  className="mt-6 mb-8 ml-4"
->
+<LinkButton href="/scalability/scaling/" variant="text" className="mt-6 mb-8 ml-4">
   Scale with confidence
 </LinkButton>
 
@@ -126,11 +90,7 @@ import LinkButton from "~/components/LinkButton.astro";
 - [Monolith vs Microservices](/patterns/monolith-vs-microservices/)
 - [Event-Driven Architecture](/patterns/event-driven/)
 
-<LinkButton
-  href="/patterns/monolith-vs-microservices/"
-  variant="text"
-  className="mt-6 mb-8 ml-4"
->
+<LinkButton href="/patterns/monolith-vs-microservices/" variant="text" className="mt-6 mb-8 ml-4">
   Learn the patterns
 </LinkButton>
 
@@ -140,8 +100,8 @@ import LinkButton from "~/components/LinkButton.astro";
 
 </Section>
 
-import AccordionContainer from "~/components/AccordionContainer.astro";
-import Accordion from "~/components/Accordion.astro";
+import AccordionContainer from '~/components/AccordionContainer.astro';
+import Accordion from '~/components/Accordion.astro';
 
 <Section
   title="Common questions <span class='light-text'>from candidates</span>"
