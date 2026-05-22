@@ -95,10 +95,15 @@ The most common rookie mistake is using a single short TTL everywhere "to be saf
 When you do need to invalidate before TTL expiry — say you pushed a bad version of `index.html` — the CDN gives you a **purge** API. Purges are slow (seconds to minutes), expensive at scale, and generally rate-limited. Prefer URL versioning over purging.
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Multi-tier cache TTL: browser, edge, regional shield, origin" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="tier-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The cache tiers (each level has its own TTL)</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
     <rect x="20" y="60" width="140" height="80" rx="10"/>
-    <rect x="180" y="60" width="140" height="80" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="180" y="60" width="140" height="80" rx="10" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
     <rect x="340" y="60" width="140" height="80" rx="10"/>
     <rect x="500" y="60" width="120" height="80" rx="10"/>
   </g>
@@ -116,15 +121,10 @@ When you do need to invalidate before TTL expiry — say you pushed a bad versio
     <text x="560" y="108" font-size="11">DB / S3</text>
     <text x="560" y="124" font-size="11">truth</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
+  <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#tier-arrow)">
     <path d="M160 100 H180"/>
     <path d="M320 100 H340"/>
     <path d="M480 100 H500"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="176,98 182,100 176,102"/>
-    <polygon points="336,98 342,100 336,102"/>
-    <polygon points="496,98 502,100 496,102"/>
   </g>
   <text x="320" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Most requests stop at the browser or edge. Each upstream hop is rarer and more expensive.</text>
   <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Content-hashed URLs (app.7f3a.js) can safely use max-age=31536000, immutable.</text>
