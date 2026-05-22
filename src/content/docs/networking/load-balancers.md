@@ -220,22 +220,6 @@ A typical, defensible diagram looks like this:
 </svg>
 
 
-```
-[Client]
-   |
-   v
-[DNS / Anycast IP]
-   |
-   v
-[Edge L4 LB]   (TLS pass-through or termination, DDoS)
-   |
-   v
-[L7 LB / API gateway]   (routing, auth, rate limiting)
-   |
-   v
-[App servers]
-```
-
 For internal service-to-service traffic, you'll often have a second tier of L7 LBs (or a service mesh sidecar) inside the cluster. The same principles apply.
 
 ## Common interview deep dives

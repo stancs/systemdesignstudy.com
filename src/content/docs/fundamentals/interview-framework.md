@@ -145,16 +145,6 @@ Now you draw boxes. A reasonable starting template:
 </svg>
 
 
-```
-[Client] -> [Load Balancer] -> [App Servers]
-                                     |
-                +--------+----------+---------+
-                |        |          |         |
-            [Cache]  [Database] [Queue]   [Object Store]
-                                  |
-                            [Workers]
-```
-
 Walk through a write and a read end-to-end. Name the technology you'd pick at each box and one reason ("Postgres because we need transactions on follow relationships; Redis for the timeline cache because it supports sorted sets natively").
 
 Pitfall: prematurely sharding, queueing, or microservicing. Start simple, then justify each piece of complexity by pointing back to your estimation numbers.
