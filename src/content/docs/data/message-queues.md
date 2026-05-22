@@ -129,10 +129,15 @@ Even if your queue claims exactly-once, build idempotency. Network is unreliable
 **Retries.** When processing fails, the message goes back on the queue (or its visibility timeout expires and it reappears). Standard practice: **exponential backoff with jitter** between retries to avoid thundering herds. After N failures, give up and route the message to a dead-letter queue.
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="retry-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Retry pipeline with backoff and DLQ</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
     <rect x="20" y="60" width="110" height="50" rx="8"/>
-    <rect x="170" y="60" width="110" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="170" y="60" width="110" height="50" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
     <rect x="320" y="60" width="110" height="50" rx="8"/>
     <rect x="470" y="60" width="140" height="50" rx="8"/>
   </g>
@@ -146,19 +151,13 @@ Even if your queue claims exactly-once, build idempotency. Network is unreliable
     <text x="540" y="82" font-weight="600">DLQ</text>
     <text x="540" y="100" font-size="11">after N tries</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
+  <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#retry-arrow)">
     <path d="M130 85 H170"/>
     <path d="M280 85 H320"/>
     <path d="M430 85 H470"/>
-    <path d="M375 110 V145 H225 V110"/>
+    <path d="M375 110 V148 H225 V110"/>
   </g>
-  <g fill="currentColor">
-    <polygon points="166,83 172,85 166,87"/>
-    <polygon points="316,83 322,85 316,87"/>
-    <polygon points="466,83 472,85 466,87"/>
-    <polygon points="221,114 225,108 229,114"/>
-  </g>
-  <text x="375" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">1s → 2s → 4s (with jitter)</text>
+  <text x="375" y="172" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">1s → 2s → 4s (with jitter)</text>
   <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">DLQ depth is a paging metric. Never let it grow silently.</text>
 </svg>
 
