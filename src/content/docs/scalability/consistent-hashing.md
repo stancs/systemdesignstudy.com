@@ -21,47 +21,56 @@ Remove a server (one dies). Same disaster in reverse: ~80% of keys move, the sur
 
 This is the entire reason consistent hashing exists.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="The consistent hash ring with three servers and several keys" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 315" role="img" aria-label="The consistent hash ring with three servers and several keys" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The hash ring</text>
-  <circle cx="320" cy="170" r="110" fill="none" stroke="currentColor" stroke-width="2"/>
-  <g fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2">
-    <circle cx="320" cy="60" r="11"/>
-    <circle cx="415" cy="225" r="11"/>
-    <circle cx="225" cy="225" r="11"/>
+
+  <!-- Region arcs: each server owns the arc ending at its dot (clockwise) -->
+  <!-- Server A region: C(150°)→A(270°) CW = left/upper-left arc -->
+  <path d="M225,225 A110,110 0 0,1 320,60"  stroke="#6090E0" stroke-width="10" fill="none" opacity="0.28"/>
+  <!-- Server B region: A(270°)→B(30°) CW = upper-right arc -->
+  <path d="M320,60  A110,110 0 0,1 415,225" stroke="#4FAD72" stroke-width="10" fill="none" opacity="0.28"/>
+  <!-- Server C region: B(30°)→C(150°) CW = lower arc -->
+  <path d="M415,225 A110,110 0 0,1 225,225" stroke="#E08840" stroke-width="10" fill="none" opacity="0.28"/>
+
+  <!-- Ring outline -->
+  <circle cx="320" cy="170" r="110" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+
+  <!-- Server nodes -->
+  <circle cx="320" cy="60"  r="11" fill="#6090E0"/>
+  <circle cx="415" cy="225" r="11" fill="#4FAD72"/>
+  <circle cx="225" cy="225" r="11" fill="#E08840"/>
+
+  <!-- Server labels -->
+  <g fill="currentColor" font-size="12" font-weight="600">
+    <text x="320" y="44"  text-anchor="middle">Server A</text>
+    <text x="430" y="229" text-anchor="start">Server B</text>
+    <text x="210" y="229" text-anchor="end">Server C</text>
   </g>
-  <g fill="currentColor" font-size="12" text-anchor="middle">
-    <text x="320" y="48">Server A</text>
-    <text x="438" y="232">Server B</text>
-    <text x="202" y="232">Server C</text>
+
+  <!-- Key dots on ring — color = assigned server -->
+  <!-- Server B keys: k1(-65°), k2(-40°), k3(-10°) on A→B upper-right arc -->
+  <circle cx="367" cy="70"  r="5" fill="#4FAD72"/>
+  <circle cx="404" cy="99"  r="5" fill="#4FAD72"/>
+  <circle cx="428" cy="151" r="5" fill="#4FAD72"/>
+  <!-- Server C keys: k4(55°), k5(105°) on B→C lower arc -->
+  <circle cx="383" cy="260" r="5" fill="#E08840"/>
+  <circle cx="291" cy="276" r="5" fill="#E08840"/>
+  <!-- Server A keys: k6(175°), k7(220°) on C→A left arc -->
+  <circle cx="210" cy="180" r="5" fill="#6090E0"/>
+  <circle cx="236" cy="99"  r="5" fill="#6090E0"/>
+
+  <!-- Key labels -->
+  <g font-size="11" fill="currentColor">
+    <text x="374" y="54"  text-anchor="start">k1</text>
+    <text x="417" y="89"  text-anchor="start">k2</text>
+    <text x="442" y="148" text-anchor="start">k3</text>
+    <text x="391" y="273" text-anchor="start">k4</text>
+    <text x="285" y="291" text-anchor="middle">k5</text>
+    <text x="195" y="181" text-anchor="end">k6</text>
+    <text x="224" y="89"  text-anchor="end">k7</text>
   </g>
-  <g fill="currentColor">
-    <circle cx="377" cy="80" r="4"/>
-    <circle cx="400" cy="100" r="4"/>
-    <circle cx="420" cy="150" r="4"/>
-    <circle cx="382" cy="240" r="4"/>
-    <circle cx="305" cy="265" r="4"/>
-    <circle cx="240" cy="180" r="4"/>
-    <circle cx="248" cy="115" r="4"/>
-  </g>
-  <g fill="currentColor" font-size="11" opacity="0.9">
-    <text x="385" y="76">k1</text>
-    <text x="410" y="96">k2</text>
-    <text x="430" y="146">k3</text>
-    <text x="390" y="245">k4</text>
-    <text x="313" y="280">k5</text>
-    <text x="225" y="183">k6</text>
-    <text x="233" y="110">k7</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="3 3" opacity="0.6">
-    <path d="M377 80 L320 60"/>
-    <path d="M400 100 L320 60"/>
-    <path d="M420 150 L415 225"/>
-    <path d="M382 240 L415 225"/>
-    <path d="M305 265 L225 225"/>
-    <path d="M240 180 L225 225"/>
-    <path d="M248 115 L320 60"/>
-  </g>
-  <text x="320" y="305" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">A key belongs to the first server clockwise from its hash position.</text>
+
+  <text x="320" y="308" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">A key belongs to the first server clockwise from its hash position. Key color = assigned server.</text>
 </svg>
 
 ## The core idea
