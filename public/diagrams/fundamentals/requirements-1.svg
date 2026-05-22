@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Functional and non-functional requirements side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.4 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Two layers of requirements</text>
+  <g transform="translate(20,45)">
+    <rect width="290" height="215" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Functional</text>
+    <text x="145" y="46" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">what the system does</text>
+    <g fill="currentColor" font-size="12">
+      <text x="20" y="80">• Users post messages</text>
+      <text x="20" y="105">• Users follow other users</text>
+      <text x="20" y="130">• Users see a feed</text>
+      <text x="20" y="155">• Users upload media</text>
+      <text x="20" y="180">• Users get notifications</text>
+    </g>
+    <text x="145" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">User-visible features</text>
+  </g>
+  <g transform="translate(330,45)">
+    <rect width="290" height="215" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2"/>
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Non-functional</text>
+    <text x="145" y="46" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">how it behaves</text>
+    <g fill="currentColor" font-size="12">
+      <text x="20" y="80">• Scale: 100M DAU, 50k QPS</text>
+      <text x="20" y="105">• Latency: p99 &lt; 200 ms</text>
+      <text x="20" y="130">• Availability: 99.95%</text>
+      <text x="20" y="155">• Consistency: read-your-writes</text>
+      <text x="20" y="180">• Cost &amp; regulatory limits</text>
+    </g>
+    <text x="145" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Drives every architectural choice</text>
+  </g>
+</svg>

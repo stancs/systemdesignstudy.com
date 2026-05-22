@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Protocol comparison: payload size, streaming, direction" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The five protocols at a glance</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="120" height="160" rx="10"/>
+    <rect x="150" y="50" width="120" height="160" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect x="280" y="50" width="120" height="160" rx="10"/>
+    <rect x="410" y="50" width="120" height="160" rx="10"/>
+    <rect x="540" y="50" width="80" height="160" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="80" y="75" font-weight="700">REST</text>
+    <text x="80" y="95" font-size="11">HTTP + JSON</text>
+    <text x="80" y="115" font-size="11">cacheable</text>
+    <text x="80" y="135" font-size="11">verbose</text>
+    <text x="80" y="155" font-size="11" opacity="0.8">public API</text>
+    <text x="80" y="190" font-size="11" font-weight="600" opacity="0.85">→ default</text>
+    <text x="210" y="75" font-weight="700">gRPC</text>
+    <text x="210" y="95" font-size="11">HTTP/2 + protobuf</text>
+    <text x="210" y="115" font-size="11">streaming</text>
+    <text x="210" y="135" font-size="11">5–10× smaller</text>
+    <text x="210" y="155" font-size="11" opacity="0.8">internal</text>
+    <text x="210" y="190" font-size="11" font-weight="600" opacity="0.85">→ service-to-service</text>
+    <text x="340" y="75" font-weight="700">GraphQL</text>
+    <text x="340" y="95" font-size="11">flexible queries</text>
+    <text x="340" y="115" font-size="11">strong schema</text>
+    <text x="340" y="135" font-size="11">cache-tricky</text>
+    <text x="340" y="155" font-size="11" opacity="0.8">multi-client UI</text>
+    <text x="340" y="190" font-size="11" font-weight="600" opacity="0.85">→ varied clients</text>
+    <text x="470" y="75" font-weight="700">WebSocket</text>
+    <text x="470" y="95" font-size="11">bidirectional</text>
+    <text x="470" y="115" font-size="11">long-lived TCP</text>
+    <text x="470" y="135" font-size="11">stateful</text>
+    <text x="470" y="155" font-size="11" opacity="0.8">chat / games</text>
+    <text x="470" y="190" font-size="11" font-weight="600" opacity="0.85">→ real-time both-ways</text>
+    <text x="580" y="75" font-weight="700">SSE</text>
+    <text x="580" y="95" font-size="11">HTTP stream</text>
+    <text x="580" y="115" font-size="11">server→client</text>
+    <text x="580" y="135" font-size="11">simple</text>
+    <text x="580" y="155" font-size="11" opacity="0.8">notifications</text>
+    <text x="580" y="190" font-size="11" font-weight="600" opacity="0.85">→ push only</text>
+  </g>
+</svg>

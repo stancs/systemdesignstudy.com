@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Monolith vs modular monolith vs microservices, three architectures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Three architectures on one axis of decoupling</text>
+  <g transform="translate(20,45)">
+    <rect width="190" height="220" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Monolith</text>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="45" width="150" height="140" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="95" y="70">users · orders</text>
+      <text x="95" y="90">payments · auth</text>
+      <text x="95" y="110">search · feed</text>
+      <text x="95" y="160" opacity="0.75">one deployable</text>
+      <text x="95" y="176" opacity="0.75">one DB</text>
+    </g>
+    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">simple, hard to split later</text>
+  </g>
+  <g transform="translate(225,45)">
+    <rect width="190" height="220" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Modular monolith</text>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="45" width="150" height="140" rx="6"/>
+      <rect x="30" y="55" width="60" height="25" rx="4"/>
+      <rect x="100" y="55" width="60" height="25" rx="4"/>
+      <rect x="30" y="90" width="60" height="25" rx="4"/>
+      <rect x="100" y="90" width="60" height="25" rx="4"/>
+      <rect x="30" y="125" width="60" height="25" rx="4"/>
+      <rect x="100" y="125" width="60" height="25" rx="4"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="10">
+      <text x="60" y="72">users</text>
+      <text x="130" y="72">orders</text>
+      <text x="60" y="107">payments</text>
+      <text x="130" y="107">auth</text>
+      <text x="60" y="142">search</text>
+      <text x="130" y="142">feed</text>
+      <text x="95" y="175" opacity="0.75">strict boundaries</text>
+    </g>
+    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">most teams' best default</text>
+  </g>
+  <g transform="translate(430,45)">
+    <rect width="190" height="220" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Microservices</text>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="50" width="50" height="35" rx="4"/>
+      <rect x="80" y="50" width="50" height="35" rx="4"/>
+      <rect x="140" y="50" width="50" height="35" rx="4"/>
+      <rect x="20" y="100" width="50" height="35" rx="4"/>
+      <rect x="80" y="100" width="50" height="35" rx="4"/>
+      <rect x="140" y="100" width="50" height="35" rx="4"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="10">
+      <text x="45" y="72">users</text>
+      <text x="105" y="72">orders</text>
+      <text x="165" y="72">pay</text>
+      <text x="45" y="122">auth</text>
+      <text x="105" y="122">search</text>
+      <text x="165" y="122">feed</text>
+      <text x="95" y="160" opacity="0.75">own DB each</text>
+      <text x="95" y="176" opacity="0.75">deploy independently</text>
+    </g>
+    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">scales teams, taxes ops</text>
+  </g>
+</svg>

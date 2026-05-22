@@ -5,35 +5,7 @@ description: How to scope a system design problem the way senior engineers do �
 
 A system design interview is won or lost in the first ten minutes. Candidates who launch into solutions without clarifying the problem end up designing something the interviewer didn't ask for, then have to backtrack when the constraints they assumed turn out to be wrong. Candidates who scope carefully look senior even when their downstream design is average.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Functional and non-functional requirements side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.4 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Two layers of requirements</text>
-  <g transform="translate(20,45)">
-    <rect width="290" height="215" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Functional</text>
-    <text x="145" y="46" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">what the system does</text>
-    <g fill="currentColor" font-size="12">
-      <text x="20" y="80">• Users post messages</text>
-      <text x="20" y="105">• Users follow other users</text>
-      <text x="20" y="130">• Users see a feed</text>
-      <text x="20" y="155">• Users upload media</text>
-      <text x="20" y="180">• Users get notifications</text>
-    </g>
-    <text x="145" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">User-visible features</text>
-  </g>
-  <g transform="translate(330,45)">
-    <rect width="290" height="215" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Non-functional</text>
-    <text x="145" y="46" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">how it behaves</text>
-    <g fill="currentColor" font-size="12">
-      <text x="20" y="80">• Scale: 100M DAU, 50k QPS</text>
-      <text x="20" y="105">• Latency: p99 &lt; 200 ms</text>
-      <text x="20" y="130">• Availability: 99.95%</text>
-      <text x="20" y="155">• Consistency: read-your-writes</text>
-      <text x="20" y="180">• Cost &amp; regulatory limits</text>
-    </g>
-    <text x="145" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Drives every architectural choice</text>
-  </g>
-</svg>
+<img src="/diagrams/fundamentals/requirements-1.svg" alt="Functional and non-functional requirements side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## Functional vs non-functional
 
@@ -113,32 +85,7 @@ If you remember one thing from this page, remember: **explicitly name the consis
 
 Most real systems are a *mix*: strong for some endpoints, eventual for others. Call that mix out loud during requirements. The [CAP Theorem](/fundamentals/cap-theorem/) page goes deeper.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Consistency spectrum from strong to eventual" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The consistency spectrum</text>
-  <line x1="40" y1="100" x2="600" y2="100" stroke="currentColor" stroke-width="2"/>
-  <g stroke="currentColor" stroke-width="2" fill="currentColor">
-    <line x1="80" y1="93" x2="80" y2="107"/>
-    <line x1="270" y1="93" x2="270" y2="107"/>
-    <line x1="450" y1="93" x2="450" y2="107"/>
-    <line x1="580" y1="93" x2="580" y2="107"/>
-  </g>
-  <g text-anchor="middle" fill="currentColor">
-    <text x="80" y="80" font-weight="600">Strong</text>
-    <text x="80" y="130" font-size="12">money,</text>
-    <text x="80" y="146" font-size="12">inventory</text>
-    <text x="270" y="80" font-weight="600">Read-your-writes</text>
-    <text x="270" y="130" font-size="12">user-generated</text>
-    <text x="270" y="146" font-size="12">content</text>
-    <text x="450" y="80" font-weight="600">Causal</text>
-    <text x="450" y="130" font-size="12">chat, collab</text>
-    <text x="450" y="146" font-size="12">editing</text>
-    <text x="580" y="80" font-weight="600">Eventual</text>
-    <text x="580" y="130" font-size="12">view counts,</text>
-    <text x="580" y="146" font-size="12">feeds</text>
-  </g>
-  <text x="40" y="180" fill="currentColor" font-size="11" opacity="0.7">slower, simpler to reason about</text>
-  <text x="600" y="180" text-anchor="end" fill="currentColor" font-size="11" opacity="0.7">faster, harder to reason about</text>
-</svg>
+<img src="/diagrams/fundamentals/requirements-2.svg" alt="Consistency spectrum from strong to eventual" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## What to explicitly defer
 

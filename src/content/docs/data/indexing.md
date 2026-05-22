@@ -5,82 +5,7 @@ description: How indexes work, why B-trees and LSM-trees dominate, when indexes 
 
 An index is a separate data structure the database maintains so that queries don't have to scan an entire table. Without indexes, a `WHERE user_id = 42` on a billion-row table reads a billion rows. With the right index it reads two or three pages from disk. That difference — six or seven orders of magnitude — is why indexes deserve their own mental model rather than being a vague "make queries fast" handwave.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="B-tree vs LSM-tree index structures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">B-tree vs LSM-tree</text>
-  <g transform="translate(20,40)">
-    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">B-tree (Postgres, MySQL)</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="115" y="20" width="60" height="28" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="30" y="80" width="60" height="28" rx="6"/>
-      <rect x="115" y="80" width="60" height="28" rx="6"/>
-      <rect x="200" y="80" width="60" height="28" rx="6"/>
-      <rect x="0" y="140" width="50" height="28" rx="6"/>
-      <rect x="60" y="140" width="50" height="28" rx="6"/>
-      <rect x="120" y="140" width="50" height="28" rx="6"/>
-      <rect x="180" y="140" width="50" height="28" rx="6"/>
-      <rect x="240" y="140" width="50" height="28" rx="6"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="145" y="39">root</text>
-      <text x="60" y="98">10..</text>
-      <text x="145" y="98">..50..</text>
-      <text x="230" y="98">..99</text>
-      <text x="25" y="158">1-9</text>
-      <text x="85" y="158">10-49</text>
-      <text x="145" y="158">50-69</text>
-      <text x="205" y="158">70-89</text>
-      <text x="265" y="158">90-99</text>
-    </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M145 48 V60 H60 V80"/>
-      <path d="M145 48 V60 H145 V80"/>
-      <path d="M145 48 V60 H230 V80"/>
-      <path d="M60 108 V120 H25 V140"/>
-      <path d="M60 108 V120 H85 V140"/>
-      <path d="M145 108 V120 H145 V140"/>
-      <path d="M230 108 V120 H205 V140"/>
-      <path d="M230 108 V120 H265 V140"/>
-    </g>
-    <g font-size="11" fill="currentColor" opacity="0.85">
-      <text x="0" y="200">• ordered, balanced</text>
-      <text x="0" y="216">• fast point + range</text>
-      <text x="0" y="232">• read-friendly</text>
-      <text x="0" y="248">• writes rebalance tree</text>
-    </g>
-  </g>
-  <g transform="translate(340,40)">
-    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">LSM-tree (Cassandra, RocksDB)</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="100" y="20" width="90" height="28" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="40" y="70" width="60" height="22" rx="4"/>
-      <rect x="110" y="70" width="60" height="22" rx="4"/>
-      <rect x="180" y="70" width="60" height="22" rx="4"/>
-      <rect x="60" y="110" width="80" height="22" rx="4"/>
-      <rect x="160" y="110" width="80" height="22" rx="4"/>
-      <rect x="80" y="150" width="140" height="22" rx="4"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="145" y="38">memtable (RAM)</text>
-      <text x="70" y="85">L0 SST</text>
-      <text x="140" y="85">L0 SST</text>
-      <text x="210" y="85">L0 SST</text>
-      <text x="100" y="125">L1 SST</text>
-      <text x="200" y="125">L1 SST</text>
-      <text x="150" y="165">L2 SST</text>
-    </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M145 48 V70" stroke-dasharray="3 3"/>
-      <path d="M145 92 V110" stroke-dasharray="3 3"/>
-      <path d="M150 132 V150" stroke-dasharray="3 3"/>
-    </g>
-    <g font-size="11" fill="currentColor" opacity="0.85">
-      <text x="0" y="200">• append-only writes</text>
-      <text x="0" y="216">• background compaction</text>
-      <text x="0" y="232">• write-friendly</text>
-      <text x="0" y="248">• reads check many files</text>
-    </g>
-  </g>
-</svg>
+<img src="/diagrams/data/indexing-1.svg" alt="B-tree vs LSM-tree index structures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## The two index structures that matter
 
@@ -114,25 +39,7 @@ Consequence: secondary indexes are not free. Each one adds disk space and slows 
 - **Inverted index.** A mapping from each term to the documents containing it. The core data structure inside search engines (Elasticsearch, Lucene). Worth knowing if the prompt involves text search.
 - **Geospatial index.** R-tree, geohash, or quadtree-based. Required for "what's near me?" queries.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Composite index on (country, city, zip) and which queries it serves" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Composite index on (country, city, zip)</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="40" y="50" width="120" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="180" y="50" width="120" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="320" y="50" width="120" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="100" y="74" font-weight="700">country</text>
-    <text x="240" y="74" font-weight="700">city</text>
-    <text x="380" y="74" font-weight="700">zip</text>
-  </g>
-  <g font-size="12" fill="currentColor">
-    <text x="40" y="130">✓ WHERE country = 'US'</text>
-    <text x="40" y="152">✓ WHERE country = 'US' AND city = 'SF'</text>
-    <text x="40" y="174">✓ WHERE country = 'US' AND city = 'SF' AND zip = '94107'</text>
-    <text x="40" y="200" fill="var(--sl-color-accent,#3b82f6)">✗ WHERE city = 'SF'  — leading column missing → index unused</text>
-  </g>
-</svg>
+<img src="/diagrams/data/indexing-2.svg" alt="Composite index on (country, city, zip) and which queries it serves" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## Cardinality and selectivity
 

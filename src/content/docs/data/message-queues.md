@@ -7,75 +7,7 @@ A message queue (or stream) is the way distributed systems do asynchronous, deco
 
 Almost every non-trivial system design has at least one queue or stream in it. Knowing the difference between them — and what guarantees you actually get — is one of the highest-yield areas to study.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Queue: one consumer per message vs Stream: many independent consumers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <defs>
-    <marker id="qs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Queue vs stream</text>
-
-  <!-- Queue panel -->
-  <g transform="translate(0,44)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Queue — one consumer per message</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="16" y="20" width="56" height="42" rx="6"/>
-      <rect x="100" y="20" width="98" height="42" rx="6" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
-      <rect x="240" y="5"  width="66" height="26" rx="6"/>
-      <rect x="240" y="37" width="66" height="26" rx="6"/>
-      <rect x="240" y="69" width="66" height="26" rx="6"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="44"  y="45">Pub</text>
-      <text x="149" y="45" font-weight="600">Queue</text>
-      <text x="273" y="23">Worker</text>
-      <text x="273" y="55">Worker</text>
-      <text x="273" y="87">Worker</text>
-    </g>
-    <!-- Pub → Queue -->
-    <path d="M72 41 H100" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)"/>
-    <!-- Queue → bracket (one arrow into pool) -->
-    <path d="M198 41 H235" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)"/>
-    <!-- Bracket: vertical line + ticks to each worker -->
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M235 18 V82"/>
-      <path d="M235 18 H240"/>
-      <path d="M235 50 H240"/>
-      <path d="M235 82 H240"/>
-    </g>
-    <text x="160" y="122" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Each message goes to one worker.</text>
-    <text x="160" y="140" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Examples — SQS, RabbitMQ</text>
-  </g>
-
-  <!-- Stream panel -->
-  <g transform="translate(320,44)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Stream — many independent consumers</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="16" y="20" width="56" height="42" rx="6"/>
-      <rect x="100" y="20" width="98" height="42" rx="6" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
-      <rect x="240" y="5"  width="66" height="26" rx="6"/>
-      <rect x="240" y="37" width="66" height="26" rx="6"/>
-      <rect x="240" y="69" width="66" height="26" rx="6"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="44"  y="45">Pub</text>
-      <text x="149" y="45" font-weight="600">Stream</text>
-      <text x="273" y="23">Sub A</text>
-      <text x="273" y="55">Sub B</text>
-      <text x="273" y="87">Sub C</text>
-    </g>
-    <!-- Pub → Stream -->
-    <path d="M72 41 H100" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)"/>
-    <!-- Stream → each sub (fan-out) -->
-    <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)">
-      <path d="M198 41 L240 18"/>
-      <path d="M198 41 L240 50"/>
-      <path d="M198 41 L240 82"/>
-    </g>
-    <text x="160" y="122" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Every consumer reads every message.</text>
-    <text x="160" y="140" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Examples — Kafka, Kinesis</text>
-  </g>
-</svg>
+<img src="/diagrams/data/message-queues-1.svg" alt="Queue: one consumer per message vs Stream: many independent consumers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## Queue vs stream
 
@@ -128,38 +60,7 @@ Even if your queue claims exactly-once, build idempotency. Network is unreliable
 
 **Retries.** When processing fails, the message goes back on the queue (or its visibility timeout expires and it reappears). Standard practice: **exponential backoff with jitter** between retries to avoid thundering herds. After N failures, give up and route the message to a dead-letter queue.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <defs>
-    <marker id="retry-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Retry pipeline with backoff and DLQ</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="60" width="110" height="50" rx="8"/>
-    <rect x="170" y="60" width="110" height="50" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
-    <rect x="320" y="60" width="110" height="50" rx="8"/>
-    <rect x="470" y="60" width="140" height="50" rx="8"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="75" y="82" font-weight="600">Queue</text>
-    <text x="75" y="100" font-size="11">message</text>
-    <text x="225" y="82" font-weight="600">Consumer</text>
-    <text x="225" y="100" font-size="11">idempotent</text>
-    <text x="375" y="82" font-weight="600">Fail?</text>
-    <text x="375" y="100" font-size="11">backoff retry</text>
-    <text x="540" y="82" font-weight="600">DLQ</text>
-    <text x="540" y="100" font-size="11">after N tries</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#retry-arrow)">
-    <path d="M130 85 H170"/>
-    <path d="M280 85 H320"/>
-    <path d="M430 85 H470"/>
-    <path d="M375 110 V148 H225 V110"/>
-  </g>
-  <text x="375" y="172" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">1s → 2s → 4s (with jitter)</text>
-  <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">DLQ depth is a paging metric. Never let it grow silently.</text>
-</svg>
+<img src="/diagrams/data/message-queues-2.svg" alt="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 **Dead-letter queue (DLQ).** A holding area for messages that couldn't be processed. Critical for debugging: instead of looping forever or silently dropping them, they go somewhere you can inspect. Always have a DLQ. Always alert on DLQ depth.
 

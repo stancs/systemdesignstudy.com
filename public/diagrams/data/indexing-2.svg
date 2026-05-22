@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Composite index on (country, city, zip) and which queries it serves" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Composite index on (country, city, zip)</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="40" y="50" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect x="180" y="50" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect x="320" y="50" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="100" y="74" font-weight="700">country</text>
+    <text x="240" y="74" font-weight="700">city</text>
+    <text x="380" y="74" font-weight="700">zip</text>
+  </g>
+  <g font-size="12" fill="currentColor">
+    <text x="40" y="130">✓ WHERE country = 'US'</text>
+    <text x="40" y="152">✓ WHERE country = 'US' AND city = 'SF'</text>
+    <text x="40" y="174">✓ WHERE country = 'US' AND city = 'SF' AND zip = '94107'</text>
+    <text x="40" y="200" fill="currentColor">✗ WHERE city = 'SF'  — leading column missing → index unused</text>
+  </g>
+</svg>

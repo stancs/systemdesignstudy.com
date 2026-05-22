@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="The five study tracks of this site" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The five study tracks</text>
+  <g transform="translate(250,40)">
+    <rect width="140" height="50" rx="10" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="30" text-anchor="middle" fill="currentColor" font-weight="700">Fundamentals</text>
+  </g>
+  <g transform="translate(20,140)">
+    <rect width="140" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Networking</text>
+    <text x="70" y="40" text-anchor="middle" fill="currentColor" font-weight="700">&amp; Delivery</text>
+  </g>
+  <g transform="translate(180,140)">
+    <rect width="140" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Data</text>
+    <text x="70" y="40" text-anchor="middle" fill="currentColor" font-weight="700">&amp; Storage</text>
+  </g>
+  <g transform="translate(340,140)">
+    <rect width="140" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Scalability</text>
+    <text x="70" y="40" text-anchor="middle" fill="currentColor" font-weight="700">&amp; Reliability</text>
+  </g>
+  <g transform="translate(500,140)">
+    <rect width="120" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="60" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Architecture</text>
+    <text x="60" y="40" text-anchor="middle" fill="currentColor" font-weight="700">Patterns</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M320 90 V120 H90 V140"/>
+    <path d="M320 90 V120 H250 V140"/>
+    <path d="M320 90 V120 H410 V140"/>
+    <path d="M320 90 V120 H560 V140"/>
+  </g>
+  <text x="320" y="228" text-anchor="middle" fill="currentColor" font-size="12" opacity="0.8">Read top to bottom: foundations first, components next, scaling and patterns last.</text>
+</svg>

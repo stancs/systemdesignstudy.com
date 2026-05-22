@@ -11,46 +11,7 @@ A client (browser, mobile app, another service) wants a resource. It opens a con
 
 The key idea is that the system is **fundamentally pull-based**: the client initiates and the server responds. Notifications, websockets, and server-sent events bend this rule but don't break it — the connection is still established by the client.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="DNS resolution chain from browser to authoritative nameserver" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <defs>
-    <marker id="dns-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <text x="340" y="22" text-anchor="middle" fill="currentColor" font-weight="600">A DNS lookup, end to end</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="80" width="100" height="50" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)" stroke-width="2"/>
-    <rect x="150" y="80" width="100" height="50" rx="8"/>
-    <rect x="280" y="80" width="100" height="50" rx="8"/>
-    <rect x="410" y="80" width="100" height="50" rx="8"/>
-    <rect x="540" y="80" width="120" height="50" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)" stroke-width="2"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="70" y="100" font-weight="600">Client</text>
-    <text x="70" y="118" font-size="11">browser + OS</text>
-    <text x="200" y="100" font-weight="600">Recursive</text>
-    <text x="200" y="118" font-size="11">resolver</text>
-    <text x="330" y="100" font-weight="600">Root</text>
-    <text x="330" y="118" font-size="11">NS</text>
-    <text x="460" y="100" font-weight="600">TLD</text>
-    <text x="460" y="118" font-size="11">NS (.com)</text>
-    <text x="600" y="100" font-weight="600">Authoritative</text>
-    <text x="600" y="118" font-size="11">example.com</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#dns-arrow)">
-    <path d="M122 105 H148"/>
-    <path d="M252 105 H278"/>
-    <path d="M382 105 H408"/>
-    <path d="M512 105 H538"/>
-  </g>
-  <g font-size="11" fill="currentColor" opacity="0.8" text-anchor="middle">
-    <text x="135" y="155">1. cache miss</text>
-    <text x="265" y="155">2. ask root</text>
-    <text x="395" y="155">3. ask .com</text>
-    <text x="525" y="155">4. ask zone</text>
-  </g>
-  <text x="340" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Each layer caches by TTL — most lookups stop at the recursive resolver.</text>
-</svg>
+<img src="/diagrams/networking/dns-1.svg" alt="DNS resolution chain from browser to authoritative nameserver" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## DNS, end to end
 
@@ -88,58 +49,7 @@ For modern, performant setups you'll also encounter:
 
 A modern global service almost certainly fronts its edge with **Anycast**. The same IP address is advertised from multiple datacenters; routers send each packet to the *closest* advertiser by BGP. The client doesn't know there are dozens of edge nodes — it sees one IP.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288" role="img" aria-label="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <defs>
-    <marker id="any-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">Anycast: one IP, many points of presence</text>
-
-  <g fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2">
-    <rect x="20" y="58" width="134" height="46" rx="10"/>
-    <rect x="174" y="58" width="134" height="46" rx="10"/>
-    <rect x="332" y="58" width="134" height="46" rx="10"/>
-    <rect x="486" y="58" width="134" height="46" rx="10"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle" font-size="12.5">
-    <text x="87" y="86">User in SF</text>
-    <text x="241" y="86">User in London</text>
-    <text x="399" y="86">User in Tokyo</text>
-    <text x="553" y="86">User in São Paulo</text>
-  </g>
-
-  <g stroke="currentColor" stroke-width="2" fill="none">
-    <path d="M87 104 V160" marker-end="url(#any-ah)"/>
-    <path d="M241 104 V160" marker-end="url(#any-ah)"/>
-    <path d="M399 104 V160" marker-end="url(#any-ah)"/>
-    <path d="M553 104 V160" marker-end="url(#any-ah)"/>
-  </g>
-
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="164" width="134" height="62" rx="10"/>
-    <rect x="174" y="164" width="134" height="62" rx="10"/>
-    <rect x="332" y="164" width="134" height="62" rx="10"/>
-    <rect x="486" y="164" width="134" height="62" rx="10"/>
-  </g>
-  <g text-anchor="middle">
-    <g fill="currentColor" font-weight="600" font-size="12.5">
-      <text x="87" y="190">POP · US-West</text>
-      <text x="241" y="190">POP · Europe</text>
-      <text x="399" y="190">POP · Asia</text>
-      <text x="553" y="190">POP · S. America</text>
-    </g>
-    <g fill="var(--sl-color-accent,#3b82f6)" font-weight="700" font-size="13" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">
-      <text x="87" y="212">203.0.113.7</text>
-      <text x="241" y="212">203.0.113.7</text>
-      <text x="399" y="212">203.0.113.7</text>
-      <text x="553" y="212">203.0.113.7</text>
-    </g>
-  </g>
-
-  <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">Every POP advertises the identical IP — BGP delivers each user's packets to the closest one.</text>
-  <text x="320" y="274" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">"One IP" quietly resolves to four different datacenters.</text>
-</svg>
+<img src="/diagrams/networking/dns-2.svg" alt="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 Anycast is the technique behind 1.1.1.1, every major CDN, and most global load balancers. Two consequences worth mentioning in an interview:
 

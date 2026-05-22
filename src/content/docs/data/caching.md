@@ -5,47 +5,7 @@ description: Cache topologies, read and write patterns (cache-aside, read-throug
 
 A cache is a smaller, faster store that sits in front of a slower, larger one. Caches make slow systems feel fast and large systems feel cheap. They also introduce a second copy of your data, which means a second source of bugs. Designing the cache well is one of the most common deep-dive topics in system design interviews.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The chain of caches between user and origin" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Caches at every layer (close to far)</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="10" y="60" width="90" height="50" rx="8"/>
-    <rect x="115" y="60" width="90" height="50" rx="8"/>
-    <rect x="220" y="60" width="90" height="50" rx="8"/>
-    <rect x="325" y="60" width="90" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="430" y="60" width="100" height="50" rx="8"/>
-    <rect x="545" y="60" width="85" height="50" rx="8"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="55" y="78" font-weight="600">Browser</text>
-    <text x="55" y="96" font-size="10">µs</text>
-    <text x="160" y="78" font-weight="600">CDN edge</text>
-    <text x="160" y="96" font-size="10">~30 ms</text>
-    <text x="265" y="78" font-weight="600">Reverse</text>
-    <text x="265" y="96" font-size="10">proxy</text>
-    <text x="370" y="78" font-weight="600">App-local</text>
-    <text x="370" y="96" font-size="10">µs (RAM)</text>
-    <text x="480" y="78" font-weight="600">Redis /</text>
-    <text x="480" y="96" font-size="10">Memcached</text>
-    <text x="587" y="78" font-weight="600">DB cache</text>
-    <text x="587" y="96" font-size="10">buffer pool</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M100 85 H115"/>
-    <path d="M205 85 H220"/>
-    <path d="M310 85 H325"/>
-    <path d="M415 85 H430"/>
-    <path d="M530 85 H545"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="111,83 117,85 111,87"/>
-    <polygon points="216,83 222,85 216,87"/>
-    <polygon points="321,83 327,85 321,87"/>
-    <polygon points="426,83 432,85 426,87"/>
-    <polygon points="541,83 547,85 541,87"/>
-  </g>
-  <text x="320" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Each level is bigger and slower than the one before it.</text>
-  <text x="320" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">"We cache" only means something when you say <tspan font-style="italic">which</tspan> cache.</text>
-</svg>
+<img src="/diagrams/data/caching-1.svg" alt="The chain of caches between user and origin" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## Where caches live
 
@@ -64,54 +24,7 @@ A single read may pass through several of these. Each level is bigger and slower
 
 When the app server needs data, four patterns describe how the cache interacts with the underlying store.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Cache-aside flow: app checks cache, falls through to database on miss, then populates the cache" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <defs>
-    <marker id="ca-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">Cache-aside: the read path</text>
-
-  <path d="M191 116 C 191 58, 572 58, 572 116" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ca-arrow)"/>
-  <text x="381" y="52" text-anchor="middle" fill="currentColor" font-size="11">cache hit — return immediately, skip steps 3–5</text>
-
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="12" y="116" width="104" height="78" rx="8"/>
-    <rect x="139" y="116" width="104" height="78" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="266" y="116" width="104" height="78" rx="8"/>
-    <rect x="393" y="116" width="104" height="78" rx="8"/>
-    <rect x="520" y="116" width="104" height="78" rx="8"/>
-  </g>
-
-  <g fill="currentColor" text-anchor="middle">
-    <text x="64" y="150" font-weight="600">App</text>
-    <text x="64" y="170" font-size="11">needs user:42</text>
-    <text x="191" y="150" font-weight="600">Check cache</text>
-    <text x="191" y="170" font-size="11">Redis</text>
-    <text x="318" y="150" font-weight="600">Read database</text>
-    <text x="318" y="170" font-size="11">Postgres</text>
-    <text x="445" y="150" font-weight="600">Write to cache</text>
-    <text x="445" y="170" font-size="11">populate</text>
-    <text x="572" y="150" font-weight="600">Return value</text>
-    <text x="572" y="170" font-size="11">to caller</text>
-  </g>
-
-  <g stroke="currentColor" stroke-width="2" fill="none">
-    <path d="M116 155 H137" marker-end="url(#ca-arrow)"/>
-    <path d="M243 155 H264" marker-end="url(#ca-arrow)"/>
-    <path d="M370 155 H391" marker-end="url(#ca-arrow)"/>
-    <path d="M497 155 H518" marker-end="url(#ca-arrow)"/>
-  </g>
-
-  <g fill="currentColor" text-anchor="middle" font-size="11">
-    <text x="64" y="210">1</text>
-    <text x="191" y="210">2</text>
-    <text x="318" y="210">3 · on miss</text>
-    <text x="445" y="210">4</text>
-    <text x="572" y="210">5</text>
-  </g>
-  <text x="320" y="238" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">The app owns the logic — the cache never talks to the database itself.</text>
-</svg>
+<img src="/diagrams/data/caching-2.svg" alt="Cache-aside flow: app checks cache, falls through to database on miss, then populates the cache" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ### Cache-aside (lazy loading)
 
@@ -190,74 +103,7 @@ Always say what you expect the hit rate to be and what happens at miss — your 
 
 ## Failure modes you must mention
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Thundering herd on cache expiry, before and after request coalescing" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <defs>
-    <marker id="th-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Thundering herd, with and without coalescing</text>
-
-  <!-- No coalescing -->
-  <g transform="translate(10,44)">
-    <text x="150" y="0" text-anchor="middle" fill="currentColor" font-weight="600">No coalescing</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="20" y="15" width="60" height="30" rx="6"/>
-      <rect x="20" y="53" width="60" height="30" rx="6"/>
-      <rect x="20" y="91" width="60" height="30" rx="6"/>
-      <rect x="20" y="129" width="60" height="30" rx="6"/>
-      <rect x="200" y="15" width="80" height="144" rx="10" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="50" y="35">req</text>
-      <text x="50" y="73">req</text>
-      <text x="50" y="111">req</text>
-      <text x="50" y="149">req</text>
-      <text x="240" y="93" font-weight="600" font-size="13">Origin</text>
-    </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#th-arrow)">
-      <path d="M80 30 H200"/>
-      <path d="M80 68 H200"/>
-      <path d="M80 106 H200"/>
-      <path d="M80 144 H200"/>
-    </g>
-    <text x="150" y="188" text-anchor="middle" fill="var(--sl-color-accent)" font-size="11">All N misses hit origin simultaneously.</text>
-  </g>
-
-  <!-- With coalescing -->
-  <g transform="translate(320,44)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">With coalescing</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="10" y="15" width="60" height="30" rx="6"/>
-      <rect x="10" y="53" width="60" height="30" rx="6"/>
-      <rect x="10" y="91" width="60" height="30" rx="6"/>
-      <rect x="10" y="129" width="60" height="30" rx="6"/>
-      <rect x="120" y="72" width="70" height="30" rx="8"/>
-      <rect x="240" y="72" width="80" height="30" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="40" y="35">req</text>
-      <text x="40" y="73">req</text>
-      <text x="40" y="111">req</text>
-      <text x="40" y="149">req</text>
-      <text x="155" y="92" font-weight="600">Cache</text>
-      <text x="280" y="92" font-weight="600">Origin</text>
-    </g>
-    <!-- Fan-in bracket -->
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M70 30 H92"/>
-      <path d="M70 68 H92"/>
-      <path d="M70 106 H92"/>
-      <path d="M70 144 H92"/>
-      <path d="M92 30 V144"/>
-    </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#th-arrow)">
-      <path d="M92 87 H120"/>
-      <path d="M190 87 H240"/>
-    </g>
-    <text x="160" y="188" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">One origin fetch — others wait for it.</text>
-  </g>
-</svg>
+<img src="/diagrams/data/caching-3.svg" alt="Thundering herd on cache expiry, before and after request coalescing" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 **Cache stampede / thundering herd.** A hot key expires and a thousand concurrent requests all miss simultaneously. They all hit the origin, which falls over. Mitigations: **request coalescing** (one origin fetch per unique key, others wait), **probabilistic early expiration** (refresh slightly before TTL), or **never-expire + background refresh** for the hottest keys.
 

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Sync queries on critical path; async events for fan-out side effects" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Sync for queries, async for fan-out</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="100" width="80" height="40" rx="8"/>
+    <rect x="140" y="100" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect x="300" y="100" width="120" height="40" rx="8"/>
+    <rect x="460" y="50" width="160" height="35" rx="8"/>
+    <rect x="460" y="100" width="160" height="35" rx="8"/>
+    <rect x="460" y="150" width="160" height="35" rx="8"/>
+    <rect x="460" y="200" width="160" height="35" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="60" y="125">Client</text>
+    <text x="200" y="120" font-weight="600">Orders svc</text>
+    <text x="200" y="136" font-size="11">sync write</text>
+    <text x="360" y="120" font-weight="600">Event bus</text>
+    <text x="360" y="136" font-size="11">Kafka</text>
+    <text x="540" y="72">Inventory</text>
+    <text x="540" y="122">Payments</text>
+    <text x="540" y="172">Fulfillment</text>
+    <text x="540" y="222">Analytics</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M100 120 H140"/>
+    <path d="M260 120 H300"/>
+    <path d="M420 120 L460 67"/>
+    <path d="M420 120 L460 117"/>
+    <path d="M420 120 L460 167"/>
+    <path d="M420 120 L460 217"/>
+  </g>
+  <g fill="currentColor">
+    <polygon points="136,118 142,120 136,122"/>
+    <polygon points="296,118 302,120 296,122"/>
+    <polygon points="456,69 462,67 462,73"/>
+    <polygon points="456,119 462,117 462,123"/>
+    <polygon points="456,169 462,167 462,173"/>
+    <polygon points="456,219 462,217 462,223"/>
+  </g>
+  <text x="320" y="252" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Client gets a fast sync response; downstream side effects happen asynchronously.</text>
+</svg>

@@ -28,43 +28,7 @@ Design for these as certainties, not edge cases.
 
 **Recovery.** Automated where possible (autoscaling replacement, leader re-election), manual where required. Time-to-recover is what matters; everything is broken eventually.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Active-active vs active-passive redundancy" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Active-active vs active-passive</text>
-  <g transform="translate(0,45)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Active-active</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="40" y="40" width="80" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="200" y="40" width="80" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="40" y="110" width="80" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="200" y="110" width="80" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="12">
-      <text x="80" y="68" font-weight="600">Instance</text>
-      <text x="80" y="83" font-size="10">~25% load</text>
-      <text x="240" y="68" font-weight="600">Instance</text>
-      <text x="240" y="83" font-size="10">~25% load</text>
-      <text x="80" y="138" font-weight="600">Instance</text>
-      <text x="80" y="153" font-size="10">~25% load</text>
-      <text x="240" y="138" font-weight="600">Instance</text>
-      <text x="240" y="153" font-size="10">~25% load</text>
-    </g>
-    <text x="160" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Lose one → 33% remaining capacity.</text>
-  </g>
-  <g transform="translate(320,45)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Active-passive</text>
-    <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="120" y="40" width="80" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="120" y="110" width="80" height="50" rx="8" stroke-dasharray="4 3" opacity="0.6"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="12">
-      <text x="160" y="68" font-weight="600">Primary</text>
-      <text x="160" y="83" font-size="10">100% traffic</text>
-      <text x="160" y="138" font-weight="600">Standby</text>
-      <text x="160" y="153" font-size="10">idle, ready</text>
-    </g>
-    <text x="160" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Lose primary → flip; brief outage.</text>
-  </g>
-</svg>
+<img src="/diagrams/scalability/fault-tolerance-1.svg" alt="Active-active vs active-passive redundancy" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## Redundancy patterns
 
@@ -84,41 +48,7 @@ Stopping a localized failure from becoming a global one is half the battle.
 
 **Bulkheads.** Borrowed from ship design — partition resources so a flood in one compartment doesn't sink the ship. In software: separate thread pools, connection pools, or even servers per dependency. If the payment API stalls, only the threads dedicated to payment stall; everything else keeps moving.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Circuit breaker state machine: closed, open, half-open" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Circuit breaker states</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="40" y="80" width="140" height="60" rx="10"/>
-    <rect x="250" y="80" width="140" height="60" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="460" y="80" width="140" height="60" rx="10"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="110" y="105" font-weight="700">Closed</text>
-    <text x="110" y="125" font-size="11">all calls pass</text>
-    <text x="320" y="105" font-weight="700">Open</text>
-    <text x="320" y="125" font-size="11">fail fast</text>
-    <text x="530" y="105" font-weight="700">Half-open</text>
-    <text x="530" y="125" font-size="11">trickle through</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M180 110 H250"/>
-    <path d="M390 110 H460"/>
-    <path d="M460 130 V160 H110 V140"/>
-    <path d="M530 140 V170 H320 V140"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="246,108 252,110 246,112"/>
-    <polygon points="456,108 462,110 456,112"/>
-    <polygon points="108,144 110,138 112,144"/>
-    <polygon points="318,144 320,138 322,144"/>
-  </g>
-  <g font-size="11" fill="currentColor" opacity="0.85">
-    <text x="215" y="100">errors &gt; threshold</text>
-    <text x="395" y="100">timeout elapsed</text>
-    <text x="200" y="180">trial fails → reopen</text>
-    <text x="370" y="180">trial succeeds → close</text>
-  </g>
-  <text x="320" y="225" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Stops a failing dependency from being buried in retries.</text>
-</svg>
+<img src="/diagrams/scalability/fault-tolerance-2.svg" alt="Circuit breaker state machine: closed, open, half-open" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 **Circuit breakers.** When calls to a downstream service start failing, *stop calling it* for a period. Three states: closed (normal), open (failing fast for everyone), half-open (testing recovery with a trickle). Prevents the dying service from being completely buried in retries. Hystrix popularized the pattern; resilience4j and Polly are modern implementations.
 

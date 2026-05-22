@@ -7,70 +7,7 @@ The "should we use microservices?" question has been beaten to death and back, b
 
 The short version: **monoliths are usually the right starting point**, and microservices are a response to specific scaling pains (organizational and technical) that you should be able to name. Reaching for microservices first because "they scale" is the canonical junior mistake.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Monolith vs modular monolith vs microservices, three architectures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Three architectures on one axis of decoupling</text>
-  <g transform="translate(20,45)">
-    <rect width="190" height="220" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Monolith</text>
-    <g fill="none" stroke="currentColor" stroke-width="1.5">
-      <rect x="20" y="45" width="150" height="140" rx="6"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="95" y="70">users · orders</text>
-      <text x="95" y="90">payments · auth</text>
-      <text x="95" y="110">search · feed</text>
-      <text x="95" y="160" opacity="0.75">one deployable</text>
-      <text x="95" y="176" opacity="0.75">one DB</text>
-    </g>
-    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">simple, hard to split later</text>
-  </g>
-  <g transform="translate(225,45)">
-    <rect width="190" height="220" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Modular monolith</text>
-    <g fill="none" stroke="currentColor" stroke-width="1.5">
-      <rect x="20" y="45" width="150" height="140" rx="6"/>
-      <rect x="30" y="55" width="60" height="25" rx="4"/>
-      <rect x="100" y="55" width="60" height="25" rx="4"/>
-      <rect x="30" y="90" width="60" height="25" rx="4"/>
-      <rect x="100" y="90" width="60" height="25" rx="4"/>
-      <rect x="30" y="125" width="60" height="25" rx="4"/>
-      <rect x="100" y="125" width="60" height="25" rx="4"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="10">
-      <text x="60" y="72">users</text>
-      <text x="130" y="72">orders</text>
-      <text x="60" y="107">payments</text>
-      <text x="130" y="107">auth</text>
-      <text x="60" y="142">search</text>
-      <text x="130" y="142">feed</text>
-      <text x="95" y="175" opacity="0.75">strict boundaries</text>
-    </g>
-    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">most teams' best default</text>
-  </g>
-  <g transform="translate(430,45)">
-    <rect width="190" height="220" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Microservices</text>
-    <g fill="none" stroke="currentColor" stroke-width="1.5">
-      <rect x="20" y="50" width="50" height="35" rx="4"/>
-      <rect x="80" y="50" width="50" height="35" rx="4"/>
-      <rect x="140" y="50" width="50" height="35" rx="4"/>
-      <rect x="20" y="100" width="50" height="35" rx="4"/>
-      <rect x="80" y="100" width="50" height="35" rx="4"/>
-      <rect x="140" y="100" width="50" height="35" rx="4"/>
-    </g>
-    <g fill="currentColor" text-anchor="middle" font-size="10">
-      <text x="45" y="72">users</text>
-      <text x="105" y="72">orders</text>
-      <text x="165" y="72">pay</text>
-      <text x="45" y="122">auth</text>
-      <text x="105" y="122">search</text>
-      <text x="165" y="122">feed</text>
-      <text x="95" y="160" opacity="0.75">own DB each</text>
-      <text x="95" y="176" opacity="0.75">deploy independently</text>
-    </g>
-    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">scales teams, taxes ops</text>
-  </g>
-</svg>
+<img src="/diagrams/patterns/monolith-vs-microservices-1.svg" alt="Monolith vs modular monolith vs microservices, three architectures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## What each thing actually is
 
@@ -145,46 +82,7 @@ Once you do have multiple services, two ways they talk:
 
 A useful rule: **synchronous for queries, asynchronous for things downstream services do in reaction.** The request-path stays simple; the fan-out work happens off the critical path.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Sync queries on critical path; async events for fan-out side effects" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Sync for queries, async for fan-out</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="100" width="80" height="40" rx="8"/>
-    <rect x="140" y="100" width="120" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="300" y="100" width="120" height="40" rx="8"/>
-    <rect x="460" y="50" width="160" height="35" rx="8"/>
-    <rect x="460" y="100" width="160" height="35" rx="8"/>
-    <rect x="460" y="150" width="160" height="35" rx="8"/>
-    <rect x="460" y="200" width="160" height="35" rx="8"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="60" y="125">Client</text>
-    <text x="200" y="120" font-weight="600">Orders svc</text>
-    <text x="200" y="136" font-size="11">sync write</text>
-    <text x="360" y="120" font-weight="600">Event bus</text>
-    <text x="360" y="136" font-size="11">Kafka</text>
-    <text x="540" y="72">Inventory</text>
-    <text x="540" y="122">Payments</text>
-    <text x="540" y="172">Fulfillment</text>
-    <text x="540" y="222">Analytics</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M100 120 H140"/>
-    <path d="M260 120 H300"/>
-    <path d="M420 120 L460 67"/>
-    <path d="M420 120 L460 117"/>
-    <path d="M420 120 L460 167"/>
-    <path d="M420 120 L460 217"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="136,118 142,120 136,122"/>
-    <polygon points="296,118 302,120 296,122"/>
-    <polygon points="456,69 462,67 462,73"/>
-    <polygon points="456,119 462,117 462,123"/>
-    <polygon points="456,169 462,167 462,173"/>
-    <polygon points="456,219 462,217 462,223"/>
-  </g>
-  <text x="320" y="252" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Client gets a fast sync response; downstream side effects happen asynchronously.</text>
-</svg>
+<img src="/diagrams/patterns/monolith-vs-microservices-2.svg" alt="Sync queries on critical path; async events for fan-out side effects" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## Data ownership
 

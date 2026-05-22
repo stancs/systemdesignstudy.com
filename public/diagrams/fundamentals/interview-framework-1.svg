@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 168" role="img" aria-label="The seven steps of a system design interview" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="340" y="20" text-anchor="middle" fill="currentColor" font-weight="600">The seven-step framework</text>
+  <line x1="50" y1="84" x2="630" y2="84" stroke="currentColor" stroke-width="2"/>
+  <g font-size="11">
+    <g transform="translate(50,84)">
+      <circle r="15" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">1</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Clarify</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
+    </g>
+    <g transform="translate(147,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">2</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Estimate</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">3 min</text>
+    </g>
+    <g transform="translate(243,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">3</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">API</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">3 min</text>
+    </g>
+    <g transform="translate(340,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">4</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Architecture</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">8 min</text>
+    </g>
+    <g transform="translate(437,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">5</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Data model</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
+    </g>
+    <g transform="translate(533,84)">
+      <circle r="15" fill="currentColor" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">6</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Deep dives</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">15 min</text>
+    </g>
+    <g transform="translate(630,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">7</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Wrap up</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
+    </g>
+  </g>
+  <text x="340" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Steps 1 and 6 (highlighted) are where points are most often won.</text>
+</svg>

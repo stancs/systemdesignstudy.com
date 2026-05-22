@@ -15,49 +15,7 @@ The terms get conflated, so let's separate them.
 
 Most teams have basic monitoring (dashboards, alerts). Fewer have real observability. In an interview, "we'll have monitoring" is a checkbox; "we'll instrument enough to debug unknown unknowns" is the senior version.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" role="img" aria-label="Metrics, logs, and traces — the three pillars of observability" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">The three pillars</text>
-  <g transform="translate(20,44)">
-    <rect width="190" height="206" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Metrics</text>
-    <polyline points="20,108 40,96 60,101 80,80 100,86 120,64 140,70 160,50 170,58" stroke="currentColor" stroke-width="1.5" fill="none"/>
-    <g fill="currentColor" font-size="11">
-      <text x="20" y="146">numbers over time</text>
-      <text x="20" y="166">cheap, alertable</text>
-      <text x="20" y="186">quantitative</text>
-    </g>
-  </g>
-  <g transform="translate(225,44)">
-    <rect width="190" height="206" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Logs</text>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <line x1="20" y1="62" x2="170" y2="62"/>
-      <line x1="20" y1="78" x2="170" y2="78"/>
-      <line x1="20" y1="94" x2="170" y2="94"/>
-      <line x1="20" y1="110" x2="170" y2="110"/>
-    </g>
-    <g fill="currentColor" font-size="11">
-      <text x="20" y="146">timestamped events</text>
-      <text x="20" y="166">structured fields</text>
-      <text x="20" y="186">qualitative</text>
-    </g>
-  </g>
-  <g transform="translate(430,44)">
-    <rect width="190" height="206" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Traces</text>
-    <g fill="currentColor" opacity="0.5">
-      <rect x="20" y="54" width="150" height="12" rx="3"/>
-      <rect x="30" y="71" width="105" height="12" rx="3"/>
-      <rect x="44" y="88" width="48" height="12" rx="3"/>
-      <rect x="100" y="88" width="30" height="12" rx="3"/>
-    </g>
-    <g fill="currentColor" font-size="11">
-      <text x="20" y="146">request waterfall</text>
-      <text x="20" y="166">across services</text>
-      <text x="20" y="186">latency analysis</text>
-    </g>
-  </g>
-</svg>
+<img src="/diagrams/scalability/monitoring-1.svg" alt="Metrics, logs, and traces — the three pillars of observability" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## The three pillars
 
@@ -71,35 +29,7 @@ The conventional framing — useful even if a little reductive.
 
 Modern best practice is to instrument with **OpenTelemetry** (vendor-neutral SDKs and protocols) and ship to whichever backends you prefer. Mentioning OpenTelemetry is enough to signal currency.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The four golden signals: latency, traffic, errors, saturation" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The four golden signals</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="50" width="140" height="170" rx="10"/>
-    <rect x="170" y="50" width="140" height="170" rx="10"/>
-    <rect x="320" y="50" width="140" height="170" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="470" y="50" width="150" height="170" rx="10"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="90" y="78" font-weight="700">Latency</text>
-    <text x="90" y="98" font-size="11">how long</text>
-    <text x="90" y="116" font-size="11">p50 / p95 / p99</text>
-    <text x="240" y="78" font-weight="700">Traffic</text>
-    <text x="240" y="98" font-size="11">how many</text>
-    <text x="240" y="116" font-size="11">req / sec</text>
-    <text x="390" y="78" font-weight="700">Errors</text>
-    <text x="390" y="98" font-size="11">fraction failing</text>
-    <text x="390" y="116" font-size="11">by status code</text>
-    <text x="545" y="78" font-weight="700">Saturation</text>
-    <text x="545" y="98" font-size="11">how full</text>
-    <text x="545" y="116" font-size="11">CPU, queue, pool</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <polyline points="40,180 60,170 80,175 100,165 120,160 140,155" stroke-width="2"/>
-    <polyline points="190,180 210,170 230,165 250,150 270,160 290,140" stroke-width="2"/>
-    <polyline points="340,180 360,175 380,170 400,180 420,150 440,140" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <polyline points="490,190 510,185 530,180 550,170 570,160 600,155" stroke-width="2"/>
-  </g>
-</svg>
+<img src="/diagrams/scalability/monitoring-2.svg" alt="The four golden signals: latency, traffic, errors, saturation" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## The four golden signals
 

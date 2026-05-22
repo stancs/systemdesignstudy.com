@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The four golden signals: latency, traffic, errors, saturation" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The four golden signals</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="140" height="170" rx="10"/>
+    <rect x="170" y="50" width="140" height="170" rx="10"/>
+    <rect x="320" y="50" width="140" height="170" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect x="470" y="50" width="150" height="170" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="90" y="78" font-weight="700">Latency</text>
+    <text x="90" y="98" font-size="11">how long</text>
+    <text x="90" y="116" font-size="11">p50 / p95 / p99</text>
+    <text x="240" y="78" font-weight="700">Traffic</text>
+    <text x="240" y="98" font-size="11">how many</text>
+    <text x="240" y="116" font-size="11">req / sec</text>
+    <text x="390" y="78" font-weight="700">Errors</text>
+    <text x="390" y="98" font-size="11">fraction failing</text>
+    <text x="390" y="116" font-size="11">by status code</text>
+    <text x="545" y="78" font-weight="700">Saturation</text>
+    <text x="545" y="98" font-size="11">how full</text>
+    <text x="545" y="116" font-size="11">CPU, queue, pool</text>
+  </g>
+  <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <polyline points="40,180 60,170 80,175 100,165 120,160 140,155" stroke-width="2"/>
+    <polyline points="190,180 210,170 230,165 250,150 270,160 290,140" stroke-width="2"/>
+    <polyline points="340,180 360,175 380,170 400,180 420,150 440,140" stroke="currentColor" stroke-width="2"/>
+    <polyline points="490,190 510,185 530,180 550,170 570,160 600,155" stroke-width="2"/>
+  </g>
+</svg>

@@ -5,53 +5,7 @@ description: A pragmatic comparison of relational and non-relational databases �
 
 The "SQL vs NoSQL" question is unavoidable in system design interviews, and most candidates answer it badly — usually by mentioning "scale" without specifying what scale means or why one side of the divide handles it better. The honest version is: relational and non-relational databases solve different problems, and modern systems often use both.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="A relational model with rows, columns, and a join" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">SQL: structured rows joined by keys</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="50" width="220" height="170" rx="8"/>
-    <rect x="400" y="50" width="220" height="170" rx="8"/>
-  </g>
-  <g fill="currentColor">
-    <text x="130" y="74" text-anchor="middle" font-weight="700">users</text>
-    <text x="510" y="74" text-anchor="middle" font-weight="700">orders</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <line x1="30" y1="90" x2="230" y2="90"/>
-    <line x1="100" y1="90" x2="100" y2="215"/>
-    <line x1="170" y1="90" x2="170" y2="215"/>
-    <line x1="410" y1="90" x2="610" y2="90"/>
-    <line x1="470" y1="90" x2="470" y2="215"/>
-    <line x1="540" y1="90" x2="540" y2="215"/>
-  </g>
-  <g fill="currentColor" font-size="11">
-    <text x="35" y="106">id</text>
-    <text x="105" y="106">email</text>
-    <text x="175" y="106">name</text>
-    <text x="35" y="130">1</text>
-    <text x="105" y="130">a@x</text>
-    <text x="175" y="130">Ann</text>
-    <text x="35" y="154">2</text>
-    <text x="105" y="154">b@x</text>
-    <text x="175" y="154">Bob</text>
-    <text x="35" y="178">3</text>
-    <text x="105" y="178">c@x</text>
-    <text x="175" y="178">Cleo</text>
-    <text x="415" y="106">id</text>
-    <text x="475" y="106">user_id</text>
-    <text x="545" y="106">total</text>
-    <text x="415" y="130">11</text>
-    <text x="475" y="130">2</text>
-    <text x="545" y="130">$19</text>
-    <text x="415" y="154">12</text>
-    <text x="475" y="154">1</text>
-    <text x="545" y="154">$48</text>
-    <text x="415" y="178">13</text>
-    <text x="475" y="178">2</text>
-    <text x="545" y="178">$5</text>
-  </g>
-  <path d="M240 130 H400" fill="none" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2" stroke-dasharray="5 4"/>
-  <text x="320" y="124" text-anchor="middle" fill="var(--sl-color-accent,#3b82f6)" font-weight="600" font-size="11">JOIN on user_id</text>
-</svg>
+<img src="/diagrams/data/sql-vs-nosql-1.svg" alt="A relational model with rows, columns, and a join" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## What "SQL" really means
 
@@ -72,65 +26,7 @@ What it costs:
 
 ## What "NoSQL" really means
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="The four NoSQL data models with example shapes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The four NoSQL data models</text>
-  <g transform="translate(20,45)">
-    <rect width="140" height="210" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="70" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Key-value</text>
-    <text x="70" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Redis · DynamoDB</text>
-    <g fill="currentColor" font-size="11">
-      <text x="14" y="74">"user:42" → {…}</text>
-      <text x="14" y="96">"sess:x9" → {…}</text>
-      <text x="14" y="118">"cart:7" → […]</text>
-    </g>
-    <text x="70" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">O(1) lookups</text>
-    <text x="70" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">no joins</text>
-  </g>
-  <g transform="translate(170,45)">
-    <rect width="140" height="210" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text x="70" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Document</text>
-    <text x="70" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">MongoDB · Firestore</text>
-    <g fill="currentColor" font-size="11">
-      <text x="14" y="70">{ "id":1,</text>
-      <text x="14" y="86">  "name":"Ann",</text>
-      <text x="14" y="102">  "tags":[…],</text>
-      <text x="14" y="118">  "addr":{…} }</text>
-    </g>
-    <text x="70" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">flexible schema</text>
-    <text x="70" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">field queries</text>
-  </g>
-  <g transform="translate(320,45)">
-    <rect width="140" height="210" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="70" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Wide-column</text>
-    <text x="70" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Cassandra · Scylla</text>
-    <g fill="currentColor" font-size="10">
-      <text x="14" y="70">user_id | ts | val</text>
-      <text x="14" y="86">42 | t1 | hi</text>
-      <text x="14" y="102">42 | t2 | bye</text>
-      <text x="14" y="118">42 | t3 | ok</text>
-    </g>
-    <text x="70" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">huge write rates</text>
-    <text x="70" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">key partition</text>
-  </g>
-  <g transform="translate(470,45)">
-    <rect width="150" height="210" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="75" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Graph</text>
-    <text x="75" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Neo4j · Neptune</text>
-    <g transform="translate(20,70)">
-      <circle cx="20" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="80" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="20" cy="60" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <circle cx="80" cy="60" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="30" y1="20" x2="70" y2="20" stroke="currentColor"/>
-      <line x1="20" y1="30" x2="20" y2="50" stroke="currentColor"/>
-      <line x1="80" y1="30" x2="80" y2="50" stroke="currentColor"/>
-      <line x1="30" y1="60" x2="70" y2="60" stroke="currentColor"/>
-      <line x1="28" y1="28" x2="72" y2="52" stroke="currentColor"/>
-    </g>
-    <text x="75" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">traversal queries</text>
-    <text x="75" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">friends-of-friends</text>
-  </g>
-</svg>
+<img src="/diagrams/data/sql-vs-nosql-2.svg" alt="The four NoSQL data models with example shapes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 "NoSQL" is a four-way bucket of fundamentally different data models:
 

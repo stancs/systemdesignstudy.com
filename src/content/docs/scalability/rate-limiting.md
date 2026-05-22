@@ -21,44 +21,7 @@ If you don't have a rate limiter in your design and the prompt has a public API,
 
 ## The four algorithms
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Token bucket: refills at rate r, each request takes a token" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Token bucket</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="220" y="60" width="160" height="140" rx="10"/>
-    <line x1="220" y1="90" x2="380" y2="90" stroke-dasharray="3 3"/>
-  </g>
-  <g fill="var(--sl-color-accent,#3b82f6)">
-    <circle cx="250" cy="120" r="10"/>
-    <circle cx="280" cy="135" r="10"/>
-    <circle cx="320" cy="125" r="10"/>
-    <circle cx="350" cy="140" r="10"/>
-    <circle cx="265" cy="160" r="10"/>
-    <circle cx="305" cy="165" r="10"/>
-    <circle cx="340" cy="175" r="10"/>
-  </g>
-  <text x="300" y="80" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">capacity N (burst limit)</text>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="300" y="225" font-weight="600">Bucket</text>
-  </g>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="60" y="105" width="100" height="40" rx="8"/>
-    <rect x="440" y="105" width="140" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle" font-size="12">
-    <text x="110" y="125" font-weight="600">Refill</text>
-    <text x="110" y="141" font-size="11">r tokens/sec</text>
-    <text x="510" y="125" font-weight="600">Request</text>
-    <text x="510" y="141" font-size="11">consumes 1 token</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M160 125 H220"/>
-    <path d="M380 125 H440"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="216,123 222,125 216,127"/>
-    <polygon points="436,123 442,125 436,127"/>
-  </g>
-</svg>
+<img src="/diagrams/scalability/rate-limiting-1.svg" alt="Token bucket: refills at rate r, each request takes a token" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ### Token bucket
 
@@ -97,40 +60,7 @@ Count requests in fixed time buckets — say, requests in this minute. Cap at N.
 
 Fine for rough quotas, less appropriate as a precise rate enforcer.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Fixed window edge problem vs sliding window" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Fixed window has an edge problem; sliding window doesn't</text>
-  <g transform="translate(0,54)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Fixed window (100/min)</text>
-    <g stroke="currentColor" stroke-width="2" fill="none">
-      <line x1="20" y1="80" x2="300" y2="80"/>
-      <line x1="160" y1="70" x2="160" y2="90"/>
-      <line x1="20" y1="70" x2="20" y2="90"/>
-      <line x1="300" y1="70" x2="300" y2="90"/>
-    </g>
-    <g fill="var(--sl-color-accent,#3b82f6)" opacity="0.7">
-      <rect x="140" y="50" width="20" height="30"/>
-      <rect x="160" y="50" width="20" height="30"/>
-    </g>
-    <g fill="currentColor" font-size="11" text-anchor="middle">
-      <text x="90" y="105">window 1</text>
-      <text x="230" y="105">window 2</text>
-      <text x="160" y="40" fill="var(--sl-color-accent,#3b82f6)" font-weight="600">200 reqs in ~2 sec</text>
-    </g>
-    <text x="160" y="160" text-anchor="middle" fill="var(--sl-color-accent,#3b82f6)" font-size="11">Client can stack 100+100 across the boundary.</text>
-  </g>
-  <g transform="translate(320,54)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Sliding window (100/min)</text>
-    <g stroke="currentColor" stroke-width="2" fill="none">
-      <line x1="20" y1="80" x2="300" y2="80"/>
-      <rect x="100" y="40" width="120" height="50" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    </g>
-    <g fill="currentColor" font-size="11" text-anchor="middle">
-      <text x="160" y="65" font-weight="600">last 60 sec</text>
-      <text x="160" y="105">window slides with time</text>
-    </g>
-    <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">No edge effect — always counts the last 60 s.</text>
-  </g>
-</svg>
+<img src="/diagrams/scalability/rate-limiting-2.svg" alt="Fixed window edge problem vs sliding window" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ### Sliding window log / sliding window counter
 

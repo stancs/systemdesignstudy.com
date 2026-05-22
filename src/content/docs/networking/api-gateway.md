@@ -18,50 +18,7 @@ In practice they overlap — modern L7 LBs (Envoy, Nginx, ALB) do gateway-ish th
 
 You almost always have both in a real architecture. The LB terminates the connection and picks an instance of the gateway; the gateway then does the policy work and forwards to the right downstream service.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="An API gateway sits in front of many services and owns cross-cutting concerns" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <defs>
-    <marker id="gw-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The gateway owns cross-cutting concerns at the front door</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="24" y="52" width="104" height="40" rx="8"/>
-    <rect x="24" y="116" width="104" height="40" rx="8"/>
-    <rect x="24" y="180" width="104" height="40" rx="8"/>
-    <rect x="248" y="84" width="160" height="104" rx="12" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="508" y="44" width="116" height="40" rx="8"/>
-    <rect x="508" y="98" width="116" height="40" rx="8"/>
-    <rect x="508" y="152" width="116" height="40" rx="8"/>
-    <rect x="508" y="206" width="116" height="40" rx="8"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="76" y="77">Web</text>
-    <text x="76" y="141">Mobile</text>
-    <text x="76" y="205">Partner</text>
-    <text x="328" y="124" font-weight="700">API Gateway</text>
-    <text x="328" y="145" font-size="11">auth · rate limit</text>
-    <text x="328" y="161" font-size="11">routing · obs · TLS</text>
-    <text x="566" y="69">Users svc</text>
-    <text x="566" y="123">Orders svc</text>
-    <text x="566" y="177">Catalog svc</text>
-    <text x="566" y="231">Payments svc</text>
-  </g>
-  <g stroke="currentColor" stroke-width="2" fill="none">
-    <path d="M128 72 H192"/>
-    <path d="M128 136 H192"/>
-    <path d="M128 200 H192"/>
-    <path d="M192 72 V200"/>
-    <path d="M192 136 H248" marker-end="url(#gw-ah)"/>
-    <path d="M408 136 H464"/>
-    <path d="M464 64 V226"/>
-    <path d="M464 64 H508" marker-end="url(#gw-ah)"/>
-    <path d="M464 118 H508" marker-end="url(#gw-ah)"/>
-    <path d="M464 172 H508" marker-end="url(#gw-ah)"/>
-    <path d="M464 226 H508" marker-end="url(#gw-ah)"/>
-  </g>
-  <text x="320" y="268" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Clients enter through one gateway; it applies policy, then routes to the right service.</text>
-</svg>
+<img src="/diagrams/networking/api-gateway-1.svg" alt="An API gateway sits in front of many services and owns cross-cutting concerns" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## What an API gateway actually does
 
@@ -118,46 +75,7 @@ Each BFF is shaped for the needs of its client. The iOS BFF may return denormali
 
 The trade-off is duplication: every client now has its own BFF to maintain. The win is that **no single gateway becomes a god service** trying to please everyone.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Backend-for-Frontend (BFF) pattern</text>
-  <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="50" width="100" height="35" rx="8"/>
-    <rect x="20" y="115" width="100" height="35" rx="8"/>
-    <rect x="20" y="180" width="100" height="35" rx="8"/>
-    <rect x="200" y="50" width="120" height="35" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="200" y="115" width="120" height="35" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="200" y="180" width="120" height="35" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="440" y="50" width="160" height="35" rx="8"/>
-    <rect x="440" y="115" width="160" height="35" rx="8"/>
-    <rect x="440" y="180" width="160" height="35" rx="8"/>
-  </g>
-  <g fill="currentColor" text-anchor="middle">
-    <text x="70" y="72">iOS app</text>
-    <text x="70" y="137">Web app</text>
-    <text x="70" y="202">Partner</text>
-    <text x="260" y="72" font-weight="600">iOS BFF</text>
-    <text x="260" y="137" font-weight="600">Web BFF</text>
-    <text x="260" y="202" font-weight="600">Public BFF</text>
-    <text x="520" y="72">User svc</text>
-    <text x="520" y="137">Order svc</text>
-    <text x="520" y="202">Catalog svc</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M120 67 H200"/>
-    <path d="M120 132 H200"/>
-    <path d="M120 197 H200"/>
-    <path d="M320 67 L440 67"/>
-    <path d="M320 67 L440 132"/>
-    <path d="M320 67 L440 197"/>
-    <path d="M320 132 L440 67"/>
-    <path d="M320 132 L440 132"/>
-    <path d="M320 132 L440 197"/>
-    <path d="M320 197 L440 67"/>
-    <path d="M320 197 L440 132"/>
-    <path d="M320 197 L440 197"/>
-  </g>
-  <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Each BFF shapes responses for one client class; all share the same downstream services.</text>
-</svg>
+<img src="/diagrams/networking/api-gateway-2.svg" alt="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;"/>
 
 ## Common pitfalls
 

@@ -119,6 +119,11 @@
   );
 }
 
+/* Dark mode: invert diagram images so black strokes/text become white */
+:root[data-theme="dark"] img[src^="/diagrams/"] {
+  filter: invert(1);
+}
+
 @import "./base.css";
 @import "./navigation.css";
 @import "./components.css";

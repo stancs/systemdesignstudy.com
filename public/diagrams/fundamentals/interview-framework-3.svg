@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 404" role="img" aria-label="Reference high-level architecture used at step 4" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="arch-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <g stroke="currentColor" stroke-width="2" fill="none">
+    <path d="M320 56 V92" marker-end="url(#arch-ah)"/>
+    <path d="M320 136 V170" marker-end="url(#arch-ah)"/>
+    <path d="M320 218 V242"/>
+    <path d="M102 242 H532"/>
+    <path d="M102 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M246 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M388 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M532 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M388 318 V350" marker-end="url(#arch-ah)"/>
+  </g>
+
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="262" y="14" width="116" height="42" rx="8"/>
+    <rect x="262" y="94" width="116" height="42" rx="8"/>
+    <rect x="230" y="170" width="180" height="48" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect x="44" y="266" width="116" height="52" rx="8"/>
+    <rect x="182" y="266" width="128" height="52" rx="8"/>
+    <rect x="332" y="266" width="112" height="52" rx="8"/>
+    <rect x="462" y="266" width="140" height="52" rx="8"/>
+    <rect x="328" y="350" width="120" height="46" rx="8"/>
+  </g>
+
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="40">Client</text>
+    <text x="320" y="120">Load Balancer</text>
+    <text x="320" y="199" font-weight="600">App Servers</text>
+    <text x="102" y="296">Cache</text>
+    <text x="246" y="296">Database</text>
+    <text x="388" y="296">Queue</text>
+    <text x="532" y="296">Object Store</text>
+    <text x="388" y="377">Workers</text>
+  </g>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Hash ring without and with virtual nodes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Without vs with virtual nodes</text>
+  <g transform="translate(160,170)">
+    <text x="0" y="-115" text-anchor="middle" fill="currentColor" font-weight="600">Plain ring</text>
+    <circle r="80" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g fill="currentColor">
+      <circle cx="0" cy="-80" r="8"/>
+      <circle cx="65" cy="50" r="8"/>
+      <circle cx="-65" cy="50" r="8"/>
+    </g>
+    <text x="0" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Slices are uneven by luck.</text>
+    <text x="0" y="136" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Removing a server gives a big slice to its neighbor.</text>
+  </g>
+  <g transform="translate(480,170)">
+    <text x="0" y="-115" text-anchor="middle" fill="currentColor" font-weight="600">With ~12 vnodes each</text>
+    <circle r="80" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g>
+      <circle cx="0" cy="-80" r="5" fill="currentColor"/>
+      <circle cx="35" cy="-72" r="5" fill="currentColor"/>
+      <circle cx="62" cy="-50" r="5" fill="currentColor"/>
+      <circle cx="79" cy="-15" r="5" fill="currentColor"/>
+      <circle cx="78" cy="20" r="5" fill="currentColor"/>
+      <circle cx="62" cy="50" r="5" fill="currentColor"/>
+      <circle cx="30" cy="74" r="5" fill="currentColor"/>
+      <circle cx="-10" cy="79" r="5" fill="currentColor"/>
+      <circle cx="-45" cy="65" r="5" fill="currentColor"/>
+      <circle cx="-72" cy="35" r="5" fill="currentColor"/>
+      <circle cx="-80" cy="0" r="5" fill="currentColor"/>
+      <circle cx="-65" cy="-45" r="5" fill="currentColor"/>
+      <circle cx="-35" cy="-72" r="5" fill="currentColor"/>
+    </g>
+    <text x="0" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Load smooths to ~1/N.</text>
+    <text x="0" y="136" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Removing a server distributes work across many neighbors.</text>
+  </g>
+</svg>
