@@ -191,57 +191,71 @@ Always say what you expect the hit rate to be and what happens at miss — your 
 ## Failure modes you must mention
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Thundering herd on cache expiry, before and after request coalescing" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="th-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Thundering herd, with and without coalescing</text>
-  <g transform="translate(0,48)">
-    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">No coalescing</text>
+
+  <!-- No coalescing -->
+  <g transform="translate(10,44)">
+    <text x="150" y="0" text-anchor="middle" fill="currentColor" font-weight="600">No coalescing</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="20" y="20" width="60" height="30" rx="6"/>
-      <rect x="20" y="55" width="60" height="30" rx="6"/>
-      <rect x="20" y="90" width="60" height="30" rx="6"/>
-      <rect x="20" y="125" width="60" height="30" rx="6"/>
-      <rect x="240" y="70" width="70" height="30" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="20" y="15" width="60" height="30" rx="6"/>
+      <rect x="20" y="53" width="60" height="30" rx="6"/>
+      <rect x="20" y="91" width="60" height="30" rx="6"/>
+      <rect x="20" y="129" width="60" height="30" rx="6"/>
+      <rect x="200" y="15" width="80" height="144" rx="10" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
     </g>
     <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="50" y="40">req</text>
-      <text x="50" y="75">req</text>
-      <text x="50" y="110">req</text>
-      <text x="50" y="145">req</text>
-      <text x="275" y="90" font-weight="600">Origin</text>
+      <text x="50" y="35">req</text>
+      <text x="50" y="73">req</text>
+      <text x="50" y="111">req</text>
+      <text x="50" y="149">req</text>
+      <text x="240" y="93" font-weight="600" font-size="13">Origin</text>
     </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M80 35 H240"/>
-      <path d="M80 70 H240"/>
-      <path d="M80 105 H240"/>
-      <path d="M80 140 H240"/>
+    <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#th-arrow)">
+      <path d="M80 30 H200"/>
+      <path d="M80 68 H200"/>
+      <path d="M80 106 H200"/>
+      <path d="M80 144 H200"/>
     </g>
-    <text x="160" y="180" text-anchor="middle" fill="var(--sl-color-accent,#3b82f6)" font-size="11">All N misses hit origin simultaneously.</text>
+    <text x="150" y="188" text-anchor="middle" fill="var(--sl-color-accent)" font-size="11">All N misses hit origin simultaneously.</text>
   </g>
-  <g transform="translate(320,48)">
+
+  <!-- With coalescing -->
+  <g transform="translate(320,44)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">With coalescing</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="20" y="20" width="60" height="30" rx="6"/>
-      <rect x="20" y="55" width="60" height="30" rx="6"/>
-      <rect x="20" y="90" width="60" height="30" rx="6"/>
-      <rect x="20" y="125" width="60" height="30" rx="6"/>
-      <rect x="110" y="70" width="60" height="30" rx="6"/>
-      <rect x="240" y="70" width="70" height="30" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="10" y="15" width="60" height="30" rx="6"/>
+      <rect x="10" y="53" width="60" height="30" rx="6"/>
+      <rect x="10" y="91" width="60" height="30" rx="6"/>
+      <rect x="10" y="129" width="60" height="30" rx="6"/>
+      <rect x="120" y="72" width="70" height="30" rx="8"/>
+      <rect x="240" y="72" width="80" height="30" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
     </g>
     <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="50" y="40">req</text>
-      <text x="50" y="75">req</text>
-      <text x="50" y="110">req</text>
-      <text x="50" y="145">req</text>
-      <text x="140" y="90" font-weight="600">Cache</text>
-      <text x="275" y="90" font-weight="600">Origin</text>
+      <text x="40" y="35">req</text>
+      <text x="40" y="73">req</text>
+      <text x="40" y="111">req</text>
+      <text x="40" y="149">req</text>
+      <text x="155" y="92" font-weight="600">Cache</text>
+      <text x="280" y="92" font-weight="600">Origin</text>
     </g>
+    <!-- Fan-in bracket -->
     <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M80 35 H110 V70"/>
-      <path d="M80 70 H110"/>
-      <path d="M80 105 H110 V100"/>
-      <path d="M80 140 H110 V100"/>
-      <path d="M170 85 H240"/>
+      <path d="M70 30 H92"/>
+      <path d="M70 68 H92"/>
+      <path d="M70 106 H92"/>
+      <path d="M70 144 H92"/>
+      <path d="M92 30 V144"/>
     </g>
-    <text x="160" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">One origin fetch — others wait for it.</text>
+    <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#th-arrow)">
+      <path d="M92 87 H120"/>
+      <path d="M190 87 H240"/>
+    </g>
+    <text x="160" y="188" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">One origin fetch — others wait for it.</text>
   </g>
 </svg>
 
