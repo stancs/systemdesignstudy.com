@@ -5,54 +5,54 @@ description: A repeatable seven-step framework for working through any system de
 
 The single most important habit you can build is a **repeatable structure** for the interview itself. The framework below works for almost any prompt — URL shortener, news feed, ride-sharing, video streaming, real-time chat. Internalize it until it feels automatic, and you free up your cognitive budget for the *actual* design.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 200" role="img" aria-label="The seven steps of a system design interview" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="340" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The seven-step framework</text>
-  <line x1="40" y1="100" x2="640" y2="100" stroke="currentColor" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 168" role="img" aria-label="The seven steps of a system design interview" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="340" y="20" text-anchor="middle" fill="currentColor" font-weight="600">The seven-step framework</text>
+  <line x1="50" y1="84" x2="630" y2="84" stroke="currentColor" stroke-width="2"/>
   <g font-size="11">
-    <g transform="translate(40,100)">
-      <circle r="14" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <g transform="translate(50,84)">
+      <circle r="15" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
       <text y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">1</text>
-      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Clarify</text>
-      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">5 min</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Clarify</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
     </g>
-    <g transform="translate(140,100)">
-      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g transform="translate(147,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
       <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">2</text>
-      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Estimate</text>
-      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">3 min</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Estimate</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">3 min</text>
     </g>
-    <g transform="translate(240,100)">
-      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g transform="translate(243,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
       <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">3</text>
-      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">API</text>
-      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">3 min</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">API</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">3 min</text>
     </g>
-    <g transform="translate(340,100)">
-      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g transform="translate(340,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
       <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">4</text>
-      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Architecture</text>
-      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">8 min</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Architecture</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">8 min</text>
     </g>
-    <g transform="translate(440,100)">
-      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g transform="translate(437,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
       <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">5</text>
-      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Data model</text>
-      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">5 min</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Data model</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
     </g>
-    <g transform="translate(540,100)">
-      <circle r="14" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <g transform="translate(533,84)">
+      <circle r="15" fill="var(--sl-color-accent,#3b82f6)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
       <text y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">6</text>
-      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Deep dives</text>
-      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">15 min</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Deep dives</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">15 min</text>
     </g>
-    <g transform="translate(640,100)">
-      <circle r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g transform="translate(630,84)">
+      <circle r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2"/>
       <text y="4" text-anchor="middle" fill="currentColor" font-weight="700">7</text>
-      <text y="-25" text-anchor="middle" fill="currentColor" font-weight="600">Wrap up</text>
-      <text y="35" text-anchor="middle" fill="currentColor" opacity="0.8">5 min</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Wrap up</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
     </g>
   </g>
-  <text x="340" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Highlighted steps are where points are most often won.</text>
+  <text x="340" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Steps 1 and 6 (highlighted) are where points are most often won.</text>
 </svg>
 
 ## The seven steps
@@ -94,13 +94,49 @@ The numbers don't need to be exact — they need to be *defensible*. "100M DAU, 
 
 ## Step 3 — API design
 
-Sketch 3–5 endpoints that cover the core flows. For each, list the method, path, key parameters, and return type. Keep it tight:
+Sketch 3–5 endpoints that cover the core flows. For each, name the HTTP method, the path, the request parameters or body, and the response. Keep it tight — something like this for a simple social feed:
 
-```
-POST /posts          body: { content }         -> { post_id }
-GET  /feed?cursor=…  -> { posts: [...], next_cursor }
-POST /follow/:user   -> 204
-```
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 372" role="img" aria-label="Example REST API for a social feed with four endpoints" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">An example REST API — a social feed</text>
+
+  <g>
+    <rect x="14" y="40" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="56" width="78" height="28" rx="14" fill="#0F6E56"/>
+    <text x="67" y="74" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">POST</text>
+    <text x="122" y="75" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/posts</text>
+    <text x="612" y="75" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Create a new post</text>
+    <text x="122" y="99" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">body { content }   →   201 Created · { post_id }</text>
+  </g>
+
+  <g>
+    <rect x="14" y="122" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="138" width="78" height="28" rx="14" fill="#185FA5"/>
+    <text x="67" y="156" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">GET</text>
+    <text x="122" y="157" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/feed</text>
+    <text x="612" y="157" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Fetch the home feed</text>
+    <text x="122" y="181" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">query ?cursor &amp; ?limit   →   200 OK · { posts[], next_cursor }</text>
+  </g>
+
+  <g>
+    <rect x="14" y="204" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="220" width="78" height="28" rx="14" fill="#0F6E56"/>
+    <text x="67" y="238" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">POST</text>
+    <text x="122" y="239" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/posts/:id/likes</text>
+    <text x="612" y="239" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Like a post</text>
+    <text x="122" y="263" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">(no request body)   →   204 No Content</text>
+  </g>
+
+  <g>
+    <rect x="14" y="286" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="302" width="78" height="28" rx="14" fill="#A32D2D"/>
+    <text x="67" y="320" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">DELETE</text>
+    <text x="122" y="321" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/posts/:id/likes</text>
+    <text x="612" y="321" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Remove a like</text>
+    <text x="122" y="345" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">(no request body)   →   204 No Content</text>
+  </g>
+</svg>
+
+Notice the small design decisions worth saying out loud: the feed is **cursor-paginated** rather than offset-paginated (offsets drift when new posts arrive), and *like* and *unlike* are a `POST`/`DELETE` pair on the **same resource path** rather than two unrelated verbs. Small, consistent choices like these signal that you think in terms of REST resources, not ad-hoc RPC calls.
 
 This is also where you decide between **REST, gRPC, or GraphQL** — usually REST unless you have a reason. The [Communication Protocols](/networking/communication-protocols/) page goes deeper.
 
@@ -108,39 +144,45 @@ This is also where you decide between **REST, gRPC, or GraphQL** — usually RES
 
 Now you draw boxes. A reasonable starting template:
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Reference high-level architecture used at step 4" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 404" role="img" aria-label="Reference high-level architecture used at step 4" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="arch-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <g stroke="currentColor" stroke-width="2" fill="none">
+    <path d="M320 56 V92" marker-end="url(#arch-ah)"/>
+    <path d="M320 136 V170" marker-end="url(#arch-ah)"/>
+    <path d="M320 218 V242"/>
+    <path d="M102 242 H532"/>
+    <path d="M102 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M246 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M388 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M532 242 V264" marker-end="url(#arch-ah)"/>
+    <path d="M388 318 V350" marker-end="url(#arch-ah)"/>
+  </g>
+
   <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="270" y="10" width="100" height="40" rx="8"/>
-    <rect x="270" y="80" width="100" height="40" rx="8"/>
-    <rect x="240" y="150" width="160" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="40" y="240" width="120" height="50" rx="8"/>
-    <rect x="180" y="240" width="120" height="50" rx="8"/>
-    <rect x="320" y="240" width="120" height="50" rx="8"/>
-    <rect x="460" y="240" width="140" height="50" rx="8"/>
-    <rect x="380" y="320" width="120" height="30" rx="8"/>
+    <rect x="262" y="14" width="116" height="42" rx="8"/>
+    <rect x="262" y="94" width="116" height="42" rx="8"/>
+    <rect x="230" y="170" width="180" height="48" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="44" y="266" width="116" height="52" rx="8"/>
+    <rect x="182" y="266" width="128" height="52" rx="8"/>
+    <rect x="332" y="266" width="112" height="52" rx="8"/>
+    <rect x="462" y="266" width="140" height="52" rx="8"/>
+    <rect x="328" y="350" width="120" height="46" rx="8"/>
   </g>
+
   <g fill="currentColor" text-anchor="middle">
-    <text x="320" y="35">Client</text>
-    <text x="320" y="105">Load Balancer</text>
-    <text x="320" y="175" font-weight="600">App Servers</text>
-    <text x="100" y="270">Cache</text>
-    <text x="240" y="270">Database</text>
-    <text x="380" y="270">Queue</text>
-    <text x="530" y="270">Object Store</text>
-    <text x="440" y="340">Workers</text>
-  </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M320 50 V80"/>
-    <path d="M320 120 V150"/>
-    <path d="M320 190 V210 H100 V240"/>
-    <path d="M320 190 V210 H240 V240"/>
-    <path d="M320 210 H380 V240"/>
-    <path d="M320 190 V210 H530 V240"/>
-    <path d="M380 290 V305 H440 V320"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="316,82 320,76 324,82"/>
-    <polygon points="316,152 320,146 324,152"/>
+    <text x="320" y="40">Client</text>
+    <text x="320" y="120">Load Balancer</text>
+    <text x="320" y="199" font-weight="600">App Servers</text>
+    <text x="102" y="296">Cache</text>
+    <text x="246" y="296">Database</text>
+    <text x="388" y="296">Queue</text>
+    <text x="532" y="296">Object Store</text>
+    <text x="388" y="377">Workers</text>
   </g>
 </svg>
 

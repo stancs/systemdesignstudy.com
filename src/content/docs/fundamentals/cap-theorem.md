@@ -5,32 +5,40 @@ description: A practical reading of CAP, PACELC, and the consistency vs latency 
 
 The CAP theorem is the most misquoted idea in distributed systems. Used carelessly, it sounds like a horoscope ("pick two of three"). Used carefully, it gives you a precise vocabulary for the trade-offs you'll defend in nearly every system design interview.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="The CAP triangle and what each pair means under partition" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 384" role="img" aria-label="The CAP triangle and what each pair means under partition" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">CAP: pick CP or AP when the network is partitioned</text>
-  <polygon points="320,60 540,260 100,260" fill="none" stroke="currentColor" stroke-width="2"/>
-  <g font-weight="700" font-size="16" text-anchor="middle" fill="currentColor">
-    <text x="320" y="55">C</text>
-    <text x="555" y="275">A</text>
-    <text x="85" y="275">P</text>
+
+  <polygon points="320,100 544,306 96,306" fill="none" stroke="currentColor" stroke-width="2"/>
+
+  <g text-anchor="middle" fill="currentColor">
+    <text x="320" y="64" font-weight="700" font-size="17">C</text>
+    <text x="320" y="84" font-size="12" opacity="0.85">Consistency</text>
+    <text x="96" y="338" font-weight="700" font-size="17">P</text>
+    <text x="96" y="358" font-size="12" opacity="0.85">Partition tolerance</text>
+    <text x="544" y="338" font-weight="700" font-size="17">A</text>
+    <text x="544" y="358" font-size="12" opacity="0.85">Availability</text>
   </g>
-  <g font-size="12" text-anchor="middle" fill="currentColor" opacity="0.85">
-    <text x="320" y="78">Consistency</text>
-    <text x="565" y="293">Availability</text>
-    <text x="65" y="293">Partition tolerance</text>
+
+  <g fill="currentColor">
+    <circle cx="320" cy="100" r="4"/>
+    <circle cx="96" cy="306" r="4"/>
+    <circle cx="544" cy="306" r="4"/>
   </g>
+
   <g font-size="12" fill="currentColor">
-    <g transform="translate(190,150)">
-      <rect width="100" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-      <text x="50" y="22" text-anchor="middle" font-weight="600">CP</text>
-      <text x="50" y="40" text-anchor="middle" font-size="11">Spanner, etcd</text>
+    <g transform="translate(204,214)">
+      <rect width="112" height="54" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+      <text x="56" y="24" text-anchor="middle" font-weight="700">CP</text>
+      <text x="56" y="42" text-anchor="middle" font-size="11">Spanner, etcd</text>
     </g>
-    <g transform="translate(350,150)">
-      <rect width="100" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-      <text x="50" y="22" text-anchor="middle" font-weight="600">AP</text>
-      <text x="50" y="40" text-anchor="middle" font-size="11">Cassandra, DDB</text>
+    <g transform="translate(324,214)">
+      <rect width="112" height="54" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+      <text x="56" y="24" text-anchor="middle" font-weight="700">AP</text>
+      <text x="56" y="42" text-anchor="middle" font-size="11">Cassandra, Dynamo</text>
     </g>
   </g>
-  <text x="320" y="305" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">P is not optional in a real distributed system — the meaningful choice is C vs A.</text>
+
+  <text x="320" y="375" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">P is not optional in a real distributed system — the meaningful choice is C vs A.</text>
 </svg>
 
 ## The theorem, stated precisely

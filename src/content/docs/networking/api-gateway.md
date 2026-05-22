@@ -19,45 +19,48 @@ In practice they overlap — modern L7 LBs (Envoy, Nginx, ALB) do gateway-ish th
 You almost always have both in a real architecture. The LB terminates the connection and picks an instance of the gateway; the gateway then does the policy work and forwards to the right downstream service.
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="An API gateway sits in front of many services and owns cross-cutting concerns" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="gw-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The gateway owns cross-cutting concerns at the front door</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="60" width="100" height="35" rx="8"/>
-    <rect x="20" y="115" width="100" height="35" rx="8"/>
-    <rect x="20" y="170" width="100" height="35" rx="8"/>
-    <rect x="240" y="100" width="160" height="80" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="500" y="50" width="120" height="35" rx="8"/>
-    <rect x="500" y="100" width="120" height="35" rx="8"/>
-    <rect x="500" y="150" width="120" height="35" rx="8"/>
-    <rect x="500" y="200" width="120" height="35" rx="8"/>
+    <rect x="24" y="52" width="104" height="40" rx="8"/>
+    <rect x="24" y="116" width="104" height="40" rx="8"/>
+    <rect x="24" y="180" width="104" height="40" rx="8"/>
+    <rect x="248" y="84" width="160" height="104" rx="12" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="508" y="44" width="116" height="40" rx="8"/>
+    <rect x="508" y="98" width="116" height="40" rx="8"/>
+    <rect x="508" y="152" width="116" height="40" rx="8"/>
+    <rect x="508" y="206" width="116" height="40" rx="8"/>
   </g>
   <g fill="currentColor" text-anchor="middle">
-    <text x="70" y="82">Web</text>
-    <text x="70" y="137">Mobile</text>
-    <text x="70" y="192">Partner</text>
-    <text x="320" y="130" font-weight="700">API Gateway</text>
-    <text x="320" y="148" font-size="11">auth · rate limit</text>
-    <text x="320" y="162" font-size="11">routing · obs · TLS</text>
-    <text x="560" y="72">Users svc</text>
-    <text x="560" y="122">Orders svc</text>
-    <text x="560" y="172">Catalog svc</text>
-    <text x="560" y="222">Payments svc</text>
+    <text x="76" y="77">Web</text>
+    <text x="76" y="141">Mobile</text>
+    <text x="76" y="205">Partner</text>
+    <text x="328" y="124" font-weight="700">API Gateway</text>
+    <text x="328" y="145" font-size="11">auth · rate limit</text>
+    <text x="328" y="161" font-size="11">routing · obs · TLS</text>
+    <text x="566" y="69">Users svc</text>
+    <text x="566" y="123">Orders svc</text>
+    <text x="566" y="177">Catalog svc</text>
+    <text x="566" y="231">Payments svc</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M120 77 H240 V140"/>
-    <path d="M120 132 H240 V140"/>
-    <path d="M120 187 H240 V140"/>
-    <path d="M400 140 L500 67"/>
-    <path d="M400 140 L500 117"/>
-    <path d="M400 140 L500 167"/>
-    <path d="M400 140 L500 217"/>
+  <g stroke="currentColor" stroke-width="2" fill="none">
+    <path d="M128 72 H192"/>
+    <path d="M128 136 H192"/>
+    <path d="M128 200 H192"/>
+    <path d="M192 72 V200"/>
+    <path d="M192 136 H248" marker-end="url(#gw-ah)"/>
+    <path d="M408 136 H464"/>
+    <path d="M464 64 V226"/>
+    <path d="M464 64 H508" marker-end="url(#gw-ah)"/>
+    <path d="M464 118 H508" marker-end="url(#gw-ah)"/>
+    <path d="M464 172 H508" marker-end="url(#gw-ah)"/>
+    <path d="M464 226 H508" marker-end="url(#gw-ah)"/>
   </g>
-  <g fill="currentColor">
-    <polygon points="236,138 242,140 236,144"/>
-    <polygon points="496,69 502,67 502,73"/>
-    <polygon points="496,119 502,117 502,123"/>
-    <polygon points="496,169 502,167 502,173"/>
-    <polygon points="496,219 502,217 502,223"/>
-  </g>
+  <text x="320" y="268" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Clients enter through one gateway; it applies policy, then routes to the right service.</text>
 </svg>
 
 ## What an API gateway actually does

@@ -64,47 +64,53 @@ A single read may pass through several of these. Each level is bigger and slower
 
 When the app server needs data, four patterns describe how the cache interacts with the underlying store.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Cache-aside flow: app reads cache, falls through to database on miss" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Cache-aside (the most common pattern)</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Cache-aside flow: app checks cache, falls through to database on miss, then populates the cache" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="ca-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">Cache-aside: the read path</text>
+
+  <path d="M191 116 C 191 58, 572 58, 572 116" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ca-arrow)"/>
+  <text x="381" y="52" text-anchor="middle" fill="currentColor" font-size="11">cache hit — return immediately, skip steps 3–5</text>
+
   <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="40" y="100" width="120" height="50" rx="8"/>
-    <rect x="260" y="60" width="120" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-    <rect x="260" y="160" width="120" height="50" rx="8"/>
-    <rect x="480" y="160" width="120" height="50" rx="8"/>
+    <rect x="12" y="116" width="104" height="78" rx="8"/>
+    <rect x="139" y="116" width="104" height="78" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="266" y="116" width="104" height="78" rx="8"/>
+    <rect x="393" y="116" width="104" height="78" rx="8"/>
+    <rect x="520" y="116" width="104" height="78" rx="8"/>
   </g>
+
   <g fill="currentColor" text-anchor="middle">
-    <text x="100" y="122" font-weight="600">App</text>
-    <text x="100" y="140" font-size="11">read user 42</text>
-    <text x="320" y="82" font-weight="600">Cache</text>
-    <text x="320" y="100" font-size="11">Redis</text>
-    <text x="320" y="182" font-weight="600">Cache miss?</text>
-    <text x="320" y="200" font-size="11">fetch + populate</text>
-    <text x="540" y="182" font-weight="600">Database</text>
-    <text x="540" y="200" font-size="11">Postgres</text>
+    <text x="64" y="150" font-weight="600">App</text>
+    <text x="64" y="170" font-size="11">needs user:42</text>
+    <text x="191" y="150" font-weight="600">Check cache</text>
+    <text x="191" y="170" font-size="11">Redis</text>
+    <text x="318" y="150" font-weight="600">Read database</text>
+    <text x="318" y="170" font-size="11">Postgres</text>
+    <text x="445" y="150" font-weight="600">Write to cache</text>
+    <text x="445" y="170" font-size="11">populate</text>
+    <text x="572" y="150" font-weight="600">Return value</text>
+    <text x="572" y="170" font-size="11">to caller</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M160 115 H260 V85"/>
-    <path d="M260 100 H160 V125"/>
-    <path d="M160 135 H260 V170"/>
-    <path d="M260 185 H160 V125"/>
-    <path d="M380 185 H480"/>
-    <path d="M480 185 H380"/>
+
+  <g stroke="currentColor" stroke-width="2" fill="none">
+    <path d="M116 155 H137" marker-end="url(#ca-arrow)"/>
+    <path d="M243 155 H264" marker-end="url(#ca-arrow)"/>
+    <path d="M370 155 H391" marker-end="url(#ca-arrow)"/>
+    <path d="M497 155 H518" marker-end="url(#ca-arrow)"/>
   </g>
-  <g fill="currentColor">
-    <polygon points="256,83 262,85 256,87"/>
-    <polygon points="164,123 158,125 164,127"/>
-    <polygon points="256,168 262,170 256,172"/>
-    <polygon points="164,123 158,125 164,127"/>
-    <polygon points="476,183 482,185 476,187"/>
-    <polygon points="384,183 378,185 384,187"/>
+
+  <g fill="currentColor" text-anchor="middle" font-size="11">
+    <text x="64" y="210">1</text>
+    <text x="191" y="210">2</text>
+    <text x="318" y="210">3 · on miss</text>
+    <text x="445" y="210">4</text>
+    <text x="572" y="210">5</text>
   </g>
-  <g fill="currentColor" font-size="11" opacity="0.85">
-    <text x="180" y="80">1. check cache</text>
-    <text x="180" y="100">2. if hit, return</text>
-    <text x="180" y="170">3. else miss</text>
-    <text x="395" y="170">4. read DB</text>
-    <text x="395" y="200">5. write cache</text>
-  </g>
+  <text x="320" y="238" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">The app owns the logic — the cache never talks to the database itself.</text>
 </svg>
 
 ### Cache-aside (lazy loading)
@@ -184,9 +190,9 @@ Always say what you expect the hit rate to be and what happens at miss — your 
 
 ## Failure modes you must mention
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Thundering herd on cache expiry, before and after request coalescing" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Thundering herd on cache expiry, before and after request coalescing" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Thundering herd, with and without coalescing</text>
-  <g transform="translate(0,45)">
+  <g transform="translate(0,48)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">No coalescing</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
       <rect x="20" y="20" width="60" height="30" rx="6"/>
@@ -210,7 +216,7 @@ Always say what you expect the hit rate to be and what happens at miss — your 
     </g>
     <text x="160" y="180" text-anchor="middle" fill="var(--sl-color-accent,#3b82f6)" font-size="11">All N misses hit origin simultaneously.</text>
   </g>
-  <g transform="translate(320,45)">
+  <g transform="translate(320,48)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">With coalescing</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
       <rect x="20" y="20" width="60" height="30" rx="6"/>

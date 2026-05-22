@@ -15,48 +15,46 @@ The terms get conflated, so let's separate them.
 
 Most teams have basic monitoring (dashboards, alerts). Fewer have real observability. In an interview, "we'll have monitoring" is a checkbox; "we'll instrument enough to debug unknown unknowns" is the senior version.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Metrics, logs, and traces — the three pillars of observability" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The three pillars</text>
-  <g transform="translate(20,50)">
-    <rect width="190" height="160" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Metrics</text>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <polyline points="15,100 35,90 55,95 75,75 95,80 115,60 135,65 155,45 175,55"/>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" role="img" aria-label="Metrics, logs, and traces — the three pillars of observability" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">The three pillars</text>
+  <g transform="translate(20,44)">
+    <rect width="190" height="206" rx="10" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
+    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Metrics</text>
+    <polyline points="20,108 40,96 60,101 80,80 100,86 120,64 140,70 160,50 170,58" stroke="currentColor" stroke-width="1.5" fill="none"/>
     <g fill="currentColor" font-size="11">
-      <text x="15" y="130">numbers over time</text>
-      <text x="15" y="148">cheap, alertable</text>
-      <text x="15" y="166">quantitative</text>
+      <text x="20" y="146">numbers over time</text>
+      <text x="20" y="166">cheap, alertable</text>
+      <text x="20" y="186">quantitative</text>
     </g>
   </g>
-  <g transform="translate(225,50)">
-    <rect width="190" height="160" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Logs</text>
+  <g transform="translate(225,44)">
+    <rect width="190" height="206" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Logs</text>
     <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <line x1="15" y1="70" x2="175" y2="70"/>
-      <line x1="15" y1="85" x2="175" y2="85"/>
-      <line x1="15" y1="100" x2="175" y2="100"/>
-      <line x1="15" y1="115" x2="175" y2="115"/>
+      <line x1="20" y1="62" x2="170" y2="62"/>
+      <line x1="20" y1="78" x2="170" y2="78"/>
+      <line x1="20" y1="94" x2="170" y2="94"/>
+      <line x1="20" y1="110" x2="170" y2="110"/>
     </g>
     <g fill="currentColor" font-size="11">
-      <text x="15" y="135">timestamped events</text>
-      <text x="15" y="153">structured fields</text>
-      <text x="15" y="171">qualitative</text>
+      <text x="20" y="146">timestamped events</text>
+      <text x="20" y="166">structured fields</text>
+      <text x="20" y="186">qualitative</text>
     </g>
   </g>
-  <g transform="translate(430,50)">
-    <rect width="190" height="160" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
-    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Traces</text>
-    <g stroke="currentColor" stroke-width="2" fill="none">
-      <rect x="15" y="55" width="160" height="12" rx="3" fill="currentColor" opacity="0.5"/>
-      <rect x="25" y="72" width="110" height="12" rx="3" fill="currentColor" opacity="0.5"/>
-      <rect x="40" y="89" width="50" height="12" rx="3" fill="currentColor" opacity="0.5"/>
-      <rect x="100" y="89" width="30" height="12" rx="3" fill="currentColor" opacity="0.5"/>
+  <g transform="translate(430,44)">
+    <rect width="190" height="206" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Traces</text>
+    <g fill="currentColor" opacity="0.5">
+      <rect x="20" y="54" width="150" height="12" rx="3"/>
+      <rect x="30" y="71" width="105" height="12" rx="3"/>
+      <rect x="44" y="88" width="48" height="12" rx="3"/>
+      <rect x="100" y="88" width="30" height="12" rx="3"/>
     </g>
     <g fill="currentColor" font-size="11">
-      <text x="15" y="135">request waterfall</text>
-      <text x="15" y="153">across services</text>
-      <text x="15" y="171">latency analysis</text>
+      <text x="20" y="146">request waterfall</text>
+      <text x="20" y="166">across services</text>
+      <text x="20" y="186">latency analysis</text>
     </g>
   </g>
 </svg>

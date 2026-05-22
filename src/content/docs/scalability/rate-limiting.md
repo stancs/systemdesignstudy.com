@@ -99,7 +99,7 @@ Fine for rough quotas, less appropriate as a precise rate enforcer.
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Fixed window edge problem vs sliding window" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Fixed window has an edge problem; sliding window doesn't</text>
-  <g transform="translate(0,40)">
+  <g transform="translate(0,54)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Fixed window (100/min)</text>
     <g stroke="currentColor" stroke-width="2" fill="none">
       <line x1="20" y1="80" x2="300" y2="80"/>
@@ -118,7 +118,7 @@ Fine for rough quotas, less appropriate as a precise rate enforcer.
     </g>
     <text x="160" y="160" text-anchor="middle" fill="var(--sl-color-accent,#3b82f6)" font-size="11">Client can stack 100+100 across the boundary.</text>
   </g>
-  <g transform="translate(320,40)">
+  <g transform="translate(320,54)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Sliding window (100/min)</text>
     <g stroke="currentColor" stroke-width="2" fill="none">
       <line x1="20" y1="80" x2="300" y2="80"/>

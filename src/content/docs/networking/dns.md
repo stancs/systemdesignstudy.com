@@ -89,47 +89,57 @@ For modern, performant setups you'll also encounter:
 
 A modern global service almost certainly fronts its edge with **Anycast**. The same IP address is advertised from multiple datacenters; routers send each packet to the *closest* advertiser by BGP. The client doesn't know there are dozens of edge nodes — it sees one IP.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Anycast: one IP, many advertised locations, each user lands at the closest" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
-  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Anycast: one IP, many points of presence</text>
-  <g transform="translate(40,60)">
-    <circle r="22" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text y="4" text-anchor="middle" fill="currentColor" font-size="11">User SF</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288" role="img" aria-label="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="any-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">Anycast: one IP, many points of presence</text>
+
+  <g fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2">
+    <rect x="20" y="58" width="134" height="46" rx="10"/>
+    <rect x="174" y="58" width="134" height="46" rx="10"/>
+    <rect x="332" y="58" width="134" height="46" rx="10"/>
+    <rect x="486" y="58" width="134" height="46" rx="10"/>
   </g>
-  <g transform="translate(40,180)">
-    <circle r="22" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text y="4" text-anchor="middle" fill="currentColor" font-size="11">User LDN</text>
+  <g fill="currentColor" text-anchor="middle" font-size="12.5">
+    <text x="87" y="86">User in SF</text>
+    <text x="241" y="86">User in London</text>
+    <text x="399" y="86">User in Tokyo</text>
+    <text x="553" y="86">User in São Paulo</text>
   </g>
-  <g transform="translate(600,60)">
-    <circle r="22" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text y="4" text-anchor="middle" fill="currentColor" font-size="11">User TYO</text>
+
+  <g stroke="currentColor" stroke-width="2" fill="none">
+    <path d="M87 104 V160" marker-end="url(#any-ah)"/>
+    <path d="M241 104 V160" marker-end="url(#any-ah)"/>
+    <path d="M399 104 V160" marker-end="url(#any-ah)"/>
+    <path d="M553 104 V160" marker-end="url(#any-ah)"/>
   </g>
-  <g transform="translate(600,180)">
-    <circle r="22" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)" stroke-width="2"/>
-    <text y="4" text-anchor="middle" fill="currentColor" font-size="11">User SP</text>
-  </g>
+
   <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="220" y="40" width="100" height="40" rx="8"/>
-    <rect x="320" y="40" width="100" height="40" rx="8"/>
-    <rect x="220" y="170" width="100" height="40" rx="8"/>
-    <rect x="320" y="170" width="100" height="40" rx="8"/>
+    <rect x="20" y="164" width="134" height="62" rx="10"/>
+    <rect x="174" y="164" width="134" height="62" rx="10"/>
+    <rect x="332" y="164" width="134" height="62" rx="10"/>
+    <rect x="486" y="164" width="134" height="62" rx="10"/>
   </g>
-  <g fill="currentColor" text-anchor="middle" font-size="12">
-    <text x="270" y="58" font-weight="600">POP US-W</text>
-    <text x="270" y="74">1.2.3.4</text>
-    <text x="370" y="58" font-weight="600">POP EU</text>
-    <text x="370" y="74">1.2.3.4</text>
-    <text x="270" y="188" font-weight="600">POP US-E</text>
-    <text x="270" y="204">1.2.3.4</text>
-    <text x="370" y="188" font-weight="600">POP APAC</text>
-    <text x="370" y="204">1.2.3.4</text>
+  <g text-anchor="middle">
+    <g fill="currentColor" font-weight="600" font-size="12.5">
+      <text x="87" y="190">POP · US-West</text>
+      <text x="241" y="190">POP · Europe</text>
+      <text x="399" y="190">POP · Asia</text>
+      <text x="553" y="190">POP · S. America</text>
+    </g>
+    <g fill="var(--sl-color-accent,#3b82f6)" font-weight="700" font-size="13" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">
+      <text x="87" y="212">203.0.113.7</text>
+      <text x="241" y="212">203.0.113.7</text>
+      <text x="399" y="212">203.0.113.7</text>
+      <text x="553" y="212">203.0.113.7</text>
+    </g>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M62 60 H220"/>
-    <path d="M62 180 H320"/>
-    <path d="M578 60 H420"/>
-    <path d="M578 180 H420"/>
-  </g>
-  <text x="320" y="245" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">All POPs advertise the same IP via BGP. Routers pick the closest one per packet.</text>
+
+  <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">Every POP advertises the identical IP — BGP delivers each user's packets to the closest one.</text>
+  <text x="320" y="274" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">"One IP" quietly resolves to four different datacenters.</text>
 </svg>
 
 Anycast is the technique behind 1.1.1.1, every major CDN, and most global load balancers. Two consequences worth mentioning in an interview:

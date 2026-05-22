@@ -7,67 +7,62 @@ A message queue (or stream) is the way distributed systems do asynchronous, deco
 
 Almost every non-trivial system design has at least one queue or stream in it. Knowing the difference between them — and what guarantees you actually get — is one of the highest-yield areas to study.
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Queue: one consumer per message vs Stream: many independent consumers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Queue: one consumer per message vs Stream: many independent consumers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="qs-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Queue vs stream</text>
-  <g transform="translate(0,40)">
+
+  <g transform="translate(0,54)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Queue — one consumer per message</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="20" y="20" width="60" height="40" rx="6"/>
-      <rect x="110" y="20" width="100" height="40" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="240" y="0" width="60" height="22" rx="6"/>
-      <rect x="240" y="30" width="60" height="22" rx="6"/>
-      <rect x="240" y="60" width="60" height="22" rx="6"/>
+      <rect x="16" y="22" width="56" height="42" rx="6"/>
+      <rect x="100" y="22" width="98" height="42" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="244" y="2" width="66" height="26" rx="6"/>
+      <rect x="244" y="35" width="66" height="26" rx="6"/>
+      <rect x="244" y="68" width="66" height="26" rx="6"/>
     </g>
     <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="50" y="44">Pub</text>
-      <text x="160" y="44" font-weight="600">Queue</text>
-      <text x="270" y="15">Worker</text>
-      <text x="270" y="45">Worker</text>
-      <text x="270" y="75">Worker</text>
+      <text x="44" y="47">Pub</text>
+      <text x="149" y="47" font-weight="600">Queue</text>
+      <text x="277" y="19">Worker</text>
+      <text x="277" y="52">Worker</text>
+      <text x="277" y="85">Worker</text>
     </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M80 40 H110"/>
-      <path d="M210 40 L240 11"/>
+    <g stroke="currentColor" stroke-width="2" fill="none">
+      <path d="M72 43 H97" marker-end="url(#qs-arrow)"/>
+      <path d="M198 43 L241 48" marker-end="url(#qs-arrow)"/>
     </g>
-    <g fill="currentColor">
-      <polygon points="106,38 112,40 106,42"/>
-      <polygon points="236,13 242,11 240,17"/>
-    </g>
-    <text x="160" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Each message is delivered once,</text>
-    <text x="160" y="138" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">to whichever worker grabs it.</text>
-    <text x="160" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">SQS, RabbitMQ</text>
+    <text x="163" y="128" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Each message goes to one worker.</text>
+    <text x="163" y="146" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Examples — SQS, RabbitMQ</text>
   </g>
-  <g transform="translate(320,40)">
+
+  <g transform="translate(320,54)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Stream — many independent consumers</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="20" y="20" width="60" height="40" rx="6"/>
-      <rect x="110" y="20" width="100" height="40" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
-      <rect x="240" y="0" width="60" height="22" rx="6"/>
-      <rect x="240" y="30" width="60" height="22" rx="6"/>
-      <rect x="240" y="60" width="60" height="22" rx="6"/>
+      <rect x="16" y="22" width="56" height="42" rx="6"/>
+      <rect x="100" y="22" width="98" height="42" rx="6" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="244" y="2" width="66" height="26" rx="6"/>
+      <rect x="244" y="35" width="66" height="26" rx="6"/>
+      <rect x="244" y="68" width="66" height="26" rx="6"/>
     </g>
     <g fill="currentColor" text-anchor="middle" font-size="11">
-      <text x="50" y="44">Pub</text>
-      <text x="160" y="44" font-weight="600">Stream</text>
-      <text x="270" y="15">Sub A</text>
-      <text x="270" y="45">Sub B</text>
-      <text x="270" y="75">Sub C</text>
+      <text x="44" y="47">Pub</text>
+      <text x="149" y="47" font-weight="600">Stream</text>
+      <text x="277" y="19">Sub A</text>
+      <text x="277" y="52">Sub B</text>
+      <text x="277" y="85">Sub C</text>
     </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M80 40 H110"/>
-      <path d="M210 40 L240 11"/>
-      <path d="M210 40 L240 41"/>
-      <path d="M210 40 L240 71"/>
+    <g stroke="currentColor" stroke-width="2" fill="none">
+      <path d="M72 43 H97" marker-end="url(#qs-arrow)"/>
+      <path d="M198 43 L241 15" marker-end="url(#qs-arrow)"/>
+      <path d="M198 43 L241 48" marker-end="url(#qs-arrow)"/>
+      <path d="M198 43 L241 81" marker-end="url(#qs-arrow)"/>
     </g>
-    <g fill="currentColor">
-      <polygon points="106,38 112,40 106,42"/>
-      <polygon points="236,13 242,11 240,17"/>
-      <polygon points="236,43 242,41 240,47"/>
-      <polygon points="236,73 242,71 240,77"/>
-    </g>
-    <text x="160" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Every consumer reads every message,</text>
-    <text x="160" y="138" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">each at its own offset, replayable.</text>
-    <text x="160" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Kafka, Kinesis</text>
+    <text x="163" y="128" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Every consumer reads every message.</text>
+    <text x="163" y="146" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Examples — Kafka, Kinesis</text>
   </g>
 </svg>
 
