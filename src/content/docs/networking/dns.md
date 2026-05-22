@@ -12,13 +12,18 @@ A client (browser, mobile app, another service) wants a resource. It opens a con
 The key idea is that the system is **fundamentally pull-based**: the client initiates and the server responds. Notifications, websockets, and server-sent events bend this rule but don't break it — the connection is still established by the client.
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="DNS resolution chain from browser to authoritative nameserver" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="dns-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="340" y="22" text-anchor="middle" fill="currentColor" font-weight="600">A DNS lookup, end to end</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="80" width="100" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="20" y="80" width="100" height="50" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)" stroke-width="2"/>
     <rect x="150" y="80" width="100" height="50" rx="8"/>
     <rect x="280" y="80" width="100" height="50" rx="8"/>
     <rect x="410" y="80" width="100" height="50" rx="8"/>
-    <rect x="540" y="80" width="120" height="50" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+    <rect x="540" y="80" width="120" height="50" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)" stroke-width="2"/>
   </g>
   <g fill="currentColor" text-anchor="middle">
     <text x="70" y="100" font-weight="600">Client</text>
@@ -32,17 +37,11 @@ The key idea is that the system is **fundamentally pull-based**: the client init
     <text x="600" y="100" font-weight="600">Authoritative</text>
     <text x="600" y="118" font-size="11">example.com</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M120 105 H150"/>
-    <path d="M250 105 H280"/>
-    <path d="M380 105 H410"/>
-    <path d="M510 105 H540"/>
-  </g>
-  <g fill="currentColor">
-    <polygon points="146,101 152,105 146,109"/>
-    <polygon points="276,101 282,105 276,109"/>
-    <polygon points="406,101 412,105 406,109"/>
-    <polygon points="536,101 542,105 536,109"/>
+  <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#dns-arrow)">
+    <path d="M122 105 H148"/>
+    <path d="M252 105 H278"/>
+    <path d="M382 105 H408"/>
+    <path d="M512 105 H538"/>
   </g>
   <g font-size="11" fill="currentColor" opacity="0.8" text-anchor="middle">
     <text x="135" y="155">1. cache miss</text>
