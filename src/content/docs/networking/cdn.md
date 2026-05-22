@@ -8,12 +8,17 @@ A CDN (Content Delivery Network) is a globally distributed cache. Servers at the
 In a system design interview, the moment you talk about static assets, media, or any kind of "read-heavy public content," a CDN should appear in the diagram.
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="CDN cache hit vs cache miss flow" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+  <defs>
+    <marker id="cdn-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Cache hit vs cache miss</text>
   <g transform="translate(0,50)">
     <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Hit (most requests)</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
       <rect x="20" y="20" width="80" height="40" rx="8"/>
-      <rect x="120" y="20" width="80" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="120" y="20" width="80" height="40" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
       <rect x="220" y="20" width="80" height="40" rx="8" opacity="0.4" stroke-dasharray="4 3"/>
     </g>
     <g fill="currentColor" text-anchor="middle" font-size="12">
@@ -21,13 +26,9 @@ In a system design interview, the moment you talk about static assets, media, or
       <text x="160" y="44" font-weight="600">Edge POP</text>
       <text x="260" y="44" opacity="0.6">Origin</text>
     </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#cdn-arrow)">
       <path d="M100 35 H120"/>
-      <path d="M120 50 H100"/>
-    </g>
-    <g fill="currentColor">
-      <polygon points="116,33 122,35 116,37"/>
-      <polygon points="104,48 98,50 104,52"/>
+      <path d="M120 46 H100"/>
     </g>
     <text x="160" y="95" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Edge has the object → returns it immediately.</text>
     <text x="160" y="112" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Origin not touched. Latency: ~10–30 ms.</text>
@@ -37,24 +38,18 @@ In a system design interview, the moment you talk about static assets, media, or
     <g fill="none" stroke="currentColor" stroke-width="2">
       <rect x="20" y="20" width="80" height="40" rx="8"/>
       <rect x="120" y="20" width="80" height="40" rx="8"/>
-      <rect x="220" y="20" width="80" height="40" rx="8" fill="var(--sl-color-accent-low,#dbeafe)" stroke="var(--sl-color-accent,#3b82f6)"/>
+      <rect x="220" y="20" width="80" height="40" rx="8" fill="var(--sl-color-accent-low)" stroke="var(--sl-color-accent)"/>
     </g>
     <g fill="currentColor" text-anchor="middle" font-size="12">
       <text x="60" y="44">Client</text>
       <text x="160" y="44">Edge POP</text>
       <text x="260" y="44" font-weight="600">Origin</text>
     </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
-      <path d="M100 30 H120"/>
-      <path d="M200 30 H220"/>
-      <path d="M220 50 H200"/>
-      <path d="M120 50 H100"/>
-    </g>
-    <g fill="currentColor">
-      <polygon points="116,28 122,30 116,32"/>
-      <polygon points="216,28 222,30 216,32"/>
-      <polygon points="204,48 198,50 204,52"/>
-      <polygon points="104,48 98,50 104,52"/>
+    <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#cdn-arrow)">
+      <path d="M100 35 H120"/>
+      <path d="M200 35 H220"/>
+      <path d="M220 46 H200"/>
+      <path d="M120 46 H100"/>
     </g>
     <text x="160" y="95" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Edge fetches from origin, caches, returns.</text>
     <text x="160" y="112" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Subsequent requests are hits. Latency: ~origin RTT.</text>
