@@ -33,7 +33,7 @@
 <p class="sub">All 51 diagrams. Use the toggle to preview light vs dark — it applies the same invert + hue-rotate filter the live site uses, so this matches what visitors see when they switch the site theme.</p>
 <div class="grid">
 <h2>data</h2>
-<figure class="diag"><figcaption>caching-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The chain of caches between user and origin" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>caching-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The chain of caches between user and origin" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -83,7 +83,7 @@
   <text x="320" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Each level is bigger and slower than the one before it.</text>
   <text x="320" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">"We cache" only means something when you say <tspan font-style="italic">which</tspan> cache.</text>
 </svg></figure>
-<figure class="diag"><figcaption>caching-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Cache-aside flow: app checks cache, falls through to database on miss, then populates the cache" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>caching-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 268" role="img" aria-label="Cache-aside flow: app checks cache, falls through to database on miss, then populates the cache" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -140,7 +140,7 @@
   </g>
   <text x="320" y="238" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">The app owns the logic — the cache never talks to the database itself.</text>
 </svg></figure>
-<figure class="diag"><figcaption>caching-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Thundering herd on cache expiry, before and after request coalescing" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>caching-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 262" role="img" aria-label="Thundering herd on cache expiry, before and after request coalescing" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -217,7 +217,7 @@
     <text x="160" y="188" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">One origin fetch — others wait for it.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>indexing-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="B-tree vs LSM-tree index structures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>indexing-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 318" role="img" aria-label="B-tree vs LSM-tree index structures side by side" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -302,7 +302,7 @@
     </g>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>indexing-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Composite index on (country, city, zip) and which queries it serves" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>indexing-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 230" role="img" aria-label="Composite index on (country, city, zip) and which queries it serves" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -330,7 +330,7 @@
     <text x="40" y="200" fill="currentColor">✗ WHERE city = 'SF'  — leading column missing → index unused</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>message-queues-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Queue: one consumer per message vs Stream: many independent consumers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>message-queues-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Queue: one consumer per message vs Stream: many independent consumers" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -408,7 +408,7 @@
     <text x="160" y="140" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Examples — Kafka, Kinesis</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>message-queues-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>message-queues-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 230" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -449,7 +449,7 @@
   <text x="375" y="172" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">1s → 2s → 4s (with jitter)</text>
   <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">DLQ depth is a paging metric. Never let it grow silently.</text>
 </svg></figure>
-<figure class="diag"><figcaption>replication-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Single-leader replication: one writer, many readers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>replication-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Single-leader replication: one writer, many readers" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -459,6 +459,11 @@
     .on-hl{fill:#ffffff;}
     .step{fill:#64748b;stroke:#64748b;}
   </style>
+  <defs>
+    <marker id="rep-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Single-leader replication</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
     <rect class="hl" x="240" y="50" width="160" height="50" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
@@ -476,19 +481,14 @@
     <text x="510" y="192" font-weight="600">Follower 3</text>
     <text x="510" y="210" font-size="11">read replica</text>
   </g>
-  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
-    <path d="M280 100 L150 170"/>
-    <path d="M320 100 V170"/>
-    <path d="M360 100 L500 170"/>
-  </g>
-  <g fill="currentColor">
-    <polygon class="flowfill" points="151,166 154,172 146,170" />
-    <polygon class="flowfill" points="316,168 320,174 324,168" />
-    <polygon class="flowfill" points="498,168 502,174 506,170" />
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+    <path class="flow" d="M320 100 L130 170" marker-end="url(#rep-ah)"/>
+    <path class="flow" d="M320 100 V170" marker-end="url(#rep-ah)"/>
+    <path class="flow" d="M320 100 L510 170" marker-end="url(#rep-ah)"/>
   </g>
   <text x="320" y="252" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Writes go to one node; reads scale by adding followers (with replication lag).</text>
 </svg></figure>
-<figure class="diag"><figcaption>replication-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Synchronous vs asynchronous replication trade-off" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>replication-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Synchronous vs asynchronous replication trade-off" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -538,7 +538,7 @@
   </g>
   <text x="320" y="220" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Most "we can't lose writes" systems use semi-sync: one sync, rest async.</text>
 </svg></figure>
-<figure class="diag"><figcaption>replication-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Leaderless quorum: N=3, W=2, R=2 writes and reads" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>replication-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" role="img" aria-label="Leaderless quorum: N=3, W=2, R=2 writes and reads" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -590,7 +590,7 @@
   </g>
   <text x="320" y="240" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">W + R > N → at least one read node saw the latest write.</text>
 </svg></figure>
-<figure class="diag"><figcaption>sharding-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Range vs hash vs directory sharding placement" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>sharding-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 271" role="img" aria-label="Range vs hash vs directory sharding placement" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -647,7 +647,7 @@
     <text x="100" y="196" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">directory is a hot dependency.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>sharding-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Cross-shard query before and after colocating related tables" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>sharding-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 245" role="img" aria-label="Cross-shard query before and after colocating related tables" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -707,7 +707,7 @@
     <text x="160" y="170" text-anchor="middle" fill="currentColor" font-size="11">JOIN stays on one shard</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>sql-vs-nosql-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="A relational model with rows, columns, and a join" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>sql-vs-nosql-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 246" role="img" aria-label="A relational model with rows, columns, and a join" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -763,7 +763,7 @@
   <path d="M240 130 H400" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
   <text x="320" y="124" text-anchor="middle" fill="currentColor" font-weight="600" font-size="11">JOIN on user_id</text>
 </svg></figure>
-<figure class="diag"><figcaption>sql-vs-nosql-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="The four NoSQL data models with example shapes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>sql-vs-nosql-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="The four NoSQL data models with example shapes" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -832,7 +832,7 @@
   </g>
 </svg></figure>
 <h2>fundamentals</h2>
-<figure class="diag"><figcaption>cap-theorem-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 384" role="img" aria-label="The CAP triangle and what each pair means under partition" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>cap-theorem-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 405" role="img" aria-label="The CAP triangle and what each pair means under partition" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -876,7 +876,7 @@
 
   <text x="320" y="375" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">P is not optional in a real distributed system — the meaningful choice is C vs A.</text>
 </svg></figure>
-<figure class="diag"><figcaption>cap-theorem-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="PACELC decision tree for partition vs no-partition trade-offs" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>cap-theorem-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 282" role="img" aria-label="PACELC decision tree for partition vs no-partition trade-offs" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -920,7 +920,7 @@
     <path d="M500 180 H570 V195"/>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>estimation-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Latency hierarchy from L1 cache to cross-continent network" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>estimation-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Latency hierarchy from L1 cache to cross-continent network" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -964,7 +964,7 @@
     </g>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>estimation-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Orders of magnitude in seconds and counts" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>estimation-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Orders of magnitude in seconds and counts" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1003,7 +1003,7 @@
     </g>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>interview-framework-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 168" role="img" aria-label="The seven steps of a system design interview" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>interview-framework-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 186" role="img" aria-label="The seven steps of a system design interview" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1061,7 +1061,7 @@
   </g>
   <text x="340" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Steps 1 and 6 (highlighted) are where points are most often won.</text>
 </svg></figure>
-<figure class="diag"><figcaption>interview-framework-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 372" role="img" aria-label="Example REST API for a social feed with four endpoints" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>interview-framework-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 386" role="img" aria-label="Example REST API for a social feed with four endpoints" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1109,7 +1109,7 @@
     <text x="122" y="345" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">(no request body)   →   204 No Content</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>interview-framework-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 404" role="img" aria-label="Reference high-level architecture used at step 4" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>interview-framework-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 422" role="img" aria-label="Reference high-level architecture used at step 4" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1159,7 +1159,7 @@
     <text x="388" y="377">Workers</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>overview-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="The four axes interviewers grade on" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>overview-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="The four axes interviewers grade on" style="font:14px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1199,7 +1199,7 @@
     <text x="60" y="110" text-anchor="middle" fill="currentColor" font-size="12">Take feedback</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>overview-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="The five study tracks of this site" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>overview-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="The five study tracks of this site" style="font:14px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1242,7 +1242,7 @@
   </g>
   <text x="320" y="228" text-anchor="middle" fill="currentColor" font-size="12" opacity="0.8">Read top to bottom: foundations first, components next, scaling and patterns last.</text>
 </svg></figure>
-<figure class="diag"><figcaption>requirements-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Functional and non-functional requirements side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.4 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>requirements-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 287" role="img" aria-label="Functional and non-functional requirements side by side" style="font:13px/1.4 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1280,7 +1280,7 @@
     <text x="145" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Drives every architectural choice</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>requirements-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Consistency spectrum from strong to eventual" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>requirements-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 210" role="img" aria-label="Consistency spectrum from strong to eventual" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1316,7 +1316,7 @@
   <text x="600" y="180" text-anchor="end" fill="currentColor" font-size="11" opacity="0.7">faster, harder to reason about</text>
 </svg></figure>
 <h2>networking</h2>
-<figure class="diag"><figcaption>api-gateway-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="An API gateway sits in front of many services and owns cross-cutting concerns" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>api-gateway-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 298" role="img" aria-label="An API gateway sits in front of many services and owns cross-cutting concerns" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1369,7 +1369,7 @@
   </g>
   <text x="320" y="268" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Clients enter through one gateway; it applies policy, then routes to the right service.</text>
 </svg></figure>
-<figure class="diag"><figcaption>api-gateway-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>api-gateway-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 285" role="img" aria-label="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1418,7 +1418,7 @@
   </g>
   <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Each BFF shapes responses for one client class; all share the same downstream services.</text>
 </svg></figure>
-<figure class="diag"><figcaption>cdn-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="CDN cache hit vs cache miss flow" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>cdn-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="CDN cache hit vs cache miss flow" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1476,7 +1476,7 @@
   </g>
   <text x="320" y="225" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">A 95% hit rate means origin handles only 5% of traffic.</text>
 </svg></figure>
-<figure class="diag"><figcaption>cdn-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Multi-tier cache TTL: browser, edge, regional shield, origin" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>cdn-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Multi-tier cache TTL: browser, edge, regional shield, origin" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1520,7 +1520,7 @@
   <text x="320" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Most requests stop at the browser or edge. Each upstream hop is rarer and more expensive.</text>
   <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Content-hashed URLs (app.7f3a.js) can safely use max-age=31536000, immutable.</text>
 </svg></figure>
-<figure class="diag"><figcaption>communication-protocols-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Protocol comparison: payload size, streaming, direction" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>communication-protocols-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Protocol comparison: payload size, streaming, direction" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1571,7 +1571,7 @@
     <text x="580" y="190" font-size="11" font-weight="600" opacity="0.85">→ push only</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>communication-protocols-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 198" role="img" aria-label="WebSocket vs SSE: one TCP connection, full duplex vs server-only" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>communication-protocols-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 208" role="img" aria-label="WebSocket vs SSE: one TCP connection, full duplex vs server-only" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1622,7 +1622,7 @@
     <text x="161" y="178" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Use: notifications, progress, live feeds.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>dns-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="DNS resolution chain from browser to authoritative nameserver" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>dns-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 230" role="img" aria-label="DNS resolution chain from browser to authoritative nameserver" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1671,7 +1671,7 @@
   </g>
   <text x="340" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Each layer caches by TTL — most lookups stop at the recursive resolver.</text>
 </svg></figure>
-<figure class="diag"><figcaption>dns-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288" role="img" aria-label="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>dns-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 304" role="img" aria-label="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1732,7 +1732,7 @@
   <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">Every POP advertises the identical IP — BGP delivers each user's packets to the closest one.</text>
   <text x="320" y="274" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">"One IP" quietly resolves to four different datacenters.</text>
 </svg></figure>
-<figure class="diag"><figcaption>load-balancers-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Layer 4 vs Layer 7 load balancing side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>load-balancers-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 272" role="img" aria-label="Layer 4 vs Layer 7 load balancing side by side" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1806,7 +1806,7 @@
     </g>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>load-balancers-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" role="img" aria-label="Round robin vs least connections, with one slow backend" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>load-balancers-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 274" role="img" aria-label="Round robin vs least connections, with one slow backend" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1867,7 +1867,7 @@
     <text x="145" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">LB routes new reqs to the freer backend.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>load-balancers-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 348" role="img" aria-label="Typical layered load balancer architecture from client to app servers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>load-balancers-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 366" role="img" aria-label="Typical layered load balancer architecture from client to app servers" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1916,7 +1916,7 @@
   </g>
 </svg></figure>
 <h2>patterns</h2>
-<figure class="diag"><figcaption>event-driven-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="One event fans out to many independent subscribers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>event-driven-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 275" role="img" aria-label="One event fans out to many independent subscribers" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -1961,7 +1961,7 @@
   </g>
   <text x="320" y="245" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Publisher doesn't know subscribers. Add a new one without touching the publisher.</text>
 </svg></figure>
-<figure class="diag"><figcaption>event-driven-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Orchestrated saga: coordinator drives each step with compensation on failure" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>event-driven-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 290" role="img" aria-label="Orchestrated saga: coordinator drives each step with compensation on failure" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2002,7 +2002,7 @@
   </g>
   <text x="320" y="260" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">On failure, the orchestrator triggers compensations in reverse order.</text>
 </svg></figure>
-<figure class="diag"><figcaption>monolith-vs-microservices-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Monolith vs modular monolith vs microservices, three architectures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>monolith-vs-microservices-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Monolith vs modular monolith vs microservices, three architectures side by side" style="font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2055,27 +2055,27 @@
     <rect width="190" height="220" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
     <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Microservices</text>
     <g fill="none" stroke="currentColor" stroke-width="1.5">
-      <rect x="20" y="50" width="50" height="35" rx="4"/>
-      <rect x="80" y="50" width="50" height="35" rx="4"/>
-      <rect x="140" y="50" width="50" height="35" rx="4"/>
-      <rect x="20" y="100" width="50" height="35" rx="4"/>
-      <rect x="80" y="100" width="50" height="35" rx="4"/>
-      <rect x="140" y="100" width="50" height="35" rx="4"/>
+      <rect x="18" y="50" width="46" height="35" rx="4"/>
+      <rect x="72" y="50" width="46" height="35" rx="4"/>
+      <rect x="126" y="50" width="46" height="35" rx="4"/>
+      <rect x="18" y="100" width="46" height="35" rx="4"/>
+      <rect x="72" y="100" width="46" height="35" rx="4"/>
+      <rect x="126" y="100" width="46" height="35" rx="4"/>
     </g>
     <g fill="currentColor" text-anchor="middle" font-size="10">
-      <text x="45" y="72">users</text>
-      <text x="105" y="72">orders</text>
-      <text x="165" y="72">pay</text>
-      <text x="45" y="122">auth</text>
-      <text x="105" y="122">search</text>
-      <text x="165" y="122">feed</text>
+      <text x="41" y="72">users</text>
+      <text x="95" y="72">orders</text>
+      <text x="149" y="72">pay</text>
+      <text x="41" y="122">auth</text>
+      <text x="95" y="122">search</text>
+      <text x="149" y="122">feed</text>
       <text x="95" y="160" opacity="0.75">own DB each</text>
       <text x="95" y="176" opacity="0.75">deploy independently</text>
     </g>
     <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">scales teams, taxes ops</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>monolith-vs-microservices-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Sync queries on critical path; async events for fan-out side effects" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>monolith-vs-microservices-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 282" role="img" aria-label="Sync queries on critical path; async events for fan-out side effects" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2125,7 +2125,7 @@
   <text x="320" y="252" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Client gets a fast sync response; downstream side effects happen asynchronously.</text>
 </svg></figure>
 <h2>scalability</h2>
-<figure class="diag"><figcaption>consistent-hashing-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 315" role="img" aria-label="The consistent hash ring with three servers and several keys" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>consistent-hashing-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 338" role="img" aria-label="The consistent hash ring with three servers and several keys" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2185,7 +2185,7 @@
 
   <text x="320" y="308" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">A key belongs to the first server clockwise from its hash position. Key color = assigned server.</text>
 </svg></figure>
-<figure class="diag"><figcaption>consistent-hashing-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Hash ring without and with virtual nodes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>consistent-hashing-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 336" role="img" aria-label="Hash ring without and with virtual nodes" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2229,7 +2229,7 @@
     <text x="0" y="136" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Removing a server distributes work across many neighbors.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>consistent-hashing-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Plain hashing vs consistent hashing when adding a server" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>consistent-hashing-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Plain hashing vs consistent hashing when adding a server" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2267,7 +2267,7 @@
     <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Cache mostly warm. Origin survives.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>fault-tolerance-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Active-active vs active-passive redundancy" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>fault-tolerance-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 265" role="img" aria-label="Active-active vs active-passive redundancy" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2313,7 +2313,7 @@
     <text x="160" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Lose primary → flip; brief outage.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>fault-tolerance-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Circuit breaker state machine: closed, open, half-open" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>fault-tolerance-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Circuit breaker state machine: closed, open, half-open" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2357,7 +2357,7 @@
   </g>
   <text x="320" y="225" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Stops a failing dependency from being buried in retries.</text>
 </svg></figure>
-<figure class="diag"><figcaption>monitoring-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" role="img" aria-label="Metrics, logs, and traces — the three pillars of observability" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>monitoring-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 277" role="img" aria-label="Metrics, logs, and traces — the three pillars of observability" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2409,7 +2409,7 @@
     </g>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>monitoring-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The four golden signals: latency, traffic, errors, saturation" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>monitoring-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 246" role="img" aria-label="The four golden signals: latency, traffic, errors, saturation" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2447,7 +2447,7 @@
     <polyline points="490,190 510,185 530,180 550,170 570,160 600,155" stroke-width="2"/>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>rate-limiting-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Token bucket: refills at rate r, each request takes a token" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>rate-limiting-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 256" role="img" aria-label="Token bucket: refills at rate r, each request takes a token" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2494,7 +2494,7 @@
     <polygon class="flowfill" points="436,123 442,125 436,127" />
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>rate-limiting-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Fixed window edge problem vs sliding window" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>rate-limiting-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Fixed window edge problem vs sliding window" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2537,7 +2537,7 @@
     <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">No edge effect — always counts the last 60 s.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>scaling-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Vertical scaling: one bigger box. Horizontal scaling: many boxes." style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>scaling-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 243" role="img" aria-label="Vertical scaling: one bigger box. Horizontal scaling: many boxes." style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
@@ -2580,7 +2580,7 @@
     <text x="160" y="168" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Fault-tolerant by construction.</text>
   </g>
 </svg></figure>
-<figure class="diag"><figcaption>scaling-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Scaling ladder: get more out of one box, replicate reads, cache, queue, shard" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+<figure class="diag"><figcaption>scaling-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 275" role="img" aria-label="Scaling ladder: get more out of one box, replicate reads, cache, queue, shard" style="font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
   <style>
     svg{color:#243044;}
     .flow{stroke:#0d96a3;}
