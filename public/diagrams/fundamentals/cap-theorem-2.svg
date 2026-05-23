@@ -1,13 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="PACELC decision tree for partition vs no-partition trade-offs" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="PACELC decision tree for partition vs no-partition trade-offs" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">PACELC: trade-offs in both regimes</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
     <rect x="240" y="40" width="160" height="40" rx="8"/>
     <rect x="60" y="120" width="160" height="40" rx="8"/>
     <rect x="420" y="120" width="160" height="40" rx="8"/>
-    <rect x="20" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
-    <rect x="160" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
-    <rect x="380" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
-    <rect x="520" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect class="hl" x="20" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="160" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="380" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="520" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
   </g>
   <g fill="currentColor" text-anchor="middle">
     <text x="320" y="65" font-weight="700">A network partition?</text>
@@ -24,7 +33,7 @@
     <text x="430" y="252">Latency</text>
     <text x="570" y="252">Consistency</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
     <path d="M320 80 V100 H140 V120"/>
     <path d="M320 80 V100 H500 V120"/>
     <path d="M140 160 V180 H70 V195"/>

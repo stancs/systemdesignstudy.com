@@ -1,12 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Backend-for-Frontend (BFF) pattern</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
     <rect x="20" y="50" width="100" height="35" rx="8"/>
     <rect x="20" y="115" width="100" height="35" rx="8"/>
     <rect x="20" y="180" width="100" height="35" rx="8"/>
-    <rect x="200" y="50" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
-    <rect x="200" y="115" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
-    <rect x="200" y="180" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect class="hl" x="200" y="50" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="200" y="115" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="200" y="180" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
     <rect x="440" y="50" width="160" height="35" rx="8"/>
     <rect x="440" y="115" width="160" height="35" rx="8"/>
     <rect x="440" y="180" width="160" height="35" rx="8"/>
@@ -22,7 +31,7 @@
     <text x="520" y="137">Order svc</text>
     <text x="520" y="202">Catalog svc</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
     <path d="M120 67 H200"/>
     <path d="M120 132 H200"/>
     <path d="M120 197 H200"/>

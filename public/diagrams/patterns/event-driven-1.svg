@@ -1,7 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="One event fans out to many independent subscribers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="One event fans out to many independent subscribers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Pub/sub fan-out: one fact, many reactions</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="100" width="120" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect class="hl" x="20" y="100" width="120" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
     <rect x="200" y="100" width="140" height="50" rx="8"/>
     <rect x="400" y="30" width="200" height="35" rx="8"/>
     <rect x="400" y="80" width="200" height="35" rx="8"/>
@@ -18,7 +27,7 @@
     <text x="500" y="152">Warm recommendations</text>
     <text x="500" y="202">Analytics ingest</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
     <path d="M140 125 H200"/>
     <path d="M340 125 L400 47"/>
     <path d="M340 125 L400 97"/>
@@ -26,11 +35,11 @@
     <path d="M340 125 L400 197"/>
   </g>
   <g fill="currentColor">
-    <polygon points="196,123 202,125 196,127"/>
-    <polygon points="396,49 402,47 402,53"/>
-    <polygon points="396,99 402,97 402,103"/>
-    <polygon points="396,149 402,147 402,153"/>
-    <polygon points="396,199 402,197 402,203"/>
+    <polygon class="flowfill" points="196,123 202,125 196,127" />
+    <polygon class="flowfill" points="396,49 402,47 402,53" />
+    <polygon class="flowfill" points="396,99 402,97 402,103" />
+    <polygon class="flowfill" points="396,149 402,147 402,153" />
+    <polygon class="flowfill" points="396,199 402,197 402,203" />
   </g>
   <text x="320" y="245" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Publisher doesn't know subscribers. Add a new one without touching the publisher.</text>
 </svg>

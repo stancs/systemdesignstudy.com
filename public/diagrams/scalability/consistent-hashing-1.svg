@@ -1,4 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 315" role="img" aria-label="The consistent hash ring with three servers and several keys" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 315" role="img" aria-label="The consistent hash ring with three servers and several keys" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The hash ring</text>
 
   <!-- Region arcs: each server owns the arc ending at its dot (clockwise) -->

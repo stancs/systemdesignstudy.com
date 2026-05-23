@@ -1,16 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="DNS resolution chain from browser to authoritative nameserver" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="DNS resolution chain from browser to authoritative nameserver" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <defs>
     <marker id="dns-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
     </marker>
   </defs>
   <text x="340" y="22" text-anchor="middle" fill="currentColor" font-weight="600">A DNS lookup, end to end</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
-    <rect x="20" y="80" width="100" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2"/>
+    <rect class="hl" x="20" y="80" width="100" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
     <rect x="150" y="80" width="100" height="50" rx="8"/>
     <rect x="280" y="80" width="100" height="50" rx="8"/>
     <rect x="410" y="80" width="100" height="50" rx="8"/>
-    <rect x="540" y="80" width="120" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2"/>
+    <rect class="hl" x="540" y="80" width="120" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
   </g>
   <g fill="currentColor" text-anchor="middle">
     <text x="70" y="100" font-weight="600">Client</text>
@@ -24,7 +33,7 @@
     <text x="600" y="100" font-weight="600">Authoritative</text>
     <text x="600" y="118" font-size="11">example.com</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#dns-arrow)">
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#dns-arrow)">
     <path d="M122 105 H148"/>
     <path d="M252 105 H278"/>
     <path d="M382 105 H408"/>

@@ -1,0 +1,2621 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagram colour preview</title>
+<style>
+  :root{ --pg:#ffffff; --tx:#243044; }
+  body{ margin:0; padding:32px clamp(16px,4vw,64px); background:var(--pg); color:var(--tx);
+        font:15px/1.5 ui-sans-serif,system-ui,sans-serif; transition:background .2s,color .2s; }
+  h1{ font-size:20px; margin:0 0 4px; }
+  .sub{ opacity:.7; margin:0 0 24px; font-size:13px; }
+  h2{ grid-column:1/-1; font-size:13px; text-transform:uppercase; letter-spacing:.08em; opacity:.6;
+      margin:32px 0 0; border-bottom:1px solid currentColor; padding-bottom:6px; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(420px,1fr)); gap:20px; }
+  figure{ margin:0; border:1px solid color-mix(in srgb, currentColor 18%, transparent);
+          border-radius:12px; padding:14px 16px 18px; }
+  figcaption{ font-size:12px; opacity:.55; margin-bottom:8px; font-family:ui-monospace,Menlo,monospace; }
+  figure svg{ width:100%; height:auto; }
+  .toggle{ position:sticky; top:16px; float:right; z-index:9; }
+  button{ font:inherit; font-size:13px; padding:8px 16px; border-radius:999px; cursor:pointer;
+          border:1px solid color-mix(in srgb, currentColor 35%, transparent);
+          background:color-mix(in srgb, currentColor 8%, transparent); color:inherit; }
+
+  /* dark mode mirrors the live site: the diagram is filtered, not re-styled */
+  body.dark{ --pg:#161b29; --tx:#e6ebf4; }
+  body.dark .diag svg{ filter:invert(1) hue-rotate(180deg); }
+</style>
+</head>
+<body>
+<div class="toggle"><button id="t">Switch to dark</button></div>
+<h1>System Design Study — diagram colours</h1>
+<p class="sub">All 51 diagrams. Use the toggle to preview light vs dark — it applies the same invert + hue-rotate filter the live site uses, so this matches what visitors see when they switch the site theme.</p>
+<div class="grid">
+<h2>data</h2>
+<figure class="diag"><figcaption>caching-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The chain of caches between user and origin" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Caches at every layer (close to far)</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="10" y="60" width="90" height="50" rx="8"/>
+    <rect x="115" y="60" width="90" height="50" rx="8"/>
+    <rect x="220" y="60" width="90" height="50" rx="8"/>
+    <rect class="hl" x="325" y="60" width="90" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="430" y="60" width="100" height="50" rx="8"/>
+    <rect x="545" y="60" width="85" height="50" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="55" y="78" font-weight="600">Browser</text>
+    <text x="55" y="96" font-size="10">µs</text>
+    <text x="160" y="78" font-weight="600">CDN edge</text>
+    <text x="160" y="96" font-size="10">~30 ms</text>
+    <text x="265" y="78" font-weight="600">Reverse</text>
+    <text x="265" y="96" font-size="10">proxy</text>
+    <text x="370" y="78" font-weight="600">App-local</text>
+    <text x="370" y="96" font-size="10">µs (RAM)</text>
+    <text x="480" y="78" font-weight="600">Redis /</text>
+    <text x="480" y="96" font-size="10">Memcached</text>
+    <text x="587" y="78" font-weight="600">DB cache</text>
+    <text x="587" y="96" font-size="10">buffer pool</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M100 85 H115"/>
+    <path d="M205 85 H220"/>
+    <path d="M310 85 H325"/>
+    <path d="M415 85 H430"/>
+    <path d="M530 85 H545"/>
+  </g>
+  <g fill="currentColor">
+    <polygon class="flowfill" points="111,83 117,85 111,87" />
+    <polygon class="flowfill" points="216,83 222,85 216,87" />
+    <polygon class="flowfill" points="321,83 327,85 321,87" />
+    <polygon class="flowfill" points="426,83 432,85 426,87" />
+    <polygon class="flowfill" points="541,83 547,85 541,87" />
+  </g>
+  <text x="320" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Each level is bigger and slower than the one before it.</text>
+  <text x="320" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">"We cache" only means something when you say <tspan font-style="italic">which</tspan> cache.</text>
+</svg></figure>
+<figure class="diag"><figcaption>caching-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Cache-aside flow: app checks cache, falls through to database on miss, then populates the cache" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="ca-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">Cache-aside: the read path</text>
+
+  <path class="flow" d="M191 116 C 191 58, 572 58, 572 116" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#ca-arrow)" />
+  <text x="381" y="52" text-anchor="middle" fill="currentColor" font-size="11">cache hit — return immediately, skip steps 3–5</text>
+
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="12" y="116" width="104" height="78" rx="8"/>
+    <rect class="hl" x="139" y="116" width="104" height="78" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="266" y="116" width="104" height="78" rx="8"/>
+    <rect x="393" y="116" width="104" height="78" rx="8"/>
+    <rect x="520" y="116" width="104" height="78" rx="8"/>
+  </g>
+
+  <g fill="currentColor" text-anchor="middle">
+    <text x="64" y="150" font-weight="600">App</text>
+    <text x="64" y="170" font-size="11">needs user:42</text>
+    <text x="191" y="150" font-weight="600">Check cache</text>
+    <text x="191" y="170" font-size="11">Redis</text>
+    <text x="318" y="150" font-weight="600">Read database</text>
+    <text x="318" y="170" font-size="11">Postgres</text>
+    <text x="445" y="150" font-weight="600">Write to cache</text>
+    <text x="445" y="170" font-size="11">populate</text>
+    <text x="572" y="150" font-weight="600">Return value</text>
+    <text x="572" y="170" font-size="11">to caller</text>
+  </g>
+
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+    <path class="flow" d="M116 155 H137" marker-end="url(#ca-arrow)" />
+    <path class="flow" d="M243 155 H264" marker-end="url(#ca-arrow)" />
+    <path class="flow" d="M370 155 H391" marker-end="url(#ca-arrow)" />
+    <path class="flow" d="M497 155 H518" marker-end="url(#ca-arrow)" />
+  </g>
+
+  <g fill="currentColor" text-anchor="middle" font-size="11">
+    <text x="64" y="210">1</text>
+    <text x="191" y="210">2</text>
+    <text x="318" y="210">3 · on miss</text>
+    <text x="445" y="210">4</text>
+    <text x="572" y="210">5</text>
+  </g>
+  <text x="320" y="238" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">The app owns the logic — the cache never talks to the database itself.</text>
+</svg></figure>
+<figure class="diag"><figcaption>caching-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 250" role="img" aria-label="Thundering herd on cache expiry, before and after request coalescing" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="th-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Thundering herd, with and without coalescing</text>
+
+  <!-- No coalescing -->
+  <g transform="translate(10,44)">
+    <text x="150" y="0" text-anchor="middle" fill="currentColor" font-weight="600">No coalescing</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="15" width="60" height="30" rx="6"/>
+      <rect x="20" y="53" width="60" height="30" rx="6"/>
+      <rect x="20" y="91" width="60" height="30" rx="6"/>
+      <rect x="20" y="129" width="60" height="30" rx="6"/>
+      <rect class="hl" x="200" y="15" width="80" height="144" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="50" y="35">req</text>
+      <text x="50" y="73">req</text>
+      <text x="50" y="111">req</text>
+      <text x="50" y="149">req</text>
+      <text x="240" y="93" font-weight="600" font-size="13">Origin</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#th-arrow)">
+      <path d="M80 30 H200"/>
+      <path d="M80 68 H200"/>
+      <path d="M80 106 H200"/>
+      <path d="M80 144 H200"/>
+    </g>
+    <text x="150" y="188" text-anchor="middle" fill="currentColor" font-size="11">All N misses hit origin simultaneously.</text>
+  </g>
+
+  <!-- With coalescing -->
+  <g transform="translate(320,44)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">With coalescing</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="10" y="15" width="60" height="30" rx="6"/>
+      <rect x="10" y="53" width="60" height="30" rx="6"/>
+      <rect x="10" y="91" width="60" height="30" rx="6"/>
+      <rect x="10" y="129" width="60" height="30" rx="6"/>
+      <rect x="120" y="72" width="70" height="30" rx="8"/>
+      <rect class="hl" x="240" y="72" width="80" height="30" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="40" y="35">req</text>
+      <text x="40" y="73">req</text>
+      <text x="40" y="111">req</text>
+      <text x="40" y="149">req</text>
+      <text x="155" y="92" font-weight="600">Cache</text>
+      <text x="280" y="92" font-weight="600">Origin</text>
+    </g>
+    <!-- Fan-in bracket -->
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M70 30 H92"/>
+      <path d="M70 68 H92"/>
+      <path d="M70 106 H92"/>
+      <path d="M70 144 H92"/>
+      <path d="M92 30 V144"/>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#th-arrow)">
+      <path d="M92 87 H120"/>
+      <path d="M190 87 H240"/>
+    </g>
+    <text x="160" y="188" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">One origin fetch — others wait for it.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>indexing-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="B-tree vs LSM-tree index structures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">B-tree vs LSM-tree</text>
+  <g transform="translate(20,40)">
+    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">B-tree (Postgres, MySQL)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect class="hl" x="115" y="20" width="60" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="30" y="80" width="60" height="28" rx="6"/>
+      <rect x="115" y="80" width="60" height="28" rx="6"/>
+      <rect x="200" y="80" width="60" height="28" rx="6"/>
+      <rect x="0" y="140" width="50" height="28" rx="6"/>
+      <rect x="60" y="140" width="50" height="28" rx="6"/>
+      <rect x="120" y="140" width="50" height="28" rx="6"/>
+      <rect x="180" y="140" width="50" height="28" rx="6"/>
+      <rect x="240" y="140" width="50" height="28" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="145" y="39">root</text>
+      <text x="60" y="98">10..</text>
+      <text x="145" y="98">..50..</text>
+      <text x="230" y="98">..99</text>
+      <text x="25" y="158">1-9</text>
+      <text x="85" y="158">10-49</text>
+      <text x="145" y="158">50-69</text>
+      <text x="205" y="158">70-89</text>
+      <text x="265" y="158">90-99</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M145 48 V60 H60 V80"/>
+      <path d="M145 48 V60 H145 V80"/>
+      <path d="M145 48 V60 H230 V80"/>
+      <path d="M60 108 V120 H25 V140"/>
+      <path d="M60 108 V120 H85 V140"/>
+      <path d="M145 108 V120 H145 V140"/>
+      <path d="M230 108 V120 H205 V140"/>
+      <path d="M230 108 V120 H265 V140"/>
+    </g>
+    <g font-size="11" fill="currentColor" opacity="0.85">
+      <text x="0" y="200">• ordered, balanced</text>
+      <text x="0" y="216">• fast point + range</text>
+      <text x="0" y="232">• read-friendly</text>
+      <text x="0" y="248">• writes rebalance tree</text>
+    </g>
+  </g>
+  <g transform="translate(340,40)">
+    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">LSM-tree (Cassandra, RocksDB)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect class="hl" x="100" y="20" width="90" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="40" y="70" width="60" height="22" rx="4"/>
+      <rect x="110" y="70" width="60" height="22" rx="4"/>
+      <rect x="180" y="70" width="60" height="22" rx="4"/>
+      <rect x="60" y="110" width="80" height="22" rx="4"/>
+      <rect x="160" y="110" width="80" height="22" rx="4"/>
+      <rect x="80" y="150" width="140" height="22" rx="4"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="145" y="38">memtable (RAM)</text>
+      <text x="70" y="85">L0 SST</text>
+      <text x="140" y="85">L0 SST</text>
+      <text x="210" y="85">L0 SST</text>
+      <text x="100" y="125">L1 SST</text>
+      <text x="200" y="125">L1 SST</text>
+      <text x="150" y="165">L2 SST</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M145 48 V70" stroke-dasharray="3 3"/>
+      <path d="M145 92 V110" stroke-dasharray="3 3"/>
+      <path d="M150 132 V150" stroke-dasharray="3 3"/>
+    </g>
+    <g font-size="11" fill="currentColor" opacity="0.85">
+      <text x="0" y="200">• append-only writes</text>
+      <text x="0" y="216">• background compaction</text>
+      <text x="0" y="232">• write-friendly</text>
+      <text x="0" y="248">• reads check many files</text>
+    </g>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>indexing-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Composite index on (country, city, zip) and which queries it serves" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Composite index on (country, city, zip)</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect class="hl" x="40" y="50" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="180" y="50" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="320" y="50" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="100" y="74" font-weight="700">country</text>
+    <text x="240" y="74" font-weight="700">city</text>
+    <text x="380" y="74" font-weight="700">zip</text>
+  </g>
+  <g font-size="12" fill="currentColor">
+    <text x="40" y="130">✓ WHERE country = 'US'</text>
+    <text x="40" y="152">✓ WHERE country = 'US' AND city = 'SF'</text>
+    <text x="40" y="174">✓ WHERE country = 'US' AND city = 'SF' AND zip = '94107'</text>
+    <text x="40" y="200" fill="currentColor">✗ WHERE city = 'SF'  — leading column missing → index unused</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>message-queues-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Queue: one consumer per message vs Stream: many independent consumers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="qs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Queue vs stream</text>
+
+  <!-- Queue panel -->
+  <g transform="translate(0,44)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Queue — one consumer per message</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="16" y="20" width="56" height="42" rx="6"/>
+      <rect class="hl" x="100" y="20" width="98" height="42" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="240" y="5"  width="66" height="26" rx="6"/>
+      <rect x="240" y="37" width="66" height="26" rx="6"/>
+      <rect x="240" y="69" width="66" height="26" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="44"  y="45">Pub</text>
+      <text x="149" y="45" font-weight="600">Queue</text>
+      <text x="273" y="23">Worker</text>
+      <text x="273" y="55">Worker</text>
+      <text x="273" y="87">Worker</text>
+    </g>
+    <!-- Pub → Queue -->
+    <path class="flow" d="M72 41 H100" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)" />
+    <!-- Queue → bracket (one arrow into pool) -->
+    <path class="flow" d="M198 41 H235" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)" />
+    <!-- Bracket: vertical line + ticks to each worker -->
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M235 18 V82"/>
+      <path d="M235 18 H240"/>
+      <path d="M235 50 H240"/>
+      <path d="M235 82 H240"/>
+    </g>
+    <text x="160" y="122" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Each message goes to one worker.</text>
+    <text x="160" y="140" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Examples — SQS, RabbitMQ</text>
+  </g>
+
+  <!-- Stream panel -->
+  <g transform="translate(320,44)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Stream — many independent consumers</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="16" y="20" width="56" height="42" rx="6"/>
+      <rect class="hl" x="100" y="20" width="98" height="42" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="240" y="5"  width="66" height="26" rx="6"/>
+      <rect x="240" y="37" width="66" height="26" rx="6"/>
+      <rect x="240" y="69" width="66" height="26" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="44"  y="45">Pub</text>
+      <text x="149" y="45" font-weight="600">Stream</text>
+      <text x="273" y="23">Sub A</text>
+      <text x="273" y="55">Sub B</text>
+      <text x="273" y="87">Sub C</text>
+    </g>
+    <!-- Pub → Stream -->
+    <path class="flow" d="M72 41 H100" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)" />
+    <!-- Stream → each sub (fan-out) -->
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#qs-arrow)">
+      <path d="M198 41 L240 18"/>
+      <path d="M198 41 L240 50"/>
+      <path d="M198 41 L240 82"/>
+    </g>
+    <text x="160" y="122" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Every consumer reads every message.</text>
+    <text x="160" y="140" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Examples — Kafka, Kinesis</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>message-queues-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="retry-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Retry pipeline with backoff and DLQ</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="60" width="110" height="50" rx="8"/>
+    <rect class="hl" x="170" y="60" width="110" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="320" y="60" width="110" height="50" rx="8"/>
+    <rect x="470" y="60" width="140" height="50" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="75" y="82" font-weight="600">Queue</text>
+    <text x="75" y="100" font-size="11">message</text>
+    <text x="225" y="82" font-weight="600">Consumer</text>
+    <text x="225" y="100" font-size="11">idempotent</text>
+    <text x="375" y="82" font-weight="600">Fail?</text>
+    <text x="375" y="100" font-size="11">backoff retry</text>
+    <text x="540" y="82" font-weight="600">DLQ</text>
+    <text x="540" y="100" font-size="11">after N tries</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#retry-arrow)">
+    <path d="M130 85 H170"/>
+    <path d="M280 85 H320"/>
+    <path d="M430 85 H470"/>
+    <path d="M375 110 V148 H225 V110"/>
+  </g>
+  <text x="375" y="172" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">1s → 2s → 4s (with jitter)</text>
+  <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">DLQ depth is a paging metric. Never let it grow silently.</text>
+</svg></figure>
+<figure class="diag"><figcaption>replication-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Single-leader replication: one writer, many readers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Single-leader replication</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect class="hl" x="240" y="50" width="160" height="50" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="60" y="170" width="140" height="50" rx="10"/>
+    <rect x="250" y="170" width="140" height="50" rx="10"/>
+    <rect x="440" y="170" width="140" height="50" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="72" font-weight="700">Leader</text>
+    <text x="320" y="90" font-size="11">accepts writes</text>
+    <text x="130" y="192" font-weight="600">Follower 1</text>
+    <text x="130" y="210" font-size="11">read replica</text>
+    <text x="320" y="192" font-weight="600">Follower 2</text>
+    <text x="320" y="210" font-size="11">read replica</text>
+    <text x="510" y="192" font-weight="600">Follower 3</text>
+    <text x="510" y="210" font-size="11">read replica</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M280 100 L150 170"/>
+    <path d="M320 100 V170"/>
+    <path d="M360 100 L500 170"/>
+  </g>
+  <g fill="currentColor">
+    <polygon class="flowfill" points="151,166 154,172 146,170" />
+    <polygon class="flowfill" points="316,168 320,174 324,168" />
+    <polygon class="flowfill" points="498,168 502,174 506,170" />
+  </g>
+  <text x="320" y="252" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Writes go to one node; reads scale by adding followers (with replication lag).</text>
+</svg></figure>
+<figure class="diag"><figcaption>replication-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Synchronous vs asynchronous replication trade-off" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Sync vs async replication</text>
+  <g transform="translate(0,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Asynchronous</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="80" height="40" rx="8"/>
+      <rect x="200" y="20" width="80" height="40" rx="8"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="80" y="45">Leader</text>
+      <text x="240" y="45">Follower</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M120 40 H200" stroke-dasharray="3 3"/>
+    </g>
+    <text x="160" y="100" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Leader acks immediately, ships later.</text>
+    <text x="160" y="118" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Fast writes, possible data loss on failover.</text>
+  </g>
+  <g transform="translate(320,40)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Synchronous</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="80" height="40" rx="8"/>
+      <rect class="hl" x="200" y="20" width="80" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="80" y="45">Leader</text>
+      <text x="240" y="45">Follower</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M120 30 H200"/>
+      <path d="M200 50 H120"/>
+    </g>
+    <g fill="currentColor">
+      <polygon class="flowfill" points="196,28 202,30 196,32" />
+      <polygon class="flowfill" points="124,48 118,50 124,52" />
+    </g>
+    <text x="160" y="100" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Leader waits for follower's ack.</text>
+    <text x="160" y="118" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">No loss, but slow-follower stalls writes.</text>
+  </g>
+  <text x="320" y="220" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Most "we can't lose writes" systems use semi-sync: one sync, rest async.</text>
+</svg></figure>
+<figure class="diag"><figcaption>replication-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Leaderless quorum: N=3, W=2, R=2 writes and reads" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Leaderless quorum (N=3, W=2, R=2)</text>
+  <g transform="translate(0,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Write (W=2 acks needed)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="70" height="35" rx="6"/>
+      <rect class="hl" x="125" y="20" width="70" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="125" y="75" width="70" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="125" y="130" width="70" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="55" y="42">Client</text>
+      <text x="160" y="42">Node A ✓</text>
+      <text x="160" y="97">Node B ✓</text>
+      <text x="160" y="152">Node C ✗</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M90 38 H125"/>
+      <path d="M90 38 H110 V92 H125"/>
+      <path d="M90 38 H110 V147 H125"/>
+    </g>
+  </g>
+  <g transform="translate(320,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Read (R=2 consulted)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="70" height="35" rx="6"/>
+      <rect class="hl" x="125" y="20" width="70" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="125" y="75" width="70" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="125" y="130" width="70" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="55" y="42">Client</text>
+      <text x="160" y="42">Node A</text>
+      <text x="160" y="97">Node B</text>
+      <text x="160" y="152">Node C</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M90 38 H125"/>
+      <path d="M90 38 H110 V92 H125"/>
+    </g>
+  </g>
+  <text x="320" y="240" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">W + R > N → at least one read node saw the latest write.</text>
+</svg></figure>
+<figure class="diag"><figcaption>sharding-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Range vs hash vs directory sharding placement" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Three ways to assign rows to shards</text>
+  <g transform="translate(0,45)">
+    <text x="105" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Range</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="170" height="35" rx="6"/>
+      <rect x="20" y="65" width="170" height="35" rx="6"/>
+      <rect class="hl" x="20" y="110" width="170" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="105" y="42">user_id 1 – 1M  → Shard A</text>
+      <text x="105" y="87">user_id 1M – 2M  → Shard B</text>
+      <text x="105" y="132">user_id 2M+  → Shard C (hot)</text>
+    </g>
+    <text x="105" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Easy range scans;</text>
+    <text x="105" y="196" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">hot tail with sequential IDs.</text>
+  </g>
+  <g transform="translate(220,45)">
+    <text x="105" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Hash</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect class="hl" x="20" y="20" width="170" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="20" y="65" width="170" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="20" y="110" width="170" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="105" y="42">hash(id) mod 3 = 0  → A</text>
+      <text x="105" y="87">hash(id) mod 3 = 1  → B</text>
+      <text x="105" y="132">hash(id) mod 3 = 2  → C</text>
+    </g>
+    <text x="105" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Even distribution;</text>
+    <text x="105" y="196" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">range queries scatter.</text>
+  </g>
+  <g transform="translate(440,45)">
+    <text x="100" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Directory</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="10" y="20" width="180" height="125" rx="6"/>
+    </g>
+    <g fill="currentColor" font-size="11">
+      <text x="25" y="42">tenant_42 → Shard A</text>
+      <text x="25" y="66">tenant_7  → Shard B</text>
+      <text x="25" y="90">tenant_99 → Shard A</text>
+      <text x="25" y="114">tenant_BIG → dedicated</text>
+      <text x="25" y="138" opacity="0.7" font-style="italic">lookup service</text>
+    </g>
+    <text x="100" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Maximum flexibility;</text>
+    <text x="100" y="196" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">directory is a hot dependency.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>sharding-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Cross-shard query before and after colocating related tables" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Colocate by the same shard key to avoid scatter-gather</text>
+  <g transform="translate(0,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Without colocation</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="20" width="80" height="50" rx="6"/>
+      <rect x="120" y="20" width="80" height="50" rx="6"/>
+      <rect x="210" y="20" width="80" height="50" rx="6"/>
+      <rect x="30" y="90" width="80" height="50" rx="6"/>
+      <rect x="120" y="90" width="80" height="50" rx="6"/>
+      <rect x="210" y="90" width="80" height="50" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="40" font-weight="600">users A</text>
+      <text x="160" y="40" font-weight="600">users B</text>
+      <text x="250" y="40" font-weight="600">users C</text>
+      <text x="70" y="110" font-weight="600">orders A</text>
+      <text x="160" y="110" font-weight="600">orders B</text>
+      <text x="250" y="110" font-weight="600">orders C</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3" fill="none">
+      <path d="M70 70 V90"/>
+      <path d="M70 70 V80 H160 V90"/>
+      <path d="M70 70 V80 H250 V90"/>
+    </g>
+    <text x="160" y="170" text-anchor="middle" fill="currentColor" font-size="11">JOIN touches all shards</text>
+  </g>
+  <g transform="translate(320,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">With colocation by user_id</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect class="hl" x="30" y="20" width="80" height="50" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="120" y="20" width="80" height="50" rx="6"/>
+      <rect x="210" y="20" width="80" height="50" rx="6"/>
+      <rect class="hl" x="30" y="90" width="80" height="50" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="120" y="90" width="80" height="50" rx="6"/>
+      <rect x="210" y="90" width="80" height="50" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="40" font-weight="600">users A</text>
+      <text x="160" y="40" font-weight="600">users B</text>
+      <text x="250" y="40" font-weight="600">users C</text>
+      <text x="70" y="110" font-weight="600">orders A</text>
+      <text x="160" y="110" font-weight="600">orders B</text>
+      <text x="250" y="110" font-weight="600">orders C</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+      <path d="M70 70 V90"/>
+    </g>
+    <text x="160" y="170" text-anchor="middle" fill="currentColor" font-size="11">JOIN stays on one shard</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>sql-vs-nosql-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="A relational model with rows, columns, and a join" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">SQL: structured rows joined by keys</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="220" height="170" rx="8"/>
+    <rect x="400" y="50" width="220" height="170" rx="8"/>
+  </g>
+  <g fill="currentColor">
+    <text x="130" y="74" text-anchor="middle" font-weight="700">users</text>
+    <text x="510" y="74" text-anchor="middle" font-weight="700">orders</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <line x1="30" y1="90" x2="230" y2="90"/>
+    <line x1="100" y1="90" x2="100" y2="215"/>
+    <line x1="170" y1="90" x2="170" y2="215"/>
+    <line x1="410" y1="90" x2="610" y2="90"/>
+    <line x1="470" y1="90" x2="470" y2="215"/>
+    <line x1="540" y1="90" x2="540" y2="215"/>
+  </g>
+  <g fill="currentColor" font-size="11">
+    <text x="35" y="106">id</text>
+    <text x="105" y="106">email</text>
+    <text x="175" y="106">name</text>
+    <text x="35" y="130">1</text>
+    <text x="105" y="130">a@x</text>
+    <text x="175" y="130">Ann</text>
+    <text x="35" y="154">2</text>
+    <text x="105" y="154">b@x</text>
+    <text x="175" y="154">Bob</text>
+    <text x="35" y="178">3</text>
+    <text x="105" y="178">c@x</text>
+    <text x="175" y="178">Cleo</text>
+    <text x="415" y="106">id</text>
+    <text x="475" y="106">user_id</text>
+    <text x="545" y="106">total</text>
+    <text x="415" y="130">11</text>
+    <text x="475" y="130">2</text>
+    <text x="545" y="130">$19</text>
+    <text x="415" y="154">12</text>
+    <text x="475" y="154">1</text>
+    <text x="545" y="154">$48</text>
+    <text x="415" y="178">13</text>
+    <text x="475" y="178">2</text>
+    <text x="545" y="178">$5</text>
+  </g>
+  <path d="M240 130 H400" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="320" y="124" text-anchor="middle" fill="currentColor" font-weight="600" font-size="11">JOIN on user_id</text>
+</svg></figure>
+<figure class="diag"><figcaption>sql-vs-nosql-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="The four NoSQL data models with example shapes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The four NoSQL data models</text>
+  <g transform="translate(20,45)">
+    <rect width="140" height="210" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Key-value</text>
+    <text x="70" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Redis · DynamoDB</text>
+    <g fill="currentColor" font-size="11">
+      <text x="14" y="74">"user:42" → {…}</text>
+      <text x="14" y="96">"sess:x9" → {…}</text>
+      <text x="14" y="118">"cart:7" → […]</text>
+    </g>
+    <text x="70" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">O(1) lookups</text>
+    <text x="70" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">no joins</text>
+  </g>
+  <g transform="translate(170,45)">
+    <rect class="hl" width="140" height="210" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <text x="70" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Document</text>
+    <text x="70" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">MongoDB · Firestore</text>
+    <g fill="currentColor" font-size="11">
+      <text x="14" y="70">{ "id":1,</text>
+      <text x="14" y="86">  "name":"Ann",</text>
+      <text x="14" y="102">  "tags":[…],</text>
+      <text x="14" y="118">  "addr":{…} }</text>
+    </g>
+    <text x="70" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">flexible schema</text>
+    <text x="70" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">field queries</text>
+  </g>
+  <g transform="translate(320,45)">
+    <rect width="140" height="210" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Wide-column</text>
+    <text x="70" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Cassandra · Scylla</text>
+    <g fill="currentColor" font-size="10">
+      <text x="14" y="70">user_id | ts | val</text>
+      <text x="14" y="86">42 | t1 | hi</text>
+      <text x="14" y="102">42 | t2 | bye</text>
+      <text x="14" y="118">42 | t3 | ok</text>
+    </g>
+    <text x="70" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">huge write rates</text>
+    <text x="70" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">key partition</text>
+  </g>
+  <g transform="translate(470,45)">
+    <rect width="150" height="210" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="75" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Graph</text>
+    <text x="75" y="42" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Neo4j · Neptune</text>
+    <g transform="translate(20,70)">
+      <circle cx="20" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="80" cy="20" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="20" cy="60" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="80" cy="60" r="10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="30" y1="20" x2="70" y2="20" stroke="currentColor"/>
+      <line x1="20" y1="30" x2="20" y2="50" stroke="currentColor"/>
+      <line x1="80" y1="30" x2="80" y2="50" stroke="currentColor"/>
+      <line x1="30" y1="60" x2="70" y2="60" stroke="currentColor"/>
+      <line x1="28" y1="28" x2="72" y2="52" stroke="currentColor"/>
+    </g>
+    <text x="75" y="170" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">traversal queries</text>
+    <text x="75" y="186" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">friends-of-friends</text>
+  </g>
+</svg></figure>
+<h2>fundamentals</h2>
+<figure class="diag"><figcaption>cap-theorem-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 384" role="img" aria-label="The CAP triangle and what each pair means under partition" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">CAP: pick CP or AP when the network is partitioned</text>
+
+  <polygon points="320,100 544,306 96,306" fill="none" stroke="currentColor" stroke-width="2"/>
+
+  <g text-anchor="middle" fill="currentColor">
+    <text x="320" y="64" font-weight="700" font-size="17">C</text>
+    <text x="320" y="84" font-size="12" opacity="0.85">Consistency</text>
+    <text x="96" y="338" font-weight="700" font-size="17">P</text>
+    <text x="96" y="358" font-size="12" opacity="0.85">Partition tolerance</text>
+    <text x="544" y="338" font-weight="700" font-size="17">A</text>
+    <text x="544" y="358" font-size="12" opacity="0.85">Availability</text>
+  </g>
+
+  <g fill="currentColor">
+    <circle cx="320" cy="100" r="4"/>
+    <circle cx="96" cy="306" r="4"/>
+    <circle cx="544" cy="306" r="4"/>
+  </g>
+
+  <g font-size="12" fill="currentColor">
+    <g transform="translate(204,214)">
+      <rect class="hl" width="112" height="54" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+      <text x="56" y="24" text-anchor="middle" font-weight="700">CP</text>
+      <text x="56" y="42" text-anchor="middle" font-size="11">Spanner, etcd</text>
+    </g>
+    <g transform="translate(324,214)">
+      <rect class="hl" width="112" height="54" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+      <text x="56" y="24" text-anchor="middle" font-weight="700">AP</text>
+      <text x="56" y="42" text-anchor="middle" font-size="11">Cassandra, Dynamo</text>
+    </g>
+  </g>
+
+  <text x="320" y="375" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">P is not optional in a real distributed system — the meaningful choice is C vs A.</text>
+</svg></figure>
+<figure class="diag"><figcaption>cap-theorem-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="PACELC decision tree for partition vs no-partition trade-offs" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">PACELC: trade-offs in both regimes</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="240" y="40" width="160" height="40" rx="8"/>
+    <rect x="60" y="120" width="160" height="40" rx="8"/>
+    <rect x="420" y="120" width="160" height="40" rx="8"/>
+    <rect class="hl" x="20" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="160" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="380" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="520" y="195" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="65" font-weight="700">A network partition?</text>
+    <text x="140" y="145" font-weight="600">Yes (P)</text>
+    <text x="500" y="145" font-weight="600">No (Else)</text>
+    <text x="70" y="220" font-size="12">A</text>
+    <text x="210" y="220" font-size="12">C</text>
+    <text x="430" y="220" font-size="12">L</text>
+    <text x="570" y="220" font-size="12">C</text>
+  </g>
+  <g font-size="11" fill="currentColor" text-anchor="middle" opacity="0.85">
+    <text x="70" y="252">AP picks</text>
+    <text x="210" y="252">CP picks</text>
+    <text x="430" y="252">Latency</text>
+    <text x="570" y="252">Consistency</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M320 80 V100 H140 V120"/>
+    <path d="M320 80 V100 H500 V120"/>
+    <path d="M140 160 V180 H70 V195"/>
+    <path d="M140 180 H210 V195"/>
+    <path d="M500 160 V180 H430 V195"/>
+    <path d="M500 180 H570 V195"/>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>estimation-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Latency hierarchy from L1 cache to cross-continent network" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The latency hierarchy (each step ~100× slower)</text>
+  <g font-size="12">
+    <g transform="translate(40,50)">
+      <rect class="hl" width="220" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+      <text x="10" y="19" fill="currentColor" font-weight="600">L1 cache</text>
+      <text x="210" y="19" text-anchor="end" fill="currentColor">~1 ns</text>
+    </g>
+    <g transform="translate(40,85)">
+      <rect width="260" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">Main memory</text>
+      <text x="250" y="19" text-anchor="end" fill="currentColor">~100 ns</text>
+    </g>
+    <g transform="translate(40,120)">
+      <rect width="320" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">SSD random read</text>
+      <text x="310" y="19" text-anchor="end" fill="currentColor">~100 µs</text>
+    </g>
+    <g transform="translate(40,155)">
+      <rect width="400" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">Round trip in datacenter</text>
+      <text x="390" y="19" text-anchor="end" fill="currentColor">~500 µs</text>
+    </g>
+    <g transform="translate(40,190)">
+      <rect width="500" height="28" rx="6" fill="none" stroke="currentColor" stroke-width="2"/>
+      <text x="10" y="19" fill="currentColor" font-weight="600">Disk seek (HDD)</text>
+      <text x="490" y="19" text-anchor="end" fill="currentColor">~10 ms</text>
+    </g>
+    <g transform="translate(40,225)">
+      <rect class="hl" width="580" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+      <text x="10" y="19" fill="currentColor" font-weight="600">CA → Netherlands round trip</text>
+      <text x="570" y="19" text-anchor="end" fill="currentColor">~150 ms</text>
+    </g>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>estimation-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Orders of magnitude in seconds and counts" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Useful orders of magnitude</text>
+  <g transform="translate(20,50)">
+    <rect width="190" height="120" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="600">Time</text>
+    <g font-size="12" fill="currentColor">
+      <text x="15" y="56">1 day ≈ 100k seconds</text>
+      <text x="15" y="80">1 month ≈ 2.5M seconds</text>
+      <text x="15" y="104">1 year ≈ 30M seconds</text>
+    </g>
+  </g>
+  <g transform="translate(225,50)">
+    <rect class="hl" width="190" height="120" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="600">Counts</text>
+    <g font-size="12" fill="currentColor">
+      <text x="15" y="56">2¹⁰ ≈ 10³ (thousand)</text>
+      <text x="15" y="80">2²⁰ ≈ 10⁶ (million)</text>
+      <text x="15" y="104">2³⁰ ≈ 10⁹ (billion)</text>
+    </g>
+  </g>
+  <g transform="translate(430,50)">
+    <rect width="190" height="120" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="28" text-anchor="middle" fill="currentColor" font-weight="600">Peak vs average</text>
+    <g font-size="12" fill="currentColor">
+      <text x="15" y="56">B2B: ~2× average</text>
+      <text x="15" y="80">Consumer: 3–5×</text>
+      <text x="15" y="104">Events / virality: 10×+</text>
+    </g>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>interview-framework-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 168" role="img" aria-label="The seven steps of a system design interview" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="340" y="20" text-anchor="middle" fill="currentColor" font-weight="600">The seven-step framework</text>
+  <line x1="50" y1="84" x2="630" y2="84" stroke="currentColor" stroke-width="2"/>
+  <g font-size="11">
+    <g transform="translate(50,84)">
+      <circle class="hl-solid" r="15" fill="currentColor" stroke="currentColor" stroke-width="2" />
+      <text class="on-hl" y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">1</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Clarify</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
+    </g>
+    <g transform="translate(147,84)">
+      <circle class="step" r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2" />
+      <text class="on-hl" y="4" text-anchor="middle" fill="currentColor" font-weight="700">2</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Estimate</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">3 min</text>
+    </g>
+    <g transform="translate(243,84)">
+      <circle class="step" r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2" />
+      <text class="on-hl" y="4" text-anchor="middle" fill="currentColor" font-weight="700">3</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">API</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">3 min</text>
+    </g>
+    <g transform="translate(340,84)">
+      <circle class="step" r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2" />
+      <text class="on-hl" y="4" text-anchor="middle" fill="currentColor" font-weight="700">4</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Architecture</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">8 min</text>
+    </g>
+    <g transform="translate(437,84)">
+      <circle class="step" r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2" />
+      <text class="on-hl" y="4" text-anchor="middle" fill="currentColor" font-weight="700">5</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Data model</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
+    </g>
+    <g transform="translate(533,84)">
+      <circle class="hl-solid" r="15" fill="currentColor" stroke="currentColor" stroke-width="2" />
+      <text class="on-hl" y="4" text-anchor="middle" fill="var(--sl-color-white,#fff)" font-weight="700">6</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Deep dives</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">15 min</text>
+    </g>
+    <g transform="translate(630,84)">
+      <circle class="step" r="15" fill="var(--sl-color-bg,#fff)" stroke="currentColor" stroke-width="2" />
+      <text class="on-hl" y="4" text-anchor="middle" fill="currentColor" font-weight="700">7</text>
+      <text y="-28" text-anchor="middle" fill="currentColor" font-weight="600">Wrap up</text>
+      <text y="36" text-anchor="middle" fill="currentColor" opacity="0.75">5 min</text>
+    </g>
+  </g>
+  <text x="340" y="156" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Steps 1 and 6 (highlighted) are where points are most often won.</text>
+</svg></figure>
+<figure class="diag"><figcaption>interview-framework-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 372" role="img" aria-label="Example REST API for a social feed with four endpoints" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">An example REST API — a social feed</text>
+
+  <g>
+    <rect x="14" y="40" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="56" width="78" height="28" rx="14" fill="#16a34a"/>
+    <text x="67" y="74" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">POST</text>
+    <text x="122" y="75" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/posts</text>
+    <text x="612" y="75" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Create a new post</text>
+    <text x="122" y="99" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">body { content }   →   201 Created · { post_id }</text>
+  </g>
+
+  <g>
+    <rect x="14" y="122" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="138" width="78" height="28" rx="14" fill="#2563eb"/>
+    <text x="67" y="156" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">GET</text>
+    <text x="122" y="157" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/feed</text>
+    <text x="612" y="157" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Fetch the home feed</text>
+    <text x="122" y="181" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">query ?cursor &amp; ?limit   →   200 OK · { posts[], next_cursor }</text>
+  </g>
+
+  <g>
+    <rect x="14" y="204" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="220" width="78" height="28" rx="14" fill="#16a34a"/>
+    <text x="67" y="238" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">POST</text>
+    <text x="122" y="239" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/posts/:id/likes</text>
+    <text x="612" y="239" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Like a post</text>
+    <text x="122" y="263" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">(no request body)   →   204 No Content</text>
+  </g>
+
+  <g>
+    <rect x="14" y="286" width="612" height="74" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+    <rect x="28" y="302" width="78" height="28" rx="14" fill="#dc2626"/>
+    <text x="67" y="320" text-anchor="middle" fill="#ffffff" font-weight="700" font-size="11.5">DELETE</text>
+    <text x="122" y="321" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-weight="600" font-size="14" fill="currentColor">/posts/:id/likes</text>
+    <text x="612" y="321" text-anchor="end" font-size="12" fill="currentColor" opacity="0.6">Remove a like</text>
+    <text x="122" y="345" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11.5" fill="currentColor" opacity="0.8">(no request body)   →   204 No Content</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>interview-framework-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 404" role="img" aria-label="Reference high-level architecture used at step 4" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="arch-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+    <path class="flow" d="M320 56 V92" marker-end="url(#arch-ah)" />
+    <path class="flow" d="M320 136 V170" marker-end="url(#arch-ah)" />
+    <path d="M320 218 V242"/>
+    <path d="M102 242 H532"/>
+    <path class="flow" d="M102 242 V264" marker-end="url(#arch-ah)" />
+    <path class="flow" d="M246 242 V264" marker-end="url(#arch-ah)" />
+    <path class="flow" d="M388 242 V264" marker-end="url(#arch-ah)" />
+    <path class="flow" d="M532 242 V264" marker-end="url(#arch-ah)" />
+    <path class="flow" d="M388 318 V350" marker-end="url(#arch-ah)" />
+  </g>
+
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="262" y="14" width="116" height="42" rx="8"/>
+    <rect x="262" y="94" width="116" height="42" rx="8"/>
+    <rect class="hl" x="230" y="170" width="180" height="48" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="44" y="266" width="116" height="52" rx="8"/>
+    <rect x="182" y="266" width="128" height="52" rx="8"/>
+    <rect x="332" y="266" width="112" height="52" rx="8"/>
+    <rect x="462" y="266" width="140" height="52" rx="8"/>
+    <rect x="328" y="350" width="120" height="46" rx="8"/>
+  </g>
+
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="40">Client</text>
+    <text x="320" y="120">Load Balancer</text>
+    <text x="320" y="199" font-weight="600">App Servers</text>
+    <text x="102" y="296">Cache</text>
+    <text x="246" y="296">Database</text>
+    <text x="388" y="296">Queue</text>
+    <text x="532" y="296">Object Store</text>
+    <text x="388" y="377">Workers</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>overview-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="The four axes interviewers grade on" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600" font-size="14">What the interview actually measures</text>
+  <g transform="translate(20,50)">
+    <rect class="hl" width="140" height="140" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <text x="70" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Framing</text>
+    <text x="70" y="70" text-anchor="middle" fill="currentColor" font-size="12">Functional vs</text>
+    <text x="70" y="86" text-anchor="middle" fill="currentColor" font-size="12">non-functional</text>
+    <text x="70" y="110" text-anchor="middle" fill="currentColor" font-size="12">Scope &amp; scale</text>
+  </g>
+  <g transform="translate(180,50)">
+    <rect width="140" height="140" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Components</text>
+    <text x="70" y="70" text-anchor="middle" fill="currentColor" font-size="12">LB, cache, queue,</text>
+    <text x="70" y="86" text-anchor="middle" fill="currentColor" font-size="12">DB, replication</text>
+    <text x="70" y="110" text-anchor="middle" fill="currentColor" font-size="12">Pick &amp; justify</text>
+  </g>
+  <g transform="translate(340,50)">
+    <rect width="140" height="140" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Trade-offs</text>
+    <text x="70" y="70" text-anchor="middle" fill="currentColor" font-size="12">Consistency,</text>
+    <text x="70" y="86" text-anchor="middle" fill="currentColor" font-size="12">latency, cost</text>
+    <text x="70" y="110" text-anchor="middle" fill="currentColor" font-size="12">Defend choices</text>
+  </g>
+  <g transform="translate(500,50)">
+    <rect width="120" height="140" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="60" y="32" text-anchor="middle" fill="currentColor" font-weight="600">Communication</text>
+    <text x="60" y="70" text-anchor="middle" fill="currentColor" font-size="12">Drive the</text>
+    <text x="60" y="86" text-anchor="middle" fill="currentColor" font-size="12">conversation</text>
+    <text x="60" y="110" text-anchor="middle" fill="currentColor" font-size="12">Take feedback</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>overview-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="The five study tracks of this site" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:14px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The five study tracks</text>
+  <g transform="translate(250,40)">
+    <rect class="hl" width="140" height="50" rx="10" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-width="2" />
+    <text x="70" y="30" text-anchor="middle" fill="currentColor" font-weight="700">Fundamentals</text>
+  </g>
+  <g transform="translate(20,140)">
+    <rect width="140" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Networking</text>
+    <text x="70" y="40" text-anchor="middle" fill="currentColor" font-weight="700">&amp; Delivery</text>
+  </g>
+  <g transform="translate(180,140)">
+    <rect width="140" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Data</text>
+    <text x="70" y="40" text-anchor="middle" fill="currentColor" font-weight="700">&amp; Storage</text>
+  </g>
+  <g transform="translate(340,140)">
+    <rect width="140" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="70" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Scalability</text>
+    <text x="70" y="40" text-anchor="middle" fill="currentColor" font-weight="700">&amp; Reliability</text>
+  </g>
+  <g transform="translate(500,140)">
+    <rect width="120" height="54" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="60" y="23" text-anchor="middle" fill="currentColor" font-weight="700">Architecture</text>
+    <text x="60" y="40" text-anchor="middle" fill="currentColor" font-weight="700">Patterns</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M320 90 V120 H90 V140"/>
+    <path d="M320 90 V120 H250 V140"/>
+    <path d="M320 90 V120 H410 V140"/>
+    <path d="M320 90 V120 H560 V140"/>
+  </g>
+  <text x="320" y="228" text-anchor="middle" fill="currentColor" font-size="12" opacity="0.8">Read top to bottom: foundations first, components next, scaling and patterns last.</text>
+</svg></figure>
+<figure class="diag"><figcaption>requirements-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Functional and non-functional requirements side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.4 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Two layers of requirements</text>
+  <g transform="translate(20,45)">
+    <rect width="290" height="215" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Functional</text>
+    <text x="145" y="46" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">what the system does</text>
+    <g fill="currentColor" font-size="12">
+      <text x="20" y="80">• Users post messages</text>
+      <text x="20" y="105">• Users follow other users</text>
+      <text x="20" y="130">• Users see a feed</text>
+      <text x="20" y="155">• Users upload media</text>
+      <text x="20" y="180">• Users get notifications</text>
+    </g>
+    <text x="145" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">User-visible features</text>
+  </g>
+  <g transform="translate(330,45)">
+    <rect class="hl" width="290" height="215" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Non-functional</text>
+    <text x="145" y="46" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">how it behaves</text>
+    <g fill="currentColor" font-size="12">
+      <text x="20" y="80">• Scale: 100M DAU, 50k QPS</text>
+      <text x="20" y="105">• Latency: p99 &lt; 200 ms</text>
+      <text x="20" y="130">• Availability: 99.95%</text>
+      <text x="20" y="155">• Consistency: read-your-writes</text>
+      <text x="20" y="180">• Cost &amp; regulatory limits</text>
+    </g>
+    <text x="145" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Drives every architectural choice</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>requirements-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="Consistency spectrum from strong to eventual" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The consistency spectrum</text>
+  <line x1="40" y1="100" x2="600" y2="100" stroke="currentColor" stroke-width="2"/>
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="currentColor">
+    <line x1="80" y1="93" x2="80" y2="107"/>
+    <line x1="270" y1="93" x2="270" y2="107"/>
+    <line x1="450" y1="93" x2="450" y2="107"/>
+    <line x1="580" y1="93" x2="580" y2="107"/>
+  </g>
+  <g text-anchor="middle" fill="currentColor">
+    <text x="80" y="80" font-weight="600">Strong</text>
+    <text x="80" y="130" font-size="12">money,</text>
+    <text x="80" y="146" font-size="12">inventory</text>
+    <text x="270" y="80" font-weight="600">Read-your-writes</text>
+    <text x="270" y="130" font-size="12">user-generated</text>
+    <text x="270" y="146" font-size="12">content</text>
+    <text x="450" y="80" font-weight="600">Causal</text>
+    <text x="450" y="130" font-size="12">chat, collab</text>
+    <text x="450" y="146" font-size="12">editing</text>
+    <text x="580" y="80" font-weight="600">Eventual</text>
+    <text x="580" y="130" font-size="12">view counts,</text>
+    <text x="580" y="146" font-size="12">feeds</text>
+  </g>
+  <text x="40" y="180" fill="currentColor" font-size="11" opacity="0.7">slower, simpler to reason about</text>
+  <text x="600" y="180" text-anchor="end" fill="currentColor" font-size="11" opacity="0.7">faster, harder to reason about</text>
+</svg></figure>
+<h2>networking</h2>
+<figure class="diag"><figcaption>api-gateway-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="An API gateway sits in front of many services and owns cross-cutting concerns" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="gw-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The gateway owns cross-cutting concerns at the front door</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="24" y="52" width="104" height="40" rx="8"/>
+    <rect x="24" y="116" width="104" height="40" rx="8"/>
+    <rect x="24" y="180" width="104" height="40" rx="8"/>
+    <rect class="hl" x="248" y="84" width="160" height="104" rx="12" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="508" y="44" width="116" height="40" rx="8"/>
+    <rect x="508" y="98" width="116" height="40" rx="8"/>
+    <rect x="508" y="152" width="116" height="40" rx="8"/>
+    <rect x="508" y="206" width="116" height="40" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="76" y="77">Web</text>
+    <text x="76" y="141">Mobile</text>
+    <text x="76" y="205">Partner</text>
+    <text x="328" y="124" font-weight="700">API Gateway</text>
+    <text x="328" y="145" font-size="11">auth · rate limit</text>
+    <text x="328" y="161" font-size="11">routing · obs · TLS</text>
+    <text x="566" y="69">Users svc</text>
+    <text x="566" y="123">Orders svc</text>
+    <text x="566" y="177">Catalog svc</text>
+    <text x="566" y="231">Payments svc</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+    <path d="M128 72 H192"/>
+    <path d="M128 136 H192"/>
+    <path d="M128 200 H192"/>
+    <path d="M192 72 V200"/>
+    <path class="flow" d="M192 136 H248" marker-end="url(#gw-ah)" />
+    <path d="M408 136 H464"/>
+    <path d="M464 64 V226"/>
+    <path class="flow" d="M464 64 H508" marker-end="url(#gw-ah)" />
+    <path class="flow" d="M464 118 H508" marker-end="url(#gw-ah)" />
+    <path class="flow" d="M464 172 H508" marker-end="url(#gw-ah)" />
+    <path class="flow" d="M464 226 H508" marker-end="url(#gw-ah)" />
+  </g>
+  <text x="320" y="268" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Clients enter through one gateway; it applies policy, then routes to the right service.</text>
+</svg></figure>
+<figure class="diag"><figcaption>api-gateway-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Backend-for-frontend pattern: one BFF per client class fans into shared services" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Backend-for-Frontend (BFF) pattern</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="100" height="35" rx="8"/>
+    <rect x="20" y="115" width="100" height="35" rx="8"/>
+    <rect x="20" y="180" width="100" height="35" rx="8"/>
+    <rect class="hl" x="200" y="50" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="200" y="115" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="200" y="180" width="120" height="35" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="440" y="50" width="160" height="35" rx="8"/>
+    <rect x="440" y="115" width="160" height="35" rx="8"/>
+    <rect x="440" y="180" width="160" height="35" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="70" y="72">iOS app</text>
+    <text x="70" y="137">Web app</text>
+    <text x="70" y="202">Partner</text>
+    <text x="260" y="72" font-weight="600">iOS BFF</text>
+    <text x="260" y="137" font-weight="600">Web BFF</text>
+    <text x="260" y="202" font-weight="600">Public BFF</text>
+    <text x="520" y="72">User svc</text>
+    <text x="520" y="137">Order svc</text>
+    <text x="520" y="202">Catalog svc</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M120 67 H200"/>
+    <path d="M120 132 H200"/>
+    <path d="M120 197 H200"/>
+    <path d="M320 67 L440 67"/>
+    <path d="M320 67 L440 132"/>
+    <path d="M320 67 L440 197"/>
+    <path d="M320 132 L440 67"/>
+    <path d="M320 132 L440 132"/>
+    <path d="M320 132 L440 197"/>
+    <path d="M320 197 L440 67"/>
+    <path d="M320 197 L440 132"/>
+    <path d="M320 197 L440 197"/>
+  </g>
+  <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Each BFF shapes responses for one client class; all share the same downstream services.</text>
+</svg></figure>
+<figure class="diag"><figcaption>cdn-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="CDN cache hit vs cache miss flow" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="cdn-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Cache hit vs cache miss</text>
+  <g transform="translate(0,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Hit (most requests)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="80" height="40" rx="8"/>
+      <rect class="hl" x="120" y="20" width="80" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="220" y="20" width="80" height="40" rx="8" opacity="0.4" stroke-dasharray="4 3"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="60" y="44">Client</text>
+      <text x="160" y="44" font-weight="600">Edge POP</text>
+      <text x="260" y="44" opacity="0.6">Origin</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#cdn-arrow)">
+      <path d="M100 35 H120"/>
+      <path d="M120 46 H100"/>
+    </g>
+    <text x="160" y="95" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Edge has the object → returns it immediately.</text>
+    <text x="160" y="112" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Origin not touched. Latency: ~10–30 ms.</text>
+  </g>
+  <g transform="translate(320,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Miss (first request)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="20" width="80" height="40" rx="8"/>
+      <rect x="120" y="20" width="80" height="40" rx="8"/>
+      <rect class="hl" x="220" y="20" width="80" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="60" y="44">Client</text>
+      <text x="160" y="44">Edge POP</text>
+      <text x="260" y="44" font-weight="600">Origin</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#cdn-arrow)">
+      <path d="M100 35 H120"/>
+      <path d="M200 35 H220"/>
+      <path d="M220 46 H200"/>
+      <path d="M120 46 H100"/>
+    </g>
+    <text x="160" y="95" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Edge fetches from origin, caches, returns.</text>
+    <text x="160" y="112" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Subsequent requests are hits. Latency: ~origin RTT.</text>
+  </g>
+  <text x="320" y="225" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">A 95% hit rate means origin handles only 5% of traffic.</text>
+</svg></figure>
+<figure class="diag"><figcaption>cdn-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Multi-tier cache TTL: browser, edge, regional shield, origin" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="tier-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The cache tiers (each level has its own TTL)</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="60" width="140" height="80" rx="10"/>
+    <rect class="hl" x="180" y="60" width="140" height="80" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="340" y="60" width="140" height="80" rx="10"/>
+    <rect x="500" y="60" width="120" height="80" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="90" y="88" font-weight="700">Browser</text>
+    <text x="90" y="108" font-size="11">~60 s</text>
+    <text x="90" y="124" font-size="11">private cache</text>
+    <text x="250" y="88" font-weight="700">CDN edge</text>
+    <text x="250" y="108" font-size="11">~1 hr or year</text>
+    <text x="250" y="124" font-size="11">shared cache</text>
+    <text x="410" y="88" font-weight="700">Regional shield</text>
+    <text x="410" y="108" font-size="11">~1 day</text>
+    <text x="410" y="124" font-size="11">origin shield</text>
+    <text x="560" y="88" font-weight="700">Origin</text>
+    <text x="560" y="108" font-size="11">DB / S3</text>
+    <text x="560" y="124" font-size="11">truth</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#tier-arrow)">
+    <path d="M160 100 H180"/>
+    <path d="M320 100 H340"/>
+    <path d="M480 100 H500"/>
+  </g>
+  <text x="320" y="180" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Most requests stop at the browser or edge. Each upstream hop is rarer and more expensive.</text>
+  <text x="320" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">Content-hashed URLs (app.7f3a.js) can safely use max-age=31536000, immutable.</text>
+</svg></figure>
+<figure class="diag"><figcaption>communication-protocols-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Protocol comparison: payload size, streaming, direction" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The five protocols at a glance</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="120" height="160" rx="10"/>
+    <rect class="hl" x="150" y="50" width="120" height="160" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="280" y="50" width="120" height="160" rx="10"/>
+    <rect x="410" y="50" width="120" height="160" rx="10"/>
+    <rect x="540" y="50" width="80" height="160" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="80" y="75" font-weight="700">REST</text>
+    <text x="80" y="95" font-size="11">HTTP + JSON</text>
+    <text x="80" y="115" font-size="11">cacheable</text>
+    <text x="80" y="135" font-size="11">verbose</text>
+    <text x="80" y="155" font-size="11" opacity="0.8">public API</text>
+    <text x="80" y="190" font-size="11" font-weight="600" opacity="0.85">→ default</text>
+    <text x="210" y="75" font-weight="700">gRPC</text>
+    <text x="210" y="95" font-size="11">HTTP/2 + protobuf</text>
+    <text x="210" y="115" font-size="11">streaming</text>
+    <text x="210" y="135" font-size="11">5–10× smaller</text>
+    <text x="210" y="155" font-size="11" opacity="0.8">internal</text>
+    <text x="210" y="190" font-size="11" font-weight="600" opacity="0.85">→ service-to-service</text>
+    <text x="340" y="75" font-weight="700">GraphQL</text>
+    <text x="340" y="95" font-size="11">flexible queries</text>
+    <text x="340" y="115" font-size="11">strong schema</text>
+    <text x="340" y="135" font-size="11">cache-tricky</text>
+    <text x="340" y="155" font-size="11" opacity="0.8">multi-client UI</text>
+    <text x="340" y="190" font-size="11" font-weight="600" opacity="0.85">→ varied clients</text>
+    <text x="470" y="75" font-weight="700">WebSocket</text>
+    <text x="470" y="95" font-size="11">bidirectional</text>
+    <text x="470" y="115" font-size="11">long-lived TCP</text>
+    <text x="470" y="135" font-size="11">stateful</text>
+    <text x="470" y="155" font-size="11" opacity="0.8">chat / games</text>
+    <text x="470" y="190" font-size="11" font-weight="600" opacity="0.85">→ real-time both-ways</text>
+    <text x="580" y="75" font-weight="700">SSE</text>
+    <text x="580" y="95" font-size="11">HTTP stream</text>
+    <text x="580" y="115" font-size="11">server→client</text>
+    <text x="580" y="135" font-size="11">simple</text>
+    <text x="580" y="155" font-size="11" opacity="0.8">notifications</text>
+    <text x="580" y="190" font-size="11" font-weight="600" opacity="0.85">→ push only</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>communication-protocols-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 198" role="img" aria-label="WebSocket vs SSE: one TCP connection, full duplex vs server-only" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="cp-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">WebSocket vs Server-Sent Events</text>
+
+  <g transform="translate(0,0)">
+    <text x="161" y="54" text-anchor="middle" fill="currentColor" font-weight="600">WebSocket — bidirectional</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="70" width="86" height="58" rx="8"/>
+      <rect class="hl" x="196" y="70" width="86" height="58" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="83" y="103">Client</text>
+      <text x="239" y="103" font-weight="600">Server</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+      <path class="flow" d="M126 90 H194" marker-end="url(#cp-ah)" />
+      <path class="flow" d="M196 108 H128" marker-end="url(#cp-ah)" />
+    </g>
+    <text x="161" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">One long-lived TCP — either side can push.</text>
+    <text x="161" y="178" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Use: chat, games, live collaboration.</text>
+  </g>
+
+  <g transform="translate(320,0)">
+    <text x="161" y="54" text-anchor="middle" fill="currentColor" font-weight="600">SSE — server only</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="70" width="86" height="58" rx="8"/>
+      <rect class="hl" x="196" y="70" width="86" height="58" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="83" y="103">Client</text>
+      <text x="239" y="103" font-weight="600">Server</text>
+    </g>
+    <path class="flow" d="M126 90 H194" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="4 3" opacity="0.5" marker-end="url(#cp-ah)" />
+    <path class="flow" d="M196 108 H128" stroke="currentColor" stroke-width="2" fill="none" marker-end="url(#cp-ah)" />
+    <text x="161" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Dashed = initial request; server then streams events.</text>
+    <text x="161" y="178" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Use: notifications, progress, live feeds.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>dns-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 220" role="img" aria-label="DNS resolution chain from browser to authoritative nameserver" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="dns-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="340" y="22" text-anchor="middle" fill="currentColor" font-weight="600">A DNS lookup, end to end</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect class="hl" x="20" y="80" width="100" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <rect x="150" y="80" width="100" height="50" rx="8"/>
+    <rect x="280" y="80" width="100" height="50" rx="8"/>
+    <rect x="410" y="80" width="100" height="50" rx="8"/>
+    <rect class="hl" x="540" y="80" width="120" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="70" y="100" font-weight="600">Client</text>
+    <text x="70" y="118" font-size="11">browser + OS</text>
+    <text x="200" y="100" font-weight="600">Recursive</text>
+    <text x="200" y="118" font-size="11">resolver</text>
+    <text x="330" y="100" font-weight="600">Root</text>
+    <text x="330" y="118" font-size="11">NS</text>
+    <text x="460" y="100" font-weight="600">TLD</text>
+    <text x="460" y="118" font-size="11">NS (.com)</text>
+    <text x="600" y="100" font-weight="600">Authoritative</text>
+    <text x="600" y="118" font-size="11">example.com</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#dns-arrow)">
+    <path d="M122 105 H148"/>
+    <path d="M252 105 H278"/>
+    <path d="M382 105 H408"/>
+    <path d="M512 105 H538"/>
+  </g>
+  <g font-size="11" fill="currentColor" opacity="0.8" text-anchor="middle">
+    <text x="135" y="155">1. cache miss</text>
+    <text x="265" y="155">2. ask root</text>
+    <text x="395" y="155">3. ask .com</text>
+    <text x="525" y="155">4. ask zone</text>
+  </g>
+  <text x="340" y="200" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Each layer caches by TTL — most lookups stop at the recursive resolver.</text>
+</svg></figure>
+<figure class="diag"><figcaption>dns-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288" role="img" aria-label="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="any-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">Anycast: one IP, many points of presence</text>
+
+  <g class="hl" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="58" width="134" height="46" rx="10"/>
+    <rect x="174" y="58" width="134" height="46" rx="10"/>
+    <rect x="332" y="58" width="134" height="46" rx="10"/>
+    <rect x="486" y="58" width="134" height="46" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle" font-size="12.5">
+    <text x="87" y="86">User in SF</text>
+    <text x="241" y="86">User in London</text>
+    <text x="399" y="86">User in Tokyo</text>
+    <text x="553" y="86">User in São Paulo</text>
+  </g>
+
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+    <path class="flow" d="M87 104 V160" marker-end="url(#any-ah)" />
+    <path class="flow" d="M241 104 V160" marker-end="url(#any-ah)" />
+    <path class="flow" d="M399 104 V160" marker-end="url(#any-ah)" />
+    <path class="flow" d="M553 104 V160" marker-end="url(#any-ah)" />
+  </g>
+
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="164" width="134" height="62" rx="10"/>
+    <rect x="174" y="164" width="134" height="62" rx="10"/>
+    <rect x="332" y="164" width="134" height="62" rx="10"/>
+    <rect x="486" y="164" width="134" height="62" rx="10"/>
+  </g>
+  <g text-anchor="middle">
+    <g fill="currentColor" font-weight="600" font-size="12.5">
+      <text x="87" y="190">POP · US-West</text>
+      <text x="241" y="190">POP · Europe</text>
+      <text x="399" y="190">POP · Asia</text>
+      <text x="553" y="190">POP · S. America</text>
+    </g>
+    <g fill="currentColor" font-weight="700" font-size="13" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">
+      <text x="87" y="212">203.0.113.7</text>
+      <text x="241" y="212">203.0.113.7</text>
+      <text x="399" y="212">203.0.113.7</text>
+      <text x="553" y="212">203.0.113.7</text>
+    </g>
+  </g>
+
+  <text x="320" y="255" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">Every POP advertises the identical IP — BGP delivers each user's packets to the closest one.</text>
+  <text x="320" y="274" text-anchor="middle" fill="currentColor" font-size="11.5" opacity="0.85">"One IP" quietly resolves to four different datacenters.</text>
+</svg></figure>
+<figure class="diag"><figcaption>load-balancers-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Layer 4 vs Layer 7 load balancing side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Layer 4 vs Layer 7 load balancing</text>
+  <g transform="translate(20,45)">
+    <rect width="290" height="200" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Layer 4 (TCP/UDP)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="60" width="80" height="30" rx="6"/>
+      <rect class="hl" x="120" y="60" width="50" height="30" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="190" y="40" width="80" height="22" rx="6"/>
+      <rect x="190" y="68" width="80" height="22" rx="6"/>
+      <rect x="190" y="96" width="80" height="22" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="60" y="79">Client</text>
+      <text x="145" y="79" font-weight="600">L4 LB</text>
+      <text x="230" y="55">backend</text>
+      <text x="230" y="83">backend</text>
+      <text x="230" y="111">backend</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M100 75 H120"/>
+      <path d="M170 75 L190 51"/>
+      <path d="M170 75 H190"/>
+      <path d="M170 75 L190 107"/>
+    </g>
+    <g fill="currentColor" font-size="11">
+      <text x="20" y="145" font-weight="600">Sees:</text>
+      <text x="60" y="145">IPs &amp; ports only</text>
+      <text x="20" y="165" font-weight="600">Good for:</text>
+      <text x="80" y="165">raw throughput, gRPC,</text>
+      <text x="20" y="181">databases, custom protocols</text>
+    </g>
+  </g>
+  <g transform="translate(330,45)">
+    <rect class="hl" width="290" height="200" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <text x="145" y="28" text-anchor="middle" fill="currentColor" font-weight="700">Layer 7 (HTTP)</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="60" width="80" height="30" rx="6"/>
+      <rect class="hl-solid" x="120" y="60" width="50" height="30" rx="6" fill="currentColor" stroke="currentColor" />
+      <rect x="190" y="40" width="80" height="22" rx="6"/>
+      <rect x="190" y="68" width="80" height="22" rx="6"/>
+      <rect x="190" y="96" width="80" height="22" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="60" y="79">Client</text>
+      <text class="on-hl" x="145" y="79" font-weight="600" fill="var(--sl-color-white,#fff)">L7 LB</text>
+      <text x="230" y="55">/users</text>
+      <text x="230" y="83">/orders</text>
+      <text x="230" y="111">/static</text>
+    </g>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <path d="M100 75 H120"/>
+      <path d="M170 75 L190 51"/>
+      <path d="M170 75 H190"/>
+      <path d="M170 75 L190 107"/>
+    </g>
+    <g fill="currentColor" font-size="11">
+      <text x="20" y="145" font-weight="600">Sees:</text>
+      <text x="60" y="145">URL, headers, cookies</text>
+      <text x="20" y="165" font-weight="600">Good for:</text>
+      <text x="80" y="165">path routing, TLS, A/B,</text>
+      <text x="20" y="181">retries, compression</text>
+    </g>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>load-balancers-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" role="img" aria-label="Round robin vs least connections, with one slow backend" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Why "least connections" beats round robin with uneven backends</text>
+  <g transform="translate(20,54)">
+    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Round robin</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="15" width="80" height="35" rx="6"/>
+      <rect x="120" y="15" width="80" height="35" rx="6"/>
+      <rect x="210" y="15" width="80" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="37">A: 5 reqs</text>
+      <text x="160" y="37">B: 5 reqs</text>
+      <text x="250" y="37">C: 5 reqs</text>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="65" width="80" height="60" rx="6"/>
+      <rect x="120" y="65" width="80" height="60" rx="6"/>
+      <rect class="hl-solid" x="210" y="65" width="80" height="100" rx="6" fill="currentColor" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="100">2 in-flight</text>
+      <text x="160" y="100">2 in-flight</text>
+      <text class="on-hl" x="250" y="115" fill="var(--sl-color-white,#fff)">C slow:</text>
+      <text class="on-hl" x="250" y="130" fill="var(--sl-color-white,#fff)">5 in-flight</text>
+    </g>
+    <text x="145" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">C backs up; tail latency spikes.</text>
+  </g>
+  <g transform="translate(340,54)">
+    <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Least connections</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="30" y="15" width="80" height="35" rx="6"/>
+      <rect x="120" y="15" width="80" height="35" rx="6"/>
+      <rect x="210" y="15" width="80" height="35" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="37">A: 7 reqs</text>
+      <text x="160" y="37">B: 7 reqs</text>
+      <text x="250" y="37">C: 1 req</text>
+    </g>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect class="hl" x="30" y="65" width="80" height="80" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="120" y="65" width="80" height="80" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="210" y="65" width="80" height="80" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="110">3 in-flight</text>
+      <text x="160" y="110">3 in-flight</text>
+      <text x="250" y="110">3 in-flight</text>
+    </g>
+    <text x="145" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.8">LB routes new reqs to the freer backend.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>load-balancers-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 348" role="img" aria-label="Typical layered load balancer architecture from client to app servers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <defs>
+    <marker id="lb-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="270" y="14" width="100" height="38" rx="8"/>
+    <rect x="270" y="82" width="100" height="38" rx="8"/>
+    <rect class="hl" x="240" y="150" width="160" height="44" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect class="hl" x="240" y="224" width="160" height="44" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="92" y="298" width="132" height="42" rx="8"/>
+    <rect x="254" y="298" width="132" height="42" rx="8"/>
+    <rect x="416" y="298" width="132" height="42" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="38">Client</text>
+    <text x="320" y="106">DNS / Anycast</text>
+    <text x="320" y="177" font-weight="600">Edge L4 LB</text>
+    <text x="320" y="251" font-weight="600">L7 LB / Gateway</text>
+    <text x="158" y="324">App svc A</text>
+    <text x="320" y="324">App svc B</text>
+    <text x="482" y="324">App svc C</text>
+  </g>
+  <g font-size="11" fill="currentColor" opacity="0.75">
+    <text x="412" y="176">TLS, DDoS</text>
+    <text x="412" y="250">routing, auth, RL</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+    <path class="flow" d="M320 52 V82" marker-end="url(#lb-ah)" />
+    <path class="flow" d="M320 120 V150" marker-end="url(#lb-ah)" />
+    <path class="flow" d="M320 194 V224" marker-end="url(#lb-ah)" />
+    <path d="M320 268 V284"/>
+    <path d="M158 284 H482"/>
+    <path class="flow" d="M158 284 V298" marker-end="url(#lb-ah)" />
+    <path class="flow" d="M320 284 V298" marker-end="url(#lb-ah)" />
+    <path class="flow" d="M482 284 V298" marker-end="url(#lb-ah)" />
+  </g>
+</svg></figure>
+<h2>patterns</h2>
+<figure class="diag"><figcaption>event-driven-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="One event fans out to many independent subscribers" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Pub/sub fan-out: one fact, many reactions</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect class="hl" x="20" y="100" width="120" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="200" y="100" width="140" height="50" rx="8"/>
+    <rect x="400" y="30" width="200" height="35" rx="8"/>
+    <rect x="400" y="80" width="200" height="35" rx="8"/>
+    <rect x="400" y="130" width="200" height="35" rx="8"/>
+    <rect x="400" y="180" width="200" height="35" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="80" y="122" font-weight="600">UserSignedUp</text>
+    <text x="80" y="138" font-size="11">event publisher</text>
+    <text x="270" y="122" font-weight="600">Event bus</text>
+    <text x="270" y="138" font-size="11">Kafka</text>
+    <text x="500" y="52">Send welcome email</text>
+    <text x="500" y="102">Provision account</text>
+    <text x="500" y="152">Warm recommendations</text>
+    <text x="500" y="202">Analytics ingest</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M140 125 H200"/>
+    <path d="M340 125 L400 47"/>
+    <path d="M340 125 L400 97"/>
+    <path d="M340 125 L400 147"/>
+    <path d="M340 125 L400 197"/>
+  </g>
+  <g fill="currentColor">
+    <polygon class="flowfill" points="196,123 202,125 196,127" />
+    <polygon class="flowfill" points="396,49 402,47 402,53" />
+    <polygon class="flowfill" points="396,99 402,97 402,103" />
+    <polygon class="flowfill" points="396,149 402,147 402,153" />
+    <polygon class="flowfill" points="396,199 402,197 402,203" />
+  </g>
+  <text x="320" y="245" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Publisher doesn't know subscribers. Add a new one without touching the publisher.</text>
+</svg></figure>
+<figure class="diag"><figcaption>event-driven-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Orchestrated saga: coordinator drives each step with compensation on failure" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Orchestrated saga with compensation</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect class="hl" x="240" y="50" width="160" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="40" y="160" width="140" height="50" rx="8"/>
+    <rect x="240" y="160" width="160" height="50" rx="8"/>
+    <rect x="460" y="160" width="140" height="50" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="320" y="72" font-weight="700">Orchestrator</text>
+    <text x="320" y="90" font-size="11">saga manager</text>
+    <text x="110" y="182" font-weight="600">Reserve inventory</text>
+    <text x="110" y="200" font-size="11">undo: release</text>
+    <text x="320" y="182" font-weight="600">Charge card</text>
+    <text x="320" y="200" font-size="11">undo: refund</text>
+    <text x="530" y="182" font-weight="600">Ship order</text>
+    <text x="530" y="200" font-size="11">undo: cancel ship</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M280 100 L110 160"/>
+    <path d="M320 100 V160"/>
+    <path d="M360 100 L530 160"/>
+    <path d="M110 210 V235 H530 V210"/>
+  </g>
+  <g fill="currentColor">
+    <polygon class="flowfill" points="116,158 110,162 112,154" />
+    <polygon class="flowfill" points="316,158 320,164 324,158" />
+    <polygon class="flowfill" points="524,158 530,162 528,154" />
+    <polygon class="flowfill" points="526,214 530,208 534,214" />
+  </g>
+  <text x="320" y="260" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">On failure, the orchestrator triggers compensations in reverse order.</text>
+</svg></figure>
+<figure class="diag"><figcaption>monolith-vs-microservices-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Monolith vs modular monolith vs microservices, three architectures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Three architectures on one axis of decoupling</text>
+  <g transform="translate(20,45)">
+    <rect width="190" height="220" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Monolith</text>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="45" width="150" height="140" rx="6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="95" y="70">users · orders</text>
+      <text x="95" y="90">payments · auth</text>
+      <text x="95" y="110">search · feed</text>
+      <text x="95" y="160" opacity="0.75">one deployable</text>
+      <text x="95" y="176" opacity="0.75">one DB</text>
+    </g>
+    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">simple, hard to split later</text>
+  </g>
+  <g transform="translate(225,45)">
+    <rect class="hl" width="190" height="220" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Modular monolith</text>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="45" width="150" height="140" rx="6"/>
+      <rect x="30" y="55" width="60" height="25" rx="4"/>
+      <rect x="100" y="55" width="60" height="25" rx="4"/>
+      <rect x="30" y="90" width="60" height="25" rx="4"/>
+      <rect x="100" y="90" width="60" height="25" rx="4"/>
+      <rect x="30" y="125" width="60" height="25" rx="4"/>
+      <rect x="100" y="125" width="60" height="25" rx="4"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="10">
+      <text x="60" y="72">users</text>
+      <text x="130" y="72">orders</text>
+      <text x="60" y="107">payments</text>
+      <text x="130" y="107">auth</text>
+      <text x="60" y="142">search</text>
+      <text x="130" y="142">feed</text>
+      <text x="95" y="175" opacity="0.75">strict boundaries</text>
+    </g>
+    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">most teams' best default</text>
+  </g>
+  <g transform="translate(430,45)">
+    <rect width="190" height="220" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="24" text-anchor="middle" fill="currentColor" font-weight="700">Microservices</text>
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <rect x="20" y="50" width="50" height="35" rx="4"/>
+      <rect x="80" y="50" width="50" height="35" rx="4"/>
+      <rect x="140" y="50" width="50" height="35" rx="4"/>
+      <rect x="20" y="100" width="50" height="35" rx="4"/>
+      <rect x="80" y="100" width="50" height="35" rx="4"/>
+      <rect x="140" y="100" width="50" height="35" rx="4"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="10">
+      <text x="45" y="72">users</text>
+      <text x="105" y="72">orders</text>
+      <text x="165" y="72">pay</text>
+      <text x="45" y="122">auth</text>
+      <text x="105" y="122">search</text>
+      <text x="165" y="122">feed</text>
+      <text x="95" y="160" opacity="0.75">own DB each</text>
+      <text x="95" y="176" opacity="0.75">deploy independently</text>
+    </g>
+    <text x="95" y="210" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">scales teams, taxes ops</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>monolith-vs-microservices-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Sync queries on critical path; async events for fan-out side effects" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Sync for queries, async for fan-out</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="100" width="80" height="40" rx="8"/>
+    <rect class="hl" x="140" y="100" width="120" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="300" y="100" width="120" height="40" rx="8"/>
+    <rect x="460" y="50" width="160" height="35" rx="8"/>
+    <rect x="460" y="100" width="160" height="35" rx="8"/>
+    <rect x="460" y="150" width="160" height="35" rx="8"/>
+    <rect x="460" y="200" width="160" height="35" rx="8"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="60" y="125">Client</text>
+    <text x="200" y="120" font-weight="600">Orders svc</text>
+    <text x="200" y="136" font-size="11">sync write</text>
+    <text x="360" y="120" font-weight="600">Event bus</text>
+    <text x="360" y="136" font-size="11">Kafka</text>
+    <text x="540" y="72">Inventory</text>
+    <text x="540" y="122">Payments</text>
+    <text x="540" y="172">Fulfillment</text>
+    <text x="540" y="222">Analytics</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M100 120 H140"/>
+    <path d="M260 120 H300"/>
+    <path d="M420 120 L460 67"/>
+    <path d="M420 120 L460 117"/>
+    <path d="M420 120 L460 167"/>
+    <path d="M420 120 L460 217"/>
+  </g>
+  <g fill="currentColor">
+    <polygon class="flowfill" points="136,118 142,120 136,122" />
+    <polygon class="flowfill" points="296,118 302,120 296,122" />
+    <polygon class="flowfill" points="456,69 462,67 462,73" />
+    <polygon class="flowfill" points="456,119 462,117 462,123" />
+    <polygon class="flowfill" points="456,169 462,167 462,173" />
+    <polygon class="flowfill" points="456,219 462,217 462,223" />
+  </g>
+  <text x="320" y="252" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Client gets a fast sync response; downstream side effects happen asynchronously.</text>
+</svg></figure>
+<h2>scalability</h2>
+<figure class="diag"><figcaption>consistent-hashing-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 315" role="img" aria-label="The consistent hash ring with three servers and several keys" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The hash ring</text>
+
+  <!-- Region arcs: each server owns the arc ending at its dot (clockwise) -->
+  <!-- Server A region: C(150°)→A(270°) CW = left/upper-left arc -->
+  <path d="M225,225 A110,110 0 0,1 320,60"  stroke="#6090E0" stroke-width="10" fill="none" opacity="0.28"/>
+  <!-- Server B region: A(270°)→B(30°) CW = upper-right arc -->
+  <path d="M320,60  A110,110 0 0,1 415,225" stroke="#4FAD72" stroke-width="10" fill="none" opacity="0.28"/>
+  <!-- Server C region: B(30°)→C(150°) CW = lower arc -->
+  <path d="M415,225 A110,110 0 0,1 225,225" stroke="#E08840" stroke-width="10" fill="none" opacity="0.28"/>
+
+  <!-- Ring outline -->
+  <circle cx="320" cy="170" r="110" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+
+  <!-- Server nodes -->
+  <circle cx="320" cy="60"  r="11" fill="#6090E0"/>
+  <circle cx="415" cy="225" r="11" fill="#4FAD72"/>
+  <circle cx="225" cy="225" r="11" fill="#E08840"/>
+
+  <!-- Server labels -->
+  <g fill="currentColor" font-size="12" font-weight="600">
+    <text x="320" y="44"  text-anchor="middle">Server A</text>
+    <text x="430" y="229" text-anchor="start">Server B</text>
+    <text x="210" y="229" text-anchor="end">Server C</text>
+  </g>
+
+  <!-- Key dots on ring — color = assigned server -->
+  <!-- Server B keys: k1(-65°), k2(-40°), k3(-10°) on A→B upper-right arc -->
+  <circle cx="367" cy="70"  r="5" fill="#4FAD72"/>
+  <circle cx="404" cy="99"  r="5" fill="#4FAD72"/>
+  <circle cx="428" cy="151" r="5" fill="#4FAD72"/>
+  <!-- Server C keys: k4(55°), k5(105°) on B→C lower arc -->
+  <circle cx="383" cy="260" r="5" fill="#E08840"/>
+  <circle cx="291" cy="276" r="5" fill="#E08840"/>
+  <!-- Server A keys: k6(175°), k7(220°) on C→A left arc -->
+  <circle cx="210" cy="180" r="5" fill="#6090E0"/>
+  <circle cx="236" cy="99"  r="5" fill="#6090E0"/>
+
+  <!-- Key labels -->
+  <g font-size="11" fill="currentColor">
+    <text x="374" y="54"  text-anchor="start">k1</text>
+    <text x="417" y="89"  text-anchor="start">k2</text>
+    <text x="442" y="148" text-anchor="start">k3</text>
+    <text x="391" y="273" text-anchor="start">k4</text>
+    <text x="285" y="291" text-anchor="middle">k5</text>
+    <text x="195" y="181" text-anchor="end">k6</text>
+    <text x="224" y="89"  text-anchor="end">k7</text>
+  </g>
+
+  <text x="320" y="308" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">A key belongs to the first server clockwise from its hash position. Key color = assigned server.</text>
+</svg></figure>
+<figure class="diag"><figcaption>consistent-hashing-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 320" role="img" aria-label="Hash ring without and with virtual nodes" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Without vs with virtual nodes</text>
+  <g transform="translate(160,170)">
+    <text x="0" y="-115" text-anchor="middle" fill="currentColor" font-weight="600">Plain ring</text>
+    <circle r="80" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g fill="currentColor">
+      <circle cx="0" cy="-80" r="8"/>
+      <circle cx="65" cy="50" r="8"/>
+      <circle cx="-65" cy="50" r="8"/>
+    </g>
+    <text x="0" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Slices are uneven by luck.</text>
+    <text x="0" y="136" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Removing a server gives a big slice to its neighbor.</text>
+  </g>
+  <g transform="translate(480,170)">
+    <text x="0" y="-115" text-anchor="middle" fill="currentColor" font-weight="600">With ~12 vnodes each</text>
+    <circle r="80" fill="none" stroke="currentColor" stroke-width="2"/>
+    <g>
+      <circle cx="0" cy="-80" r="5" fill="currentColor"/>
+      <circle cx="35" cy="-72" r="5" fill="currentColor"/>
+      <circle cx="62" cy="-50" r="5" fill="currentColor"/>
+      <circle cx="79" cy="-15" r="5" fill="currentColor"/>
+      <circle cx="78" cy="20" r="5" fill="currentColor"/>
+      <circle cx="62" cy="50" r="5" fill="currentColor"/>
+      <circle cx="30" cy="74" r="5" fill="currentColor"/>
+      <circle cx="-10" cy="79" r="5" fill="currentColor"/>
+      <circle cx="-45" cy="65" r="5" fill="currentColor"/>
+      <circle cx="-72" cy="35" r="5" fill="currentColor"/>
+      <circle cx="-80" cy="0" r="5" fill="currentColor"/>
+      <circle cx="-65" cy="-45" r="5" fill="currentColor"/>
+      <circle cx="-35" cy="-72" r="5" fill="currentColor"/>
+    </g>
+    <text x="0" y="120" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Load smooths to ~1/N.</text>
+    <text x="0" y="136" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Removing a server distributes work across many neighbors.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>consistent-hashing-3.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img" aria-label="Plain hashing vs consistent hashing when adding a server" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Adding one server: who moves?</text>
+  <g transform="translate(0,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">hash(k) mod N</text>
+    <text x="160" y="18" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">N: 4 → 5</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="35" width="280" height="35" rx="6"/>
+      <rect class="hl" x="20" y="80" width="280" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" font-size="11" text-anchor="middle">
+      <text x="160" y="57">~20% of keys stay</text>
+      <text x="160" y="102" font-weight="600">~80% of keys move</text>
+    </g>
+    <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11">Cache melts. Origin gets flattened.</text>
+  </g>
+  <g transform="translate(320,50)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Consistent hashing</text>
+    <text x="160" y="18" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">N: 4 → 5</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="35" width="280" height="80" rx="6"/>
+      <rect class="hl" x="240" y="80" width="60" height="35" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" font-size="11" text-anchor="middle">
+      <text x="130" y="60">~80% of keys stay</text>
+      <text x="270" y="102" font-weight="600">~1/N moves</text>
+    </g>
+    <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Cache mostly warm. Origin survives.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>fault-tolerance-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Active-active vs active-passive redundancy" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Active-active vs active-passive</text>
+  <g transform="translate(0,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Active-active</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect class="hl" x="40" y="40" width="80" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="200" y="40" width="80" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="40" y="110" width="80" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect class="hl" x="200" y="110" width="80" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="80" y="68" font-weight="600">Instance</text>
+      <text x="80" y="83" font-size="10">~25% load</text>
+      <text x="240" y="68" font-weight="600">Instance</text>
+      <text x="240" y="83" font-size="10">~25% load</text>
+      <text x="80" y="138" font-weight="600">Instance</text>
+      <text x="80" y="153" font-size="10">~25% load</text>
+      <text x="240" y="138" font-weight="600">Instance</text>
+      <text x="240" y="153" font-size="10">~25% load</text>
+    </g>
+    <text x="160" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Lose one → 33% remaining capacity.</text>
+  </g>
+  <g transform="translate(320,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Active-passive</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect class="hl" x="120" y="40" width="80" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+      <rect x="120" y="110" width="80" height="50" rx="8" stroke-dasharray="4 3" opacity="0.6"/>
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="12">
+      <text x="160" y="68" font-weight="600">Primary</text>
+      <text x="160" y="83" font-size="10">100% traffic</text>
+      <text x="160" y="138" font-weight="600">Standby</text>
+      <text x="160" y="153" font-size="10">idle, ready</text>
+    </g>
+    <text x="160" y="190" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Lose primary → flip; brief outage.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>fault-tolerance-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Circuit breaker state machine: closed, open, half-open" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Circuit breaker states</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="40" y="80" width="140" height="60" rx="10"/>
+    <rect class="hl" x="250" y="80" width="140" height="60" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="460" y="80" width="140" height="60" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="110" y="105" font-weight="700">Closed</text>
+    <text x="110" y="125" font-size="11">all calls pass</text>
+    <text x="320" y="105" font-weight="700">Open</text>
+    <text x="320" y="125" font-size="11">fail fast</text>
+    <text x="530" y="105" font-weight="700">Half-open</text>
+    <text x="530" y="125" font-size="11">trickle through</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M180 110 H250"/>
+    <path d="M390 110 H460"/>
+    <path d="M460 130 V160 H110 V140"/>
+    <path d="M530 140 V170 H320 V140"/>
+  </g>
+  <g fill="currentColor">
+    <polygon class="flowfill" points="246,108 252,110 246,112" />
+    <polygon class="flowfill" points="456,108 462,110 456,112" />
+    <polygon class="flowfill" points="108,144 110,138 112,144" />
+    <polygon class="flowfill" points="318,144 320,138 322,144" />
+  </g>
+  <g font-size="11" fill="currentColor" opacity="0.85">
+    <text x="215" y="100">errors &gt; threshold</text>
+    <text x="395" y="100">timeout elapsed</text>
+    <text x="200" y="180">trial fails → reopen</text>
+    <text x="370" y="180">trial succeeds → close</text>
+  </g>
+  <text x="320" y="225" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Stops a failing dependency from being buried in retries.</text>
+</svg></figure>
+<figure class="diag"><figcaption>monitoring-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 270" role="img" aria-label="Metrics, logs, and traces — the three pillars of observability" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">The three pillars</text>
+  <g transform="translate(20,44)">
+    <rect class="hl" width="190" height="206" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Metrics</text>
+    <polyline points="20,108 40,96 60,101 80,80 100,86 120,64 140,70 160,50 170,58" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    <g fill="currentColor" font-size="11">
+      <text x="20" y="146">numbers over time</text>
+      <text x="20" y="166">cheap, alertable</text>
+      <text x="20" y="186">quantitative</text>
+    </g>
+  </g>
+  <g transform="translate(225,44)">
+    <rect width="190" height="206" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Logs</text>
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+      <line x1="20" y1="62" x2="170" y2="62"/>
+      <line x1="20" y1="78" x2="170" y2="78"/>
+      <line x1="20" y1="94" x2="170" y2="94"/>
+      <line x1="20" y1="110" x2="170" y2="110"/>
+    </g>
+    <g fill="currentColor" font-size="11">
+      <text x="20" y="146">timestamped events</text>
+      <text x="20" y="166">structured fields</text>
+      <text x="20" y="186">qualitative</text>
+    </g>
+  </g>
+  <g transform="translate(430,44)">
+    <rect width="190" height="206" rx="10" fill="none" stroke="currentColor" stroke-width="2"/>
+    <text x="95" y="32" text-anchor="middle" fill="currentColor" font-weight="700">Traces</text>
+    <g fill="currentColor" opacity="0.5">
+      <rect x="20" y="54" width="150" height="12" rx="3"/>
+      <rect x="30" y="71" width="105" height="12" rx="3"/>
+      <rect x="44" y="88" width="48" height="12" rx="3"/>
+      <rect x="100" y="88" width="30" height="12" rx="3"/>
+    </g>
+    <g fill="currentColor" font-size="11">
+      <text x="20" y="146">request waterfall</text>
+      <text x="20" y="166">across services</text>
+      <text x="20" y="186">latency analysis</text>
+    </g>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>monitoring-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="The four golden signals: latency, traffic, errors, saturation" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The four golden signals</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="20" y="50" width="140" height="170" rx="10"/>
+    <rect x="170" y="50" width="140" height="170" rx="10"/>
+    <rect class="hl" x="320" y="50" width="140" height="170" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    <rect x="470" y="50" width="150" height="170" rx="10"/>
+  </g>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="90" y="78" font-weight="700">Latency</text>
+    <text x="90" y="98" font-size="11">how long</text>
+    <text x="90" y="116" font-size="11">p50 / p95 / p99</text>
+    <text x="240" y="78" font-weight="700">Traffic</text>
+    <text x="240" y="98" font-size="11">how many</text>
+    <text x="240" y="116" font-size="11">req / sec</text>
+    <text x="390" y="78" font-weight="700">Errors</text>
+    <text x="390" y="98" font-size="11">fraction failing</text>
+    <text x="390" y="116" font-size="11">by status code</text>
+    <text x="545" y="78" font-weight="700">Saturation</text>
+    <text x="545" y="98" font-size="11">how full</text>
+    <text x="545" y="116" font-size="11">CPU, queue, pool</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <polyline points="40,180 60,170 80,175 100,165 120,160 140,155" stroke-width="2"/>
+    <polyline points="190,180 210,170 230,165 250,150 270,160 290,140" stroke-width="2"/>
+    <polyline points="340,180 360,175 380,170 400,180 420,150 440,140" stroke="currentColor" stroke-width="2"/>
+    <polyline points="490,190 510,185 530,180 550,170 570,160 600,155" stroke-width="2"/>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>rate-limiting-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Token bucket: refills at rate r, each request takes a token" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Token bucket</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="220" y="60" width="160" height="140" rx="10"/>
+    <line x1="220" y1="90" x2="380" y2="90" stroke-dasharray="3 3"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="250" cy="120" r="10"/>
+    <circle cx="280" cy="135" r="10"/>
+    <circle cx="320" cy="125" r="10"/>
+    <circle cx="350" cy="140" r="10"/>
+    <circle cx="265" cy="160" r="10"/>
+    <circle cx="305" cy="165" r="10"/>
+    <circle cx="340" cy="175" r="10"/>
+  </g>
+  <text x="300" y="80" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">capacity N (burst limit)</text>
+  <g fill="currentColor" text-anchor="middle">
+    <text x="300" y="225" font-weight="600">Bucket</text>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="60" y="105" width="100" height="40" rx="8"/>
+    <rect class="hl" x="440" y="105" width="140" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+  </g>
+  <g fill="currentColor" text-anchor="middle" font-size="12">
+    <text x="110" y="125" font-weight="600">Refill</text>
+    <text x="110" y="141" font-size="11">r tokens/sec</text>
+    <text x="510" y="125" font-weight="600">Request</text>
+    <text x="510" y="141" font-size="11">consumes 1 token</text>
+  </g>
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
+    <path d="M160 125 H220"/>
+    <path d="M380 125 H440"/>
+  </g>
+  <g fill="currentColor">
+    <polygon class="flowfill" points="216,123 222,125 216,127" />
+    <polygon class="flowfill" points="436,123 442,125 436,127" />
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>rate-limiting-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Fixed window edge problem vs sliding window" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Fixed window has an edge problem; sliding window doesn't</text>
+  <g transform="translate(0,54)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Fixed window (100/min)</text>
+    <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+      <line x1="20" y1="80" x2="300" y2="80"/>
+      <line x1="160" y1="70" x2="160" y2="90"/>
+      <line x1="20" y1="70" x2="20" y2="90"/>
+      <line x1="300" y1="70" x2="300" y2="90"/>
+    </g>
+    <g fill="currentColor" opacity="0.7">
+      <rect x="140" y="50" width="20" height="30"/>
+      <rect x="160" y="50" width="20" height="30"/>
+    </g>
+    <g fill="currentColor" font-size="11" text-anchor="middle">
+      <text x="90" y="105">window 1</text>
+      <text x="230" y="105">window 2</text>
+      <text x="160" y="40" fill="currentColor" font-weight="600">200 reqs in ~2 sec</text>
+    </g>
+    <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11">Client can stack 100+100 across the boundary.</text>
+  </g>
+  <g transform="translate(320,54)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Sliding window (100/min)</text>
+    <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+      <line x1="20" y1="80" x2="300" y2="80"/>
+      <rect class="hl" x="100" y="40" width="120" height="50" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2" />
+    </g>
+    <g fill="currentColor" font-size="11" text-anchor="middle">
+      <text x="160" y="65" font-weight="600">last 60 sec</text>
+      <text x="160" y="105">window slides with time</text>
+    </g>
+    <text x="160" y="160" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">No edge effect — always counts the last 60 s.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>scaling-1.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" role="img" aria-label="Vertical scaling: one bigger box. Horizontal scaling: many boxes." style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Vertical vs horizontal scaling</text>
+  <g transform="translate(0,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Vertical — one bigger box</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="40" y="20" width="60" height="60" rx="8"/>
+      <rect class="hl" x="180" y="20" width="80" height="100" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+    </g>
+    <g fill="currentColor" text-anchor="middle" font-size="11">
+      <text x="70" y="55">app</text>
+      <text x="220" y="55" font-weight="600">app</text>
+      <text x="220" y="80" font-size="10">8x CPU, RAM</text>
+      <text x="220" y="95" font-size="10">faster disk</text>
+    </g>
+    <text x="160" y="150" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Zero code change. Hard ceiling.</text>
+    <text x="160" y="168" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Still one machine to fail.</text>
+  </g>
+  <g transform="translate(320,45)">
+    <text x="160" y="0" text-anchor="middle" fill="currentColor" font-weight="600">Horizontal — many boxes</text>
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="20" y="40" width="50" height="40" rx="6"/>
+      <rect x="80" y="40" width="50" height="40" rx="6"/>
+      <rect x="140" y="40" width="50" height="40" rx="6"/>
+      <rect x="200" y="40" width="50" height="40" rx="6"/>
+      <rect x="260" y="40" width="50" height="40" rx="6"/>
+      <rect x="50" y="90" width="50" height="40" rx="6"/>
+      <rect x="110" y="90" width="50" height="40" rx="6"/>
+      <rect x="170" y="90" width="50" height="40" rx="6"/>
+      <rect x="230" y="90" width="50" height="40" rx="6"/>
+    </g>
+    <text x="160" y="150" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Needs stateless or shardable design.</text>
+    <text x="160" y="168" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.85">Fault-tolerant by construction.</text>
+  </g>
+</svg></figure>
+<figure class="diag"><figcaption>scaling-2.svg</figcaption><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Scaling ladder: get more out of one box, replicate reads, cache, queue, shard" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
+  <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">The scaling ladder (climb in order)</text>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="60" y="180" width="100" height="40" rx="8"/>
+    <rect x="170" y="150" width="100" height="40" rx="8"/>
+    <rect x="280" y="120" width="100" height="40" rx="8"/>
+    <rect x="390" y="90" width="100" height="40" rx="8"/>
+    <rect class="hl" x="500" y="60" width="100" height="40" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
+  </g>
+  <g fill="currentColor" text-anchor="middle" font-size="11">
+    <text x="110" y="202" font-weight="600">1. Scale up</text>
+    <text x="110" y="216">one bigger box</text>
+    <text x="220" y="172" font-weight="600">2. Read replicas</text>
+    <text x="220" y="186">followers</text>
+    <text x="330" y="142" font-weight="600">3. Cache</text>
+    <text x="330" y="156">Redis / CDN</text>
+    <text x="440" y="112" font-weight="600">4. Queue</text>
+    <text x="440" y="126">async work</text>
+    <text x="550" y="82" font-weight="600">5. Shard</text>
+    <text x="550" y="96">split writes</text>
+  </g>
+  <text x="320" y="245" text-anchor="middle" fill="currentColor" font-size="11" opacity="0.7">Reaching step 5 immediately on a 1k-QPS workload is a red flag.</text>
+</svg></figure>
+</div>
+<script>
+  const b=document.body,t=document.getElementById('t');
+  t.onclick=()=>{ b.classList.toggle('dark'); t.textContent=b.classList.contains('dark')?'Switch to light':'Switch to dark'; };
+</script>
+</body>
+</html>

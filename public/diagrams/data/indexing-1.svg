@@ -1,9 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="B-tree vs LSM-tree index structures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="B-tree vs LSM-tree index structures side by side" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:12px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">B-tree vs LSM-tree</text>
   <g transform="translate(20,40)">
     <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">B-tree (Postgres, MySQL)</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="115" y="20" width="60" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+      <rect class="hl" x="115" y="20" width="60" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
       <rect x="30" y="80" width="60" height="28" rx="6"/>
       <rect x="115" y="80" width="60" height="28" rx="6"/>
       <rect x="200" y="80" width="60" height="28" rx="6"/>
@@ -24,7 +33,7 @@
       <text x="205" y="158">70-89</text>
       <text x="265" y="158">90-99</text>
     </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
       <path d="M145 48 V60 H60 V80"/>
       <path d="M145 48 V60 H145 V80"/>
       <path d="M145 48 V60 H230 V80"/>
@@ -44,7 +53,7 @@
   <g transform="translate(340,40)">
     <text x="145" y="0" text-anchor="middle" fill="currentColor" font-weight="600">LSM-tree (Cassandra, RocksDB)</text>
     <g fill="none" stroke="currentColor" stroke-width="2">
-      <rect x="100" y="20" width="90" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+      <rect class="hl" x="100" y="20" width="90" height="28" rx="6" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
       <rect x="40" y="70" width="60" height="22" rx="4"/>
       <rect x="110" y="70" width="60" height="22" rx="4"/>
       <rect x="180" y="70" width="60" height="22" rx="4"/>
@@ -61,7 +70,7 @@
       <text x="200" y="125">L1 SST</text>
       <text x="150" y="165">L2 SST</text>
     </g>
-    <g stroke="currentColor" stroke-width="1.5" fill="none">
+    <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
       <path d="M145 48 V70" stroke-dasharray="3 3"/>
       <path d="M145 92 V110" stroke-dasharray="3 3"/>
       <path d="M150 132 V150" stroke-dasharray="3 3"/>

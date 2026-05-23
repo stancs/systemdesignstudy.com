@@ -1,12 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288" role="img" aria-label="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 288" role="img" aria-label="Anycast: four users each routed to their nearest POP, all advertising the same IP" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <defs>
     <marker id="any-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
     </marker>
   </defs>
   <text x="320" y="24" text-anchor="middle" fill="currentColor" font-weight="600">Anycast: one IP, many points of presence</text>
 
-  <g fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2">
+  <g class="hl" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="2">
     <rect x="20" y="58" width="134" height="46" rx="10"/>
     <rect x="174" y="58" width="134" height="46" rx="10"/>
     <rect x="332" y="58" width="134" height="46" rx="10"/>
@@ -19,11 +28,11 @@
     <text x="553" y="86">User in São Paulo</text>
   </g>
 
-  <g stroke="currentColor" stroke-width="2" fill="none">
-    <path d="M87 104 V160" marker-end="url(#any-ah)"/>
-    <path d="M241 104 V160" marker-end="url(#any-ah)"/>
-    <path d="M399 104 V160" marker-end="url(#any-ah)"/>
-    <path d="M553 104 V160" marker-end="url(#any-ah)"/>
+  <g class="flow" stroke="currentColor" stroke-width="2" fill="none">
+    <path class="flow" d="M87 104 V160" marker-end="url(#any-ah)" />
+    <path class="flow" d="M241 104 V160" marker-end="url(#any-ah)" />
+    <path class="flow" d="M399 104 V160" marker-end="url(#any-ah)" />
+    <path class="flow" d="M553 104 V160" marker-end="url(#any-ah)" />
   </g>
 
   <g fill="none" stroke="currentColor" stroke-width="2">

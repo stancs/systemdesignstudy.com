@@ -1,8 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Circuit breaker state machine: closed, open, half-open" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-label="Circuit breaker state machine: closed, open, half-open" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Circuit breaker states</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
     <rect x="40" y="80" width="140" height="60" rx="10"/>
-    <rect x="250" y="80" width="140" height="60" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect class="hl" x="250" y="80" width="140" height="60" rx="10" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
     <rect x="460" y="80" width="140" height="60" rx="10"/>
   </g>
   <g fill="currentColor" text-anchor="middle">
@@ -13,17 +22,17 @@
     <text x="530" y="105" font-weight="700">Half-open</text>
     <text x="530" y="125" font-size="11">trickle through</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none">
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none">
     <path d="M180 110 H250"/>
     <path d="M390 110 H460"/>
     <path d="M460 130 V160 H110 V140"/>
     <path d="M530 140 V170 H320 V140"/>
   </g>
   <g fill="currentColor">
-    <polygon points="246,108 252,110 246,112"/>
-    <polygon points="456,108 462,110 456,112"/>
-    <polygon points="108,144 110,138 112,144"/>
-    <polygon points="318,144 320,138 322,144"/>
+    <polygon class="flowfill" points="246,108 252,110 246,112" />
+    <polygon class="flowfill" points="456,108 462,110 456,112" />
+    <polygon class="flowfill" points="108,144 110,138 112,144" />
+    <polygon class="flowfill" points="318,144 320,138 322,144" />
   </g>
   <g font-size="11" fill="currentColor" opacity="0.85">
     <text x="215" y="100">errors &gt; threshold</text>

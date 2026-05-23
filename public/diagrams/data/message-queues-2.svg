@@ -1,13 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;color:inherit;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 220" role="img" aria-label="Retry pipeline with exponential backoff and dead-letter queue" style="max-width:100%;height:auto;margin:1.5rem auto;display:block;font:13px/1.3 ui-sans-serif,system-ui,sans-serif;">
+  <style>
+    svg{color:#243044;}
+    .flow{stroke:#0d96a3;}
+    .flowfill{fill:#0d96a3;}
+    .hl{fill:#5b5ef0;fill-opacity:.16;stroke:#5b5ef0;}
+    .hl-solid{fill:#5b5ef0;stroke:#5b5ef0;}
+    .on-hl{fill:#ffffff;}
+    .step{fill:#64748b;stroke:#64748b;}
+  </style>
   <defs>
     <marker id="retry-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+      <path class="flowfill" d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
     </marker>
   </defs>
   <text x="320" y="22" text-anchor="middle" fill="currentColor" font-weight="600">Retry pipeline with backoff and DLQ</text>
   <g fill="none" stroke="currentColor" stroke-width="2">
     <rect x="20" y="60" width="110" height="50" rx="8"/>
-    <rect x="170" y="60" width="110" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor"/>
+    <rect class="hl" x="170" y="60" width="110" height="50" rx="8" fill="currentColor" fill-opacity="0.1" stroke="currentColor" />
     <rect x="320" y="60" width="110" height="50" rx="8"/>
     <rect x="470" y="60" width="140" height="50" rx="8"/>
   </g>
@@ -21,7 +30,7 @@
     <text x="540" y="82" font-weight="600">DLQ</text>
     <text x="540" y="100" font-size="11">after N tries</text>
   </g>
-  <g stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#retry-arrow)">
+  <g class="flow" stroke="currentColor" stroke-width="1.5" fill="none" marker-end="url(#retry-arrow)">
     <path d="M130 85 H170"/>
     <path d="M280 85 H320"/>
     <path d="M430 85 H470"/>

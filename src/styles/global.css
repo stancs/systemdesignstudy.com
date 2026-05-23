@@ -119,9 +119,10 @@
   );
 }
 
-/* Dark mode: invert diagram images so black strokes/text become white */
+/* Dark mode: invert + hue-rotate diagram images so the light-mode palette
+   flips to a dark-friendly one while keeping each colour's hue intact. */
 :root[data-theme="dark"] img[src^="/diagrams/"] {
-  filter: invert(1);
+  filter: invert(1) hue-rotate(180deg);
 }
 
 @import "./base.css";
