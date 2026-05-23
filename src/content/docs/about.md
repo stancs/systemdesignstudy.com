@@ -2,7 +2,7 @@
 title: About the Author
 description: Stan Lee — Staff Software Engineer, technical lead, and author of System Design Study. A short introduction to who I am and why I built this site.
 template: splash
-lastUpdated: 2026-05-17
+lastUpdated: 2026-05-23
 head:
   - tag: style
     content: |
@@ -15,19 +15,19 @@ head:
       }
 ---
 
-![Stan Lee](public/about-stan.jpg)
+![Stan Lee](/about-stan.jpg)
 
 ## Hi, I'm Stan Lee.
 
-I'm a Staff Software Engineer based in the Silicon Valley of Northern California, with **over fifteen years of experience** building software across very different layers of the stack — from firmware that runs before the operating system to large-scale web platforms used by real customers every day. My career didn't follow a straight line, and that's exactly what shaped how I think about systems today.
+I'm a Staff Software Engineer based in Rocklin, California, with **over fifteen years of experience** building software for Silicon Valley companies — work that has spanned very different layers of the stack, from firmware that runs before the operating system to large-scale web platforms used by real customers every day. My career hasn't followed a straight line, and that winding path is exactly what shaped how I think about systems.
 
-I started deep in **BIOS and UEFI firmware** at Dell, debugging engineering issues on servers, storage, and switches. From there I moved into **distributed system development**, then into **backend services**, and eventually into **full-stack web development** to work closer to products, users, and impact. That transition reshaped how I think about engineering: not just how things work, but why they matter.
+I started out deep in **BIOS and UEFI firmware** at Dell, debugging issues across servers, desktops, laptops, storage, and switches. From there I moved into **distributed systems**, then **backend services**, and eventually **frontend web development** — each step bringing me closer to products, users, and impact. Working across every layer taught me to ask not only how a system works, but why it matters.
 
-Today I work as a **Staff Software Engineer at [BILL](https://www.bill.com/)** in San Jose, leading frontend architecture and authentication/identity work for the company's Spend & Expense product line. Before BILL, I led GraphQL backend and federation work at **Rivian**, built customer portal and conversational AI features at **Infinitus Systems**, designed authentication systems on AWS Cognito at **Kind Health**, and spent six years at **Dell** spanning firmware, hardware bring-up, and web development.
+Today I'm a **Staff Software Engineer at [BILL](https://www.bill.com/)** in San Jose, where I lead frontend architecture and authentication and identity work for the company's Spend & Expense product line. Before BILL, I led GraphQL backend and federation work at **Rivian**, built customer-portal and conversational-AI features at **Infinitus Systems**, designed authentication systems on AWS Cognito at **Kind Health**, and spent six years at **Dell** spanning firmware, hardware bring-up, and web development.
 
 ## How I think about software
 
-I've worked as a backend engineer, frontend engineer, and full-stack engineer, designing APIs, GraphQL platforms (including Federation), distributed systems, and user-facing applications. I've helped build enterprise-scale products, supported high-stakes launches, and worked across teams with very different constraints — from fast-moving startups to regulated industries.
+I've worked as a backend, frontend, and full-stack engineer, designing APIs, GraphQL platforms (including Federation), distributed systems, and the user-facing applications on top of them. I've helped build enterprise-scale products, supported high-stakes launches, and worked across teams with very different constraints — from fast-moving startups to regulated industries.
 
 Along the way I've learned that good software engineering is less about chasing trends and more about **fundamentals**: clear thinking, solid abstractions, and an honest understanding of trade-offs. That bias toward fundamentals is what shaped this site.
 
@@ -41,12 +41,12 @@ If you're preparing for a system design loop, I hope these notes save you time. 
 
 I also publish at **[SWENG.dev](https://sweng.dev)**, where I write longer-form pieces on system design, backend and frontend engineering, architecture decisions, tooling, performance, and the less-discussed parts of the job — career transitions, technical debt, and how engineers grow over time. Lately I've also been exploring **AI and agent-based systems** there: not as a buzzword, but as another set of tools that senior engineers need to understand deeply to use responsibly.
 
-For Korean-speaking readers, I keep a separate blog at **[StanStory](https://stanstory.com)**.
+For Korean-speaking readers, I keep a separate blog at **[StanStory.com](https://stanstory.com)**.
 
 ## A few things about me
 
 - **Location:** Rocklin, CA (USA)
-- **Education:** MS in Computer Science, Yale University · BBA, Seoul National University · BS in Electrical Engineering & Computer Science, KAIST
+- **Education:** MS in Computer Science, Yale University · Bachelor in Business Administration, Seoul National University (South Korea) · BS in Electrical Engineering & Computer Science, KAIST (South Korea)
 - **Tools I reach for most:** TypeScript / JavaScript, Go, Node.js, React, Next.js, GraphQL (and Federation), PostgreSQL, MongoDB, DynamoDB, AWS, Kubernetes
 - **Outside of work:** family, piano, guitar, table tennis, and the occasional weekend side project
 
