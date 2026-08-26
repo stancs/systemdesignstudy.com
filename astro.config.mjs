@@ -9,6 +9,7 @@ import social from './src/config/social.json';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
 import { viewTransitions } from 'astro-vtbot/starlight-view-transitions';
+import vercel from '@astrojs/vercel';
 
 const { site } = config;
 const { title, logo, logo_darkmode } = site;
@@ -21,6 +22,10 @@ const starlightLogo = logo && logo_darkmode ? { light: logo, dark: logo_darkmode
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server',
+  adapter: vercel({
+    webAnalytics: { enabled: true },
+  }),
   markdown: {
     rehypePlugins: [[rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }]],
   },
